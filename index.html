@@ -10,11 +10,25 @@
 </head>
 <body>
 
-<div class="hero">
-  <p class="hero-eyebrow">You're invited</p>
-  <h1>Our Celebration</h1>
-  <hr class="hero-rule">
-  <p class="sub">Enter your access code below to see the events you're invited to, along with all the details you'll need.</p>
+<div class="hero-cover" id="hero-cover">
+  <div class="hero-overlay"></div>
+  <nav class="site-nav">
+    <a href="index.html" class="active">Home</a>
+    <a href="our-story.html">Our story</a>
+    <a href="wedding-party.html">Wedding party</a>
+    <a href="faq.html">FAQs</a>
+  </nav>
+  <div class="hero-cover-content">
+    <p class="hero-eyebrow">You're invited</p>
+    <h1>Our Celebration</h1>
+    <hr class="hero-rule">
+    <div class="countdown" id="countdown">
+      <div class="countdown-unit"><span class="countdown-num" id="cd-days">–</span><span class="countdown-label">Days</span></div>
+      <div class="countdown-unit"><span class="countdown-num" id="cd-hours">–</span><span class="countdown-label">Hours</span></div>
+      <div class="countdown-unit"><span class="countdown-num" id="cd-mins">–</span><span class="countdown-label">Minutes</span></div>
+      <div class="countdown-unit"><span class="countdown-num" id="cd-secs">–</span><span class="countdown-label">Seconds</span></div>
+    </div>
+  </div>
 </div>
 
 <div class="wrap">

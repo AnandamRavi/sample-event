@@ -247,6 +247,233 @@ input:focus-visible {
 }
 
 /* ============================================================
+   Site nav (shared across all pages)
+   ============================================================ */
+.site-nav {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  padding: 24px 24px 0;
+}
+
+.site-nav a {
+  color: inherit;
+  text-decoration: none;
+  font-size: 14px;
+  letter-spacing: 0.01em;
+  opacity: 0.75;
+  padding-bottom: 4px;
+  border-bottom: 1px solid transparent;
+}
+
+.site-nav a:hover,
+.site-nav a.active {
+  opacity: 1;
+  border-bottom-color: currentColor;
+}
+
+/* Nav on plain (non-cover) pages */
+.page-nav .site-nav {
+  color: var(--ink);
+  justify-content: flex-start;
+  padding: 28px 0 0;
+}
+
+.page-nav .wrap { padding-top: 0; }
+
+/* ============================================================
+   Cover hero (home page)
+   ============================================================ */
+.hero-cover {
+  position: relative;
+  min-height: 92vh;
+  display: flex;
+  flex-direction: column;
+  color: #fff;
+  background: linear-gradient(160deg, #4A1B27, #2B2320);
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(20,12,12,0.35) 0%, rgba(20,12,12,0.15) 40%, rgba(20,12,12,0.55) 100%);
+}
+
+.hero-cover-content {
+  position: relative;
+  z-index: 2;
+  margin: auto 0;
+  text-align: center;
+  padding: 40px 24px;
+}
+
+.hero-cover .hero-eyebrow { color: rgba(255,255,255,0.85); }
+.hero-cover h1 { color: #fff; }
+.hero-cover .hero-rule { background: rgba(255,255,255,0.6); }
+
+.countdown {
+  display: flex;
+  justify-content: center;
+  gap: 28px;
+  margin-top: 32px;
+}
+
+.countdown-unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 64px;
+}
+
+.countdown-num {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: clamp(28px, 5vw, 40px);
+  line-height: 1;
+}
+
+.countdown-label {
+  font-size: 12px;
+  margin-top: 6px;
+  color: rgba(255,255,255,0.75);
+}
+
+@media (max-width: 480px) {
+  .countdown { gap: 16px; }
+  .countdown-unit { min-width: 52px; }
+}
+
+/* ============================================================
+   Simple content pages (Our story / FAQs)
+   ============================================================ */
+.page-header {
+  padding: 48px 0 8px;
+}
+
+.page-header h1 {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: clamp(32px, 6vw, 48px);
+  margin: 0 0 10px;
+}
+
+.page-header .hero-rule {
+  margin: 0 0 20px;
+}
+
+.prose {
+  padding: 24px 0 80px;
+  max-width: 62ch;
+}
+
+.prose h2 {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 24px;
+  margin: 40px 0 12px;
+}
+
+.prose h2:first-child { margin-top: 0; }
+
+.prose p { margin: 0 0 16px; }
+
+.prose img {
+  width: 100%;
+  border-radius: 4px;
+  margin: 16px 0 24px;
+}
+
+/* ============================================================
+   Wedding party grid
+   ============================================================ */
+.party-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px 24px;
+  padding: 24px 0 80px;
+}
+
+.party-card img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-bottom: 12px;
+  background: var(--surface);
+}
+
+.party-card h3 {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 19px;
+  margin: 0 0 2px;
+}
+
+.party-card .role {
+  color: var(--gold);
+  font-size: 13px;
+  margin: 0 0 8px;
+}
+
+.party-card .bio {
+  color: var(--muted);
+  font-size: 14px;
+  margin: 0;
+}
+
+@media (max-width: 520px) {
+  .party-grid { grid-template-columns: 1fr 1fr; gap: 24px 16px; }
+}
+
+/* ============================================================
+   FAQ accordion
+   ============================================================ */
+.faq-list {
+  padding: 24px 0 80px;
+}
+
+.faq-item {
+  border-bottom: 1px solid var(--line);
+}
+
+.faq-item summary {
+  padding: 20px 0;
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 18px;
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.faq-item summary::-webkit-details-marker { display: none; }
+
+.faq-item summary::after {
+  content: "+";
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 22px;
+  color: var(--gold);
+  flex-shrink: 0;
+}
+
+.faq-item[open] summary::after { content: "–"; }
+
+.faq-item .answer {
+  color: var(--muted);
+  padding: 0 0 20px;
+  max-width: 62ch;
+}
+
+/* ============================================================
    Footer
    ============================================================ */
 footer {

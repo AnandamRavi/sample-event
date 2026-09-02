@@ -53,16 +53,20 @@ function renderEvents(events) {
     .map((ev) => {
       const dateLine = [formatDate(ev.Date), ev.Time].filter(Boolean).join(" · ");
 
-      const media = ev.ImageURL
-        ? `<img class="event-media" src="${ev.ImageURL}" alt="${ev.Name || ""}" loading="lazy">`
+      const imageUrl = (ev.ImageURL || "").trim();
+      const embedUrl = (ev.EmbedURL || "").trim();
+      const rsvpLink = (ev.RSVPLink || "").trim();
+
+      const media = imageUrl
+        ? `<img class="event-media" src="${imageUrl}" alt="${ev.Name || ""}" loading="lazy" onerror="this.style.display='none'">`
         : "";
 
-      const embed = ev.EmbedURL
-        ? `<iframe class="event-embed" src="${ev.EmbedURL}" allow="fullscreen" loading="lazy"></iframe>`
+      const embed = embedUrl
+        ? `<iframe class="event-embed" src="${embedUrl}" allow="fullscreen" loading="lazy"></iframe>`
         : "";
 
-      const rsvp = ev.RSVPLink
-        ? `<a class="rsvp" href="${ev.RSVPLink}" target="_blank" rel="noopener">RSVP for this event</a>`
+      const rsvp = rsvpLink
+        ? `<a class="rsvp" href="${rsvpLink}" target="_blank" rel="noopener">RSVP for this event</a>`
         : "";
 
       return `
@@ -131,7 +135,51 @@ async function showGuest(code) {
   window.history.replaceState({}, "", url);
 }
 
+function applyCoverImage() {
+  const cover = document.getElementById("hero-cover");
+  if (cover && CONFIG.COVER_IMAGE_URL) {
+    cover.style.backgroundImage = `url("${CONFIG.COVER_IMAGE_URL}")`;
+  }
+}
+
+function startCountdown() {
+  const targetStr = CONFIG.COUNTDOWN_TARGET;
+  const els = {
+    days: document.getElementById("cd-days"),
+    hours: document.getElementById("cd-hours"),
+    mins: document.getElementById("cd-mins"),
+    secs: document.getElementById("cd-secs"),
+  };
+  if (!targetStr || !els.days) return;
+
+  const target = new Date(targetStr).getTime();
+  if (isNaN(target)) return;
+
+  function tick() {
+    const diff = target - Date.now();
+    if (diff <= 0) {
+      els.days.textContent = "0";
+      els.hours.textContent = "0";
+      els.mins.textContent = "0";
+      els.secs.textContent = "0";
+      clearInterval(timer);
+      return;
+    }
+    const s = Math.floor(diff / 1000);
+    els.days.textContent = Math.floor(s / 86400);
+    els.hours.textContent = Math.floor((s % 86400) / 3600);
+    els.mins.textContent = Math.floor((s % 3600) / 60);
+    els.secs.textContent = s % 60;
+  }
+
+  tick();
+  const timer = setInterval(tick, 1000);
+}
+
 function init() {
+  applyCoverImage();
+  startCountdown();
+
   const form = document.getElementById("lookup-form");
   const input = document.getElementById("code-input");
 
