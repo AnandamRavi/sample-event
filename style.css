@@ -363,7 +363,7 @@ input:focus-visible {
   overflow: hidden;
   border-radius: 4px;
   margin: 8px 0 0;
-  background: var(--surface);
+  background: #000;
 }
 
 .page-banner img {
