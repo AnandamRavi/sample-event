@@ -212,7 +212,7 @@ input:focus-visible {
 
 .event img.event-media {
   width: 100%;
-  max-width: 480px;
+  max-width: 780px;
   display: block;
   border-radius: 4px;
   margin: 0 0 20px;
