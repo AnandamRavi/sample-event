@@ -21,8 +21,7 @@ const CONFIG = {
   GUESTS_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTLl3giq70GX4aEnUpr16FE1_Ua4AdBgxET_8clQaJe9QbbbbAHxZFcIcB3tq-Q_zNWMTFwY7PB1jgo/pub?gid=1798527694&single=true&output=csv",
   EVENTS_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTLl3giq70GX4aEnUpr16FE1_Ua4AdBgxET_8clQaJe9QbbbbAHxZFcIcB3tq-Q_zNWMTFwY7PB1jgo/pub?gid=1913252533&single=true&output=csv",
   PARTY_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTLl3giq70GX4aEnUpr16FE1_Ua4AdBgxET_8clQaJe9QbbbbAHxZFcIcB3tq-Q_zNWMTFwY7PB1jgo/pub?gid=1044096524&single=true&output=csv",
-  FAQ_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTLl3giq70GX4aEnUpr16FE1_Ua4AdBgxET_8clQaJe9QbbbbAHxZFcIcB3tq-Q_zNWMTFwY7PB1jgo/pub?gid=1088904958&single=true&output=csv
-",
+  FAQ_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTLl3giq70GX4aEnUpr16FE1_Ua4AdBgxET_8clQaJe9QbbbbAHxZFcIcB3tq-Q_zNWMTFwY7PB1jgo/pub?gid=1088904958&single=true&output=csv",
 
   // Shown when a guest is recognized. {name} is replaced automatically.
   GREETING_TEMPLATE: "So glad you're joining us, {name}.",
@@ -33,5 +32,5 @@ const CONFIG = {
 
   // The moment the countdown counts down to — your main event's date
   // and time, in this exact format: YYYY-MM-DDTHH:MM:SS (24-hour time).
-  COUNTDOWN_TARGET: "2027-03-14T11:00:00",
+  COUNTDOWN_TARGET: "2027-03-11:00:00",
 };
