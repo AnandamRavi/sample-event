@@ -32,5 +32,10 @@ const CONFIG = {
 
   // The moment the countdown counts down to — your main event's date
   // and time, in this exact format: YYYY-MM-DDTHH:MM:SS (24-hour time).
-  COUNTDOWN_TARGET: "2027-03-14T11:00:00",
+  COUNTDOWN_TARGET: "2027-03-11:00:00",
+
+  // Smaller banner image at the top of each secondary page. Optional —
+  // leave any of these blank and that page just won't show a banner.
+  STORY_IMAGE_URL: "https://lh3.googleusercontent.com/d/1YzTUtG80-J8zZv7dQ6kvHAAmYyGiwo8v",
+  FAQ_IMAGE_URL: "https://lh3.googleusercontent.com/d/1YzTUtG80-J8zZv7dQ6kvHAAmYyGiwo8v",
 };
