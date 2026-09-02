@@ -135,15 +135,16 @@ async function showGuest(code) {
   window.history.replaceState({}, "", url);
 }
 
-function applyCoverImage() {
+async function applyCoverImage(settings) {
   const cover = document.getElementById("hero-cover");
-  if (cover && CONFIG.COVER_IMAGE_URL) {
-    cover.style.backgroundImage = `url("${CONFIG.COVER_IMAGE_URL}")`;
+  const url = (settings.CoverImage || "").trim();
+  if (cover && url) {
+    cover.style.backgroundImage = `url("${url}")`;
   }
 }
 
-function startCountdown() {
-  const targetStr = CONFIG.COUNTDOWN_TARGET;
+function startCountdown(settings) {
+  const targetStr = (settings.CountdownTarget || "").trim();
   const els = {
     days: document.getElementById("cd-days"),
     hours: document.getElementById("cd-hours"),
@@ -176,9 +177,10 @@ function startCountdown() {
   const timer = setInterval(tick, 1000);
 }
 
-function init() {
-  applyCoverImage();
-  startCountdown();
+async function init() {
+  const settings = await loadSettings();
+  applyCoverImage(settings);
+  startCountdown(settings);
 
   const form = document.getElementById("lookup-form");
   const input = document.getElementById("code-input");
