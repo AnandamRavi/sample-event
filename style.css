@@ -310,6 +310,12 @@ input:focus-visible {
   margin: auto 0;
   text-align: center;
   padding: 40px 24px;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.hero-cover-content.ready {
+  opacity: 1;
 }
 
 .hero-cover .hero-eyebrow { color: rgba(255,255,255,0.85); }
@@ -353,21 +359,22 @@ input:focus-visible {
    ============================================================ */
 .page-banner {
   width: 100%;
-  height: 260px;
+  height: 300px;
   overflow: hidden;
   border-radius: 4px;
   margin: 8px 0 0;
+  background: var(--surface);
 }
 
 .page-banner img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   display: block;
 }
 
 @media (max-width: 520px) {
-  .page-banner { height: 180px; }
+  .page-banner { height: 220px; }
 }
 
 /* ============================================================

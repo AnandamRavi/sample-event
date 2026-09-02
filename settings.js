@@ -48,4 +48,9 @@ document.addEventListener("DOMContentLoaded", async function () {
   if (footer && settings.FooterText) footer.textContent = settings.FooterText;
 
   if (settings.SiteTitle) document.title = settings.SiteTitle;
+
+  // Reveal the hero text now that it shows the real content, rather
+  // than flashing the placeholder text before this fetch resolves.
+  const heroContent = document.querySelector(".hero-cover-content");
+  if (heroContent) heroContent.classList.add("ready");
 });
