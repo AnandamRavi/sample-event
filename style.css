@@ -13,7 +13,7 @@
   --serif: "Fraunces", "Iowan Old Style", Georgia, serif;
   --sans:  "Work Sans", -apple-system, "Segoe UI", sans-serif;
 
-  --max-width: 680px;
+  --max-width: 980px;
 }
 
 @media (prefers-reduced-motion: reduce) {
