@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Our Celebration</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;1,500&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="hero">
+  <p class="hero-eyebrow">You're invited</p>
+  <h1>Our Celebration</h1>
+  <hr class="hero-rule">
+  <p class="sub">Enter your access code below to see the events you're invited to, along with all the details you'll need.</p>
+</div>
+
+<div class="wrap">
+
+  <div class="lookup" id="lookup">
+    <h2>Find your invitation</h2>
+    <p>This was included in the message we sent you — it's on your card or link.</p>
+    <form id="lookup-form">
+      <input type="text" id="code-input" placeholder="Access code" autocomplete="off" />
+      <button type="submit" class="btn">View</button>
+    </form>
+    <p class="lookup-error" id="lookup-error">We couldn't find that code — please double check it and try again.</p>
+  </div>
+
+  <div class="greeting" id="greeting">
+    <p id="greeting-text"></p>
+  </div>
+
+  <div id="events"></div>
+
+  <div class="empty-state" id="empty-state">
+    <p>No events are attached to this invitation yet.</p>
+  </div>
+
+</div>
+
+<footer>Made with care for the people we love.</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<script src="config.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

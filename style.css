@@ -1,0 +1,317 @@
+/* ============================================================
+   Design tokens
+   ============================================================ */
+:root {
+  --bg:        #FAF7F2;   /* warm linen */
+  --surface:   #F1EAE0;   /* slightly deeper cream, for cards */
+  --ink:       #2B2320;   /* deep espresso, near-black */
+  --muted:     #8A7F72;   /* warm taupe, secondary text */
+  --wine:      #6B2737;   /* deep wine, primary accent */
+  --gold:      #B99456;   /* antique gold, detail/divider */
+  --line:      #E3D9CB;   /* hairline rule color */
+
+  --serif: "Fraunces", "Iowan Old Style", Georgia, serif;
+  --sans:  "Work Sans", -apple-system, "Segoe UI", sans-serif;
+
+  --max-width: 680px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--wine); }
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--wine);
+  outline-offset: 3px;
+}
+
+.wrap {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ============================================================
+   Hero
+   ============================================================ */
+.hero {
+  padding: 88px 24px 56px;
+  text-align: center;
+  border-bottom: 1px solid var(--line);
+}
+
+.hero-eyebrow {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 17px;
+  color: var(--muted);
+  margin: 0 0 6px;
+}
+
+.hero h1 {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: clamp(38px, 7vw, 62px);
+  line-height: 1.05;
+  margin: 0 0 18px;
+  letter-spacing: -0.01em;
+}
+
+.hero-rule {
+  width: 40px;
+  height: 2px;
+  background: var(--gold);
+  margin: 0 auto 20px;
+  border: none;
+}
+
+.hero p.sub {
+  font-size: 18px;
+  color: var(--muted);
+  max-width: 46ch;
+  margin: 0 auto;
+}
+
+/* ============================================================
+   Guest lookup (shown when no valid code is present)
+   ============================================================ */
+.lookup {
+  max-width: 420px;
+  margin: 40px auto 0;
+  padding: 28px 28px 32px;
+  background: var(--surface);
+  border-radius: 4px;
+}
+
+.lookup h2 {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 21px;
+  margin: 0 0 6px;
+}
+
+.lookup p {
+  color: var(--muted);
+  font-size: 15px;
+  margin: 0 0 18px;
+}
+
+.lookup form {
+  display: flex;
+  gap: 10px;
+}
+
+.lookup input[type="text"] {
+  flex: 1;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  font-family: var(--sans);
+  font-size: 16px;
+  background: #fff;
+  color: var(--ink);
+}
+
+.lookup input[type="text"]::placeholder { color: #B2A99C; }
+
+.btn {
+  padding: 12px 20px;
+  background: var(--wine);
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  font-family: var(--sans);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn:hover { background: #5A1F2F; }
+
+.lookup-error {
+  margin-top: 12px;
+  font-size: 14px;
+  color: var(--wine);
+  display: none;
+}
+
+/* ============================================================
+   Greeting (shown once a guest is recognized)
+   ============================================================ */
+.greeting {
+  text-align: center;
+  padding: 40px 24px 8px;
+  display: none;
+}
+
+.greeting p {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 20px;
+  color: var(--wine);
+  margin: 0;
+}
+
+/* ============================================================
+   Event list
+   ============================================================ */
+#events {
+  padding: 48px 0 96px;
+  display: none;
+}
+
+.event {
+  padding: 40px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.event:last-child { border-bottom: none; }
+
+.event-date {
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--gold);
+  font-size: 15px;
+  margin: 0 0 6px;
+}
+
+.event h3 {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 28px;
+  margin: 0 0 4px;
+}
+
+.event .location {
+  color: var(--muted);
+  font-size: 15px;
+  margin: 0 0 18px;
+}
+
+.event .description {
+  margin: 0 0 20px;
+  max-width: 62ch;
+}
+
+.event img.event-media {
+  width: 100%;
+  max-width: 480px;
+  display: block;
+  border-radius: 4px;
+  margin: 0 0 20px;
+}
+
+.event iframe.event-embed {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  margin: 0 0 20px;
+}
+
+.event .rsvp {
+  display: inline-block;
+  padding: 10px 22px;
+  border: 1px solid var(--wine);
+  color: var(--wine);
+  border-radius: 3px;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.event .rsvp:hover { background: var(--wine); color: #fff; }
+
+.empty-state {
+  text-align: center;
+  color: var(--muted);
+  padding: 60px 24px;
+  display: none;
+}
+
+/* ============================================================
+   Footer
+   ============================================================ */
+footer {
+  text-align: center;
+  padding: 40px 24px 60px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* ============================================================
+   Admin page (guest link generator)
+   ============================================================ */
+.admin-wrap {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 48px 24px 80px;
+}
+
+.admin-wrap h1 {
+  font-family: var(--serif);
+  font-size: 32px;
+  margin: 0 0 8px;
+}
+
+.admin-wrap p.sub { color: var(--muted); margin: 0 0 28px; }
+
+table.link-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+}
+
+table.link-table th,
+table.link-table td {
+  text-align: left;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+table.link-table th {
+  font-family: var(--sans);
+  font-weight: 600;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+table.link-table code {
+  font-size: 13px;
+  background: var(--surface);
+  padding: 3px 6px;
+  border-radius: 3px;
+}
+
+.copy-btn {
+  padding: 5px 12px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.copy-btn:hover { border-color: var(--wine); color: var(--wine); }
+
+@media (max-width: 640px) {
+  .hero { padding: 64px 20px 40px; }
+  .lookup form { flex-direction: column; }
+}
