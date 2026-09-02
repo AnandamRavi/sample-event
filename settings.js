@@ -47,6 +47,12 @@ document.addEventListener("DOMContentLoaded", async function () {
   const footer = document.getElementById("site-footer");
   if (footer && settings.FooterText) footer.textContent = settings.FooterText;
 
+  const lookupHeading = document.getElementById("lookup-heading");
+  if (lookupHeading && settings.LookupHeading) lookupHeading.textContent = settings.LookupHeading;
+
+  const lookupSubtext = document.getElementById("lookup-subtext");
+  if (lookupSubtext && settings.LookupSubtext) lookupSubtext.textContent = settings.LookupSubtext;
+
   if (settings.SiteTitle) document.title = settings.SiteTitle;
 
   // Reveal the hero text now that it shows the real content, rather
