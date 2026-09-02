@@ -32,5 +32,5 @@ const CONFIG = {
 
   // The moment the countdown counts down to — your main event's date
   // and time, in this exact format: YYYY-MM-DDTHH:MM:SS (24-hour time).
-  COUNTDOWN_TARGET: "2027-03-11:00:00",
+  COUNTDOWN_TARGET: "2027-03-14T11:00:00",
 };
