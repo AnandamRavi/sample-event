@@ -253,8 +253,9 @@ input:focus-visible {
   position: relative;
   z-index: 2;
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  gap: 32px;
+  gap: 12px 32px;
   padding: 24px 24px 0;
 }
 

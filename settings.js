@@ -53,6 +53,24 @@ document.addEventListener("DOMContentLoaded", async function () {
   const lookupSubtext = document.getElementById("lookup-subtext");
   if (lookupSubtext && settings.LookupSubtext) lookupSubtext.textContent = settings.LookupSubtext;
 
+  const storyTitle = document.getElementById("story-page-title");
+  if (storyTitle && settings.StoryPageTitle) storyTitle.textContent = settings.StoryPageTitle;
+
+  const navStory = document.getElementById("nav-story");
+  if (navStory && settings.StoryPageTitle) navStory.textContent = settings.StoryPageTitle;
+
+  const partyTitle = document.getElementById("party-page-title");
+  if (partyTitle && settings.PartyPageTitle) partyTitle.textContent = settings.PartyPageTitle;
+
+  const navParty = document.getElementById("nav-party");
+  if (navParty && settings.PartyPageTitle) navParty.textContent = settings.PartyPageTitle;
+
+  const faqTitle = document.getElementById("faq-page-title");
+  if (faqTitle && settings.FaqPageTitle) faqTitle.textContent = settings.FaqPageTitle;
+
+  const navFaq = document.getElementById("nav-faq");
+  if (navFaq && settings.FaqPageTitle) navFaq.textContent = settings.FaqPageTitle;
+
   if (settings.SiteTitle) document.title = settings.SiteTitle;
 
   // Reveal the hero text now that it shows the real content, rather
