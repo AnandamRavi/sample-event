@@ -115,7 +115,8 @@ async function showGuest(code) {
   document.getElementById("lookup").style.display = "none";
 
   const greetingEl = document.getElementById("greeting");
-  const greetingText = (CONFIG.GREETING_TEMPLATE || "Welcome, {name}.").replace(
+  const settings = await loadSettings();
+  const greetingText = (settings.GreetingTemplate || "Welcome, {name}.").replace(
     "{name}",
     guest.Name || "there"
   );

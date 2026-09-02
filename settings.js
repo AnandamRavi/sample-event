@@ -30,3 +30,22 @@ async function loadSettings() {
 
   return __settingsCache;
 }
+
+/* Applies site-wide text that appears on more than one page (hero
+   heading, browser tab title, footer line), so this only needs to be
+   written once here rather than in every page's own script. Elements
+   that don't exist on a given page are simply skipped. */
+document.addEventListener("DOMContentLoaded", async function () {
+  const settings = await loadSettings();
+
+  const eyebrow = document.getElementById("hero-eyebrow");
+  if (eyebrow && settings.HeroEyebrow) eyebrow.textContent = settings.HeroEyebrow;
+
+  const title = document.getElementById("hero-title");
+  if (title && settings.HeroTitle) title.textContent = settings.HeroTitle;
+
+  const footer = document.getElementById("site-footer");
+  if (footer && settings.FooterText) footer.textContent = settings.FooterText;
+
+  if (settings.SiteTitle) document.title = settings.SiteTitle;
+});
