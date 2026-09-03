@@ -16,7 +16,6 @@
 
    Full walkthrough with scre​enshots-style steps: see README.md
    ========================================================== */
-
 const CONFIG = {
 GUESTS_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTLl3giq70GX4aEnUpr16FE1_Ua4AdBgxET_8clQaJe9QbbbbAHxZFcIcB3tq-Q_zNWMTFwY7PB1jgo/pub?gid=1798527694&single=true&output=csv",
   EVENTS_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTLl3giq70GX4aEnUpr16FE1_Ua4AdBgxET_8clQaJe9QbbbbAHxZFcIcB3tq-Q_zNWMTFwY7PB1jgo/pub?gid=1913252533&single=true&output=csv",
@@ -24,8 +23,11 @@ GUESTS_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTLl3giq70GX4aE
   FAQ_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTLl3giq70GX4aEnUpr16FE1_Ua4AdBgxET_8clQaJe9QbbbbAHxZFcIcB3tq-Q_zNWMTFwY7PB1jgo/pub?gid=1088904958&single=true&output=csv",
   STORY_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTLl3giq70GX4aEnUpr16FE1_Ua4AdBgxET_8clQaJe9QbbbbAHxZFcIcB3tq-Q_zNWMTFwY7PB1jgo/pub?gid=1183152801&single=true&output=csv",
   SETTINGS_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTLl3giq70GX4aEnUpr16FE1_Ua4AdBgxET_8clQaJe9QbbbbAHxZFcIcB3tq-Q_zNWMTFwY7PB1jgo/pub?gid=1017722567&single=true&output=csv",
-};
 
+  // Where RSVP submissions are sent — your Apps Script Web App URL.
+  // See README.md, "Setting up RSVP" for how to get this.
+  RSVP_ENDPOINT_URL: "https://script.google.com/macros/s/AKfycbx8hwR3DenmItE8WD-2tnrjbjlHISSEQmzDV9Hu6Ppnr4fYEtbbSOzNsYvhOt0WzWSm/exec",
+};
 /* ==========================================================
    Everything else — cover image, countdown date/time, and each
    page's banner image — now lives in your Settings tab in
