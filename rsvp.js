@@ -182,7 +182,7 @@ async function submitRsvp(e) {
   });
 
   try {
-    await fetch(CONFIG.RSVP_ENDPOINT_URL, {
+    const res = await fetch(CONFIG.RSVP_ENDPOINT_URL, {
       method: "POST",
       headers: { "Content-Type": "text/plain;charset=utf-8" }, // avoids a CORS preflight
       body: JSON.stringify({
@@ -191,6 +191,11 @@ async function submitRsvp(e) {
         responses,
       }),
     });
+
+    const result = await res.json();
+    if (result.status !== "ok") {
+      throw new Error(result.message || "The RSVP endpoint reported an error.");
+    }
 
     submitBtn.textContent = "Submitted";
     statusEl.innerHTML = `
@@ -202,7 +207,8 @@ async function submitRsvp(e) {
               r.attending === "Yes"
                 ? `${r.eventName}: <strong>Yes</strong> — ${r.guestCount || 1} guest${r.guestCount == 1 ? "" : "s"}`
                 : `${r.eventName}: <strong>No</strong>`;
-            return `<li>${line}</li>`;
+            const notesLine = r.notes ? ` — <em>${r.notes}</em>` : "";
+            return `<li>${line}${notesLine}</li>`;
           })
           .join("")}
       </ul>
@@ -210,7 +216,8 @@ async function submitRsvp(e) {
   } catch (err) {
     submitBtn.disabled = false;
     submitBtn.textContent = "Submit RSVP";
-    statusEl.textContent = "Something went wrong submitting your RSVP — please try again.";
+    statusEl.textContent =
+      "Something went wrong submitting your RSVP: " + err.message;
     console.error(err);
   }
 }
