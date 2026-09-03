@@ -13,7 +13,7 @@
   --serif: "Fraunces", "Iowan Old Style", Georgia, serif;
   --sans:  "Work Sans", -apple-system, "Segoe UI", sans-serif;
 
-  --max-width: 980px;
+  --max-width: 680px;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -212,7 +212,7 @@ input:focus-visible {
 
 .event img.event-media {
   width: 100%;
-  max-width: 780px;
+  max-width: 480px;
   display: block;
   border-radius: 4px;
   margin: 0 0 20px;
@@ -511,6 +511,97 @@ input:focus-visible {
   color: var(--muted);
   padding: 0 0 20px;
   max-width: 62ch;
+}
+
+/* ============================================================
+   RSVP form
+   ============================================================ */
+.rsvp-form {
+  padding: 24px 0 96px;
+  display: none;
+}
+
+.rsvp-event {
+  padding: 32px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.rsvp-event .event-date {
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--gold);
+  font-size: 15px;
+  margin: 0 0 6px;
+}
+
+.rsvp-event h3 {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 24px;
+  margin: 0 0 4px;
+}
+
+.rsvp-event .location {
+  color: var(--muted);
+  font-size: 15px;
+  margin: 0 0 16px;
+}
+
+.rsvp-field {
+  margin-bottom: 16px;
+}
+
+.rsvp-field label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.rsvp-radios {
+  display: flex;
+  gap: 20px;
+}
+
+.rsvp-radios label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 400;
+  font-size: 15px;
+}
+
+.rsvp-field input[type="number"],
+.rsvp-field textarea {
+  width: 100%;
+  max-width: 320px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  font-family: var(--sans);
+  font-size: 15px;
+  background: #fff;
+  color: var(--ink);
+}
+
+.rsvp-field textarea {
+  max-width: 100%;
+  resize: vertical;
+}
+
+.rsvp-submit {
+  margin-top: 12px;
+}
+
+.rsvp-status {
+  margin-top: 14px;
+  font-size: 15px;
+  color: var(--muted);
+}
+
+.rsvp-cta {
+  display: inline-block;
+  margin-top: 20px;
 }
 
 /* ============================================================

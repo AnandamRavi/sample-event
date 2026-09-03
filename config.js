@@ -16,18 +16,20 @@
 
    Full walkthrough with scre​enshots-style steps: see README.md
    ========================================================== */
+
 const CONFIG = {
-GUESTS_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTLl3giq70GX4aEnUpr16FE1_Ua4AdBgxET_8clQaJe9QbbbbAHxZFcIcB3tq-Q_zNWMTFwY7PB1jgo/pub?gid=1798527694&single=true&output=csv",
-  EVENTS_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTLl3giq70GX4aEnUpr16FE1_Ua4AdBgxET_8clQaJe9QbbbbAHxZFcIcB3tq-Q_zNWMTFwY7PB1jgo/pub?gid=1913252533&single=true&output=csv",
-  PARTY_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTLl3giq70GX4aEnUpr16FE1_Ua4AdBgxET_8clQaJe9QbbbbAHxZFcIcB3tq-Q_zNWMTFwY7PB1jgo/pub?gid=1044096524&single=true&output=csv",
-  FAQ_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTLl3giq70GX4aEnUpr16FE1_Ua4AdBgxET_8clQaJe9QbbbbAHxZFcIcB3tq-Q_zNWMTFwY7PB1jgo/pub?gid=1088904958&single=true&output=csv",
-  STORY_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTLl3giq70GX4aEnUpr16FE1_Ua4AdBgxET_8clQaJe9QbbbbAHxZFcIcB3tq-Q_zNWMTFwY7PB1jgo/pub?gid=1183152801&single=true&output=csv",
-  SETTINGS_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTLl3giq70GX4aEnUpr16FE1_Ua4AdBgxET_8clQaJe9QbbbbAHxZFcIcB3tq-Q_zNWMTFwY7PB1jgo/pub?gid=1017722567&single=true&output=csv",
+  GUESTS_CSV_URL: "PASTE_YOUR_GUESTS_TAB_PUBLISHED_CSV_LINK_HERE",
+  EVENTS_CSV_URL: "PASTE_YOUR_EVENTS_TAB_PUBLISHED_CSV_LINK_HERE",
+  PARTY_CSV_URL: "PASTE_YOUR_WEDDING_PARTY_TAB_PUBLISHED_CSV_LINK_HERE",
+  FAQ_CSV_URL: "PASTE_YOUR_FAQ_TAB_PUBLISHED_CSV_LINK_HERE",
+  STORY_CSV_URL: "PASTE_YOUR_STORY_TAB_PUBLISHED_CSV_LINK_HERE",
+  SETTINGS_CSV_URL: "PASTE_YOUR_SETTINGS_TAB_PUBLISHED_CSV_LINK_HERE",
 
   // Where RSVP submissions are sent — your Apps Script Web App URL.
   // See README.md, "Setting up RSVP" for how to get this.
-  RSVP_ENDPOINT_URL: "https://script.google.com/macros/s/AKfycbx8hwR3DenmItE8WD-2tnrjbjlHISSEQmzDV9Hu6Ppnr4fYEtbbSOzNsYvhOt0WzWSm/exec",
+  RSVP_ENDPOINT_URL: "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE",
 };
+
 /* ==========================================================
    Everything else — cover image, countdown date/time, and each
    page's banner image — now lives in your Settings tab in

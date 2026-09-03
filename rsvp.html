@@ -3,58 +3,54 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Our Celebration</title>
+<title>RSVP</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;1,500&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="page-nav">
 
-<div class="hero-cover" id="hero-cover">
-  <div class="hero-overlay"></div>
+<div class="wrap">
   <nav class="site-nav">
-    <a href="index.html" class="active">Home</a>
+    <a href="index.html">Home</a>
     <a href="our-story.html" id="nav-story">Our story</a>
     <a href="wedding-party.html" id="nav-party">Wedding party</a>
     <a href="faq.html" id="nav-faq">FAQs</a>
-    <a href="rsvp.html" id="nav-rsvp">RSVP</a>
+    <a href="rsvp.html" id="nav-rsvp" class="active">RSVP</a>
   </nav>
-  <div class="hero-cover-content">
-    <p class="hero-eyebrow" id="hero-eyebrow">You're invited</p>
-    <h1 id="hero-title">Our Celebration</h1>
-    <hr class="hero-rule">
-    <div class="countdown" id="countdown">
-      <div class="countdown-unit"><span class="countdown-num" id="cd-days">–</span><span class="countdown-label">Days</span></div>
-      <div class="countdown-unit"><span class="countdown-num" id="cd-hours">–</span><span class="countdown-label">Hours</span></div>
-      <div class="countdown-unit"><span class="countdown-num" id="cd-mins">–</span><span class="countdown-label">Minutes</span></div>
-      <div class="countdown-unit"><span class="countdown-num" id="cd-secs">–</span><span class="countdown-label">Seconds</span></div>
-    </div>
-  </div>
-</div>
 
-<div class="wrap">
+  <div class="page-banner" id="page-banner" data-settings-key="RsvpBannerImage">
+    <img src="" alt="">
+  </div>
+
+  <div class="page-header">
+    <h1 id="rsvp-page-title">RSVP</h1>
+    <hr class="hero-rule">
+  </div>
 
   <div class="lookup" id="lookup">
-    <h2 id="lookup-heading">Find your invitation</h2>
-    <p id="lookup-subtext">This was included in the message we sent you — it's on your card or link.</p>
+    <h2 id="rsvp-lookup-heading">Find your invitation</h2>
+    <p id="rsvp-lookup-subtext">Enter your access code to RSVP for the events you're invited to.</p>
     <form id="lookup-form">
       <input type="text" id="code-input" placeholder="Access code" autocomplete="off" />
-      <button type="submit" class="btn">View</button>
+      <button type="submit" class="btn">Continue</button>
     </form>
     <p class="lookup-error" id="lookup-error">We couldn't find that code — please double check it and try again.</p>
   </div>
 
   <div class="greeting" id="greeting">
     <p id="greeting-text"></p>
-    <a class="btn rsvp-cta" id="rsvp-cta" href="rsvp.html">RSVP now</a>
   </div>
 
-  <div id="events"></div>
+  <form id="rsvp-form" class="rsvp-form">
+    <div id="rsvp-events"></div>
+    <button type="submit" class="btn rsvp-submit" id="rsvp-submit">Submit RSVP</button>
+    <p class="rsvp-status" id="rsvp-status"></p>
+  </form>
 
   <div class="empty-state" id="empty-state">
     <p>No events are attached to this invitation yet.</p>
   </div>
-
 </div>
 
 <footer id="site-footer">Made with care for the people we love.</footer>
@@ -62,6 +58,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 <script src="config.js"></script>
 <script src="settings.js"></script>
-<script src="script.js"></script>
+<script src="banner.js"></script>
+<script src="rsvp.js"></script>
 </body>
 </html>

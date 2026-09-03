@@ -123,6 +123,9 @@ async function showGuest(code) {
   document.getElementById("greeting-text").textContent = greetingText;
   greetingEl.style.display = "block";
 
+  const rsvpCta = document.getElementById("rsvp-cta");
+  if (rsvpCta) rsvpCta.href = `rsvp.html?g=${encodeURIComponent(code)}`;
+
   const invitedIds = splitEventIds(guest.Events).map(normalize);
   const guestEvents = events
     .filter((ev) => invitedIds.includes(normalize(ev.ID)))

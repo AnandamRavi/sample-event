@@ -71,6 +71,12 @@ document.addEventListener("DOMContentLoaded", async function () {
   const navFaq = document.getElementById("nav-faq");
   if (navFaq && settings.FaqPageTitle) navFaq.textContent = settings.FaqPageTitle;
 
+  const rsvpTitle = document.getElementById("rsvp-page-title");
+  if (rsvpTitle && settings.RsvpPageTitle) rsvpTitle.textContent = settings.RsvpPageTitle;
+
+  const navRsvp = document.getElementById("nav-rsvp");
+  if (navRsvp && settings.RsvpPageTitle) navRsvp.textContent = settings.RsvpPageTitle;
+
   if (settings.SiteTitle) document.title = settings.SiteTitle;
 
   // Reveal the hero text now that it shows the real content, rather
