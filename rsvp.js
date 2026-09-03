@@ -64,7 +64,7 @@ function renderRsvpForm(events) {
             </div>
           </div>
 
-          <div class="rsvp-field">
+          <div class="rsvp-field rsvp-count-wrap" id="count-wrap-${ev.ID}" style="display:none;">
             <label for="count-${ev.ID}">Number attending (including you)</label>
             <input type="number" id="count-${ev.ID}" name="count-${ev.ID}" min="1" value="1">
           </div>
@@ -79,6 +79,27 @@ function renderRsvpForm(events) {
     .join("");
 
   form.style.display = "block";
+  attachAttendingToggles(events);
+}
+
+function attachAttendingToggles(events) {
+  events.forEach((ev) => {
+    const radios = document.querySelectorAll(`input[name="attending-${ev.ID}"]`);
+    const countWrap = document.getElementById(`count-wrap-${ev.ID}`);
+    const countInput = document.getElementById(`count-${ev.ID}`);
+
+    radios.forEach((radio) => {
+      radio.addEventListener("change", () => {
+        if (radio.checked && radio.value === "Yes") {
+          countWrap.style.display = "block";
+          if (!countInput.value || Number(countInput.value) < 1) countInput.value = 1;
+        } else if (radio.checked && radio.value === "No") {
+          countWrap.style.display = "none";
+          countInput.value = 0;
+        }
+      });
+    });
+  });
 }
 
 async function showGuest(code) {
@@ -172,7 +193,20 @@ async function submitRsvp(e) {
     });
 
     submitBtn.textContent = "Submitted";
-    statusEl.textContent = "Thank you — your RSVP has been recorded. You can revisit this link any time to update it.";
+    statusEl.innerHTML = `
+      <p>Thank you — your RSVP has been recorded. You can revisit this link any time to update it.</p>
+      <ul class="rsvp-summary">
+        ${responses
+          .map((r) => {
+            const line =
+              r.attending === "Yes"
+                ? `${r.eventName}: <strong>Yes</strong> — ${r.guestCount || 1} guest${r.guestCount == 1 ? "" : "s"}`
+                : `${r.eventName}: <strong>No</strong>`;
+            return `<li>${line}</li>`;
+          })
+          .join("")}
+      </ul>
+    `;
   } catch (err) {
     submitBtn.disabled = false;
     submitBtn.textContent = "Submit RSVP";
