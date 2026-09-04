@@ -55,7 +55,6 @@ function renderEvents(events) {
 
       const imageUrl = (ev.ImageURL || "").trim();
       const embedUrl = (ev.EmbedURL || "").trim();
-      const rsvpLink = (ev.RSVPLink || "").trim();
 
       const media = imageUrl
         ? `<img class="event-media" src="${imageUrl}" alt="${ev.Name || ""}" loading="lazy" onerror="this.style.display='none'">`
@@ -63,10 +62,6 @@ function renderEvents(events) {
 
       const embed = embedUrl
         ? `<iframe class="event-embed" src="${embedUrl}" allow="fullscreen" loading="lazy"></iframe>`
-        : "";
-
-      const rsvp = rsvpLink
-        ? `<a class="rsvp" href="${rsvpLink}" target="_blank" rel="noopener">RSVP for this event</a>`
         : "";
 
       return `
@@ -77,7 +72,6 @@ function renderEvents(events) {
           ${ev.Description ? `<p class="description">${ev.Description}</p>` : ""}
           ${media}
           ${embed}
-          ${rsvp}
         </div>
       `;
     })

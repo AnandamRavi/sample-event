@@ -226,19 +226,6 @@ input:focus-visible {
   margin: 0 0 20px;
 }
 
-.event .rsvp {
-  display: inline-block;
-  padding: 10px 22px;
-  border: 1px solid var(--wine);
-  color: var(--wine);
-  border-radius: 3px;
-  text-decoration: none;
-  font-size: 15px;
-  font-weight: 600;
-}
-
-.event .rsvp:hover { background: var(--wine); color: #fff; }
-
 .empty-state {
   text-align: center;
   color: var(--muted);
