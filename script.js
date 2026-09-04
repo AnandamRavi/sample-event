@@ -28,6 +28,52 @@ function splitEventIds(raw) {
     .filter(Boolean);
 }
 
+// Turns an Events cell (any order, any of ; or , as separators) into a
+// consistent key, so "WEDDING;RECEPTION" and "Reception, Wedding" match
+// the same Invitations row regardless of how each was typed.
+function normalizeEventCombo(raw) {
+  return splitEventIds(raw)
+    .map((s) => s.toLowerCase())
+    .sort()
+    .join("|");
+}
+
+// Accepts a normal Google Drive share link (or any direct PDF URL) and
+// returns both an embeddable preview URL and a plain "open" URL. Drive
+// links are auto-converted; anything else is used as-is for both.
+function resolveInvitationUrls(raw) {
+  const url = (raw || "").trim();
+  if (!url) return null;
+
+  const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+  if (match) {
+    const id = match[1];
+    return {
+      embedUrl: `https://drive.google.com/file/d/${id}/preview`,
+      openUrl: `https://drive.google.com/file/d/${id}/view`,
+    };
+  }
+
+  return { embedUrl: url, openUrl: url };
+}
+
+function renderInvitation(invitationUrl) {
+  const container = document.getElementById("invitation-embed");
+  if (!container) return;
+
+  const urls = resolveInvitationUrls(invitationUrl);
+  if (!urls) {
+    container.style.display = "none";
+    return;
+  }
+
+  container.innerHTML = `
+    <iframe class="invitation-frame" src="${urls.embedUrl}" loading="lazy"></iframe>
+    <a class="invitation-link" href="${urls.openUrl}" target="_blank" rel="noopener">Open full invitation</a>
+  `;
+  container.style.display = "block";
+}
+
 function formatDate(raw) {
   if (!raw) return "";
   const d = new Date(raw);
@@ -99,11 +145,14 @@ async function showGuest(code) {
   const errorEl = document.getElementById("lookup-error");
   errorEl.style.display = "none";
 
-  let guests, events;
+  let guests, events, invitations;
   try {
-    [guests, events] = await Promise.all([
+    [guests, events, invitations] = await Promise.all([
       fetchCsv(CONFIG.GUESTS_CSV_URL),
       fetchCsv(CONFIG.EVENTS_CSV_URL),
+      CONFIG.INVITATIONS_CSV_URL && !CONFIG.INVITATIONS_CSV_URL.startsWith("PASTE_")
+        ? fetchCsv(CONFIG.INVITATIONS_CSV_URL)
+        : Promise.resolve([]),
     ]);
   } catch (err) {
     errorEl.textContent = "We're having trouble loading the guest list right now — please try again shortly.";
@@ -134,6 +183,12 @@ async function showGuest(code) {
 
   const rsvpCta = document.getElementById("rsvp-cta");
   if (rsvpCta) rsvpCta.href = `rsvp.html?g=${encodeURIComponent(code)}`;
+
+  const guestComboKey = normalizeEventCombo(guest.Events);
+  const matchingInvitation = invitations.find(
+    (inv) => normalizeEventCombo(inv.Events) === guestComboKey
+  );
+  renderInvitation(matchingInvitation ? matchingInvitation.InvitationURL : "");
 
   const invitedIds = splitEventIds(guest.Events).map(normalize);
   const guestEvents = events
