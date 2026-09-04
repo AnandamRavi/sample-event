@@ -218,12 +218,62 @@ input:focus-visible {
   margin: 0 0 20px;
 }
 
+.event .embed-wrap {
+  position: relative;
+  margin: 0 0 20px;
+}
+
 .event iframe.event-embed {
   width: 100%;
   aspect-ratio: 16 / 9;
   border: 1px solid var(--line);
   border-radius: 4px;
-  margin: 0 0 20px;
+  display: block;
+}
+
+.event .embed-fullscreen-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  padding: 8px 16px;
+  background: none;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.event .embed-fullscreen-btn:hover {
+  border-color: var(--wine);
+  color: var(--wine);
+}
+
+/* On phones, let the event photo/gif and the Storyline embed bleed
+   past the page's side padding to use the full screen width, and
+   give the embed a taller shape since 16:9 reads as cramped on a
+   narrow, tall phone screen. */
+@media (max-width: 640px) {
+  .event img.event-media,
+  .event .embed-wrap {
+    width: calc(100% + 48px);
+    margin-left: -24px;
+    margin-right: -24px;
+    border-radius: 0;
+  }
+
+  .event iframe.event-embed {
+    aspect-ratio: 3 / 4;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+  }
+
+  .event .embed-fullscreen-btn {
+    margin-left: 24px;
+  }
 }
 
 .empty-state {

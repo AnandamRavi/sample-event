@@ -61,7 +61,10 @@ function renderEvents(events) {
         : "";
 
       const embed = embedUrl
-        ? `<iframe class="event-embed" src="${embedUrl}" allow="fullscreen" loading="lazy"></iframe>`
+        ? `<div class="embed-wrap">
+             <iframe class="event-embed" src="${embedUrl}" allow="fullscreen" loading="lazy"></iframe>
+           </div>
+           <button type="button" class="embed-fullscreen-btn" data-embed-fullscreen>View fullscreen</button>`
         : "";
 
       return `
@@ -78,6 +81,18 @@ function renderEvents(events) {
     .join("");
 
   container.style.display = "block";
+  attachFullscreenButtons();
+}
+
+function attachFullscreenButtons() {
+  document.querySelectorAll("[data-embed-fullscreen]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const iframe = btn.previousElementSibling.querySelector("iframe.event-embed");
+      if (!iframe) return;
+      if (iframe.requestFullscreen) iframe.requestFullscreen();
+      else if (iframe.webkitRequestFullscreen) iframe.webkitRequestFullscreen();
+    });
+  });
 }
 
 async function showGuest(code) {
