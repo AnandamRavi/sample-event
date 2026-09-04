@@ -593,6 +593,15 @@ input:focus-visible {
   margin-top: 12px;
 }
 
+.rsvp-shared-notes {
+  padding-top: 28px;
+  margin-top: 8px;
+}
+
+.rsvp-shared-notes textarea {
+  max-width: 100%;
+}
+
 .rsvp-status {
   margin-top: 14px;
   font-size: 15px;

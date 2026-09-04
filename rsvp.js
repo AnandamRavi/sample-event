@@ -68,11 +68,6 @@ function renderRsvpForm(events) {
             <label for="count-${ev.ID}">Number attending (including you)</label>
             <input type="number" id="count-${ev.ID}" name="count-${ev.ID}" min="1" value="1">
           </div>
-
-          <div class="rsvp-field">
-            <label for="notes-${ev.ID}">Dietary restrictions or notes (optional)</label>
-            <textarea id="notes-${ev.ID}" name="notes-${ev.ID}" rows="2"></textarea>
-          </div>
         </div>
       `;
     })
@@ -171,31 +166,29 @@ async function submitRsvp(e) {
   const responses = CURRENT_EVENTS.map((ev) => {
     const attending = document.querySelector(`input[name="attending-${ev.ID}"]:checked`);
     const count = document.getElementById(`count-${ev.ID}`);
-    const notes = document.getElementById(`notes-${ev.ID}`);
     return {
       eventId: ev.ID,
       eventName: ev.Name || "",
       attending: attending ? attending.value : "",
       guestCount: count ? count.value : "",
-      notes: notes ? notes.value : "",
     };
   });
 
+  const notes = document.getElementById("rsvp-notes")
+    ? document.getElementById("rsvp-notes").value
+    : "";
+
   try {
-    const res = await fetch(CONFIG.RSVP_ENDPOINT_URL, {
+    await fetch(CONFIG.RSVP_ENDPOINT_URL, {
       method: "POST",
       headers: { "Content-Type": "text/plain;charset=utf-8" }, // avoids a CORS preflight
       body: JSON.stringify({
         code: CURRENT_GUEST.code,
         name: CURRENT_GUEST.name,
+        notes,
         responses,
       }),
     });
-
-    const result = await res.json();
-    if (result.status !== "ok") {
-      throw new Error(result.message || "The RSVP endpoint reported an error.");
-    }
 
     submitBtn.textContent = "Submitted";
     statusEl.innerHTML = `
@@ -207,8 +200,7 @@ async function submitRsvp(e) {
               r.attending === "Yes"
                 ? `${r.eventName}: <strong>Yes</strong> — ${r.guestCount || 1} guest${r.guestCount == 1 ? "" : "s"}`
                 : `${r.eventName}: <strong>No</strong>`;
-            const notesLine = r.notes ? ` — <em>${r.notes}</em>` : "";
-            return `<li>${line}${notesLine}</li>`;
+            return `<li>${line}</li>`;
           })
           .join("")}
       </ul>
@@ -216,8 +208,7 @@ async function submitRsvp(e) {
   } catch (err) {
     submitBtn.disabled = false;
     submitBtn.textContent = "Submit RSVP";
-    statusEl.textContent =
-      "Something went wrong submitting your RSVP: " + err.message;
+    statusEl.textContent = "Something went wrong submitting your RSVP — please try again.";
     console.error(err);
   }
 }
