@@ -66,11 +66,22 @@ function formatDate(raw) {
   });
 }
 
-function generateCode(firstName, lastName) {
-  const f = (firstName || "X").replace(/[^a-zA-Z]/g, "").slice(0, 3).toUpperCase();
-  const l = (lastName || "X").replace(/[^a-zA-Z]/g, "").slice(0, 1).toUpperCase();
-  const num = Math.floor(100 + Math.random() * 900);
-  return `${f}${l}${num}`;
+function capitalize(s) {
+  s = (s || "").trim();
+  return s ? s[0].toUpperCase() + s.slice(1).toLowerCase() : "";
+}
+
+function generateCode(firstName, lastName, existingCodes) {
+  var base = (capitalize(firstName) + capitalize(lastName)).replace(/[^a-zA-Z]/g, "");
+  if (!base) base = "Guest";
+  var codes = existingCodes || new Set();
+  var code = base;
+  var n = 2;
+  while (codes.has(code.toLowerCase())) {
+    code = base + n;
+    n++;
+  }
+  return code;
 }
 
 let CURRENT_GUEST = null;  // { code, name, isNew, groupName }
@@ -282,14 +293,18 @@ async function registerGroupMember() {
     return;
   }
 
+  let allEvents, guests;
   try {
-    ALL_EVENTS = await fetchCsv(CONFIG.EVENTS_CSV_URL);
+    allEvents = await fetchCsv(CONFIG.EVENTS_CSV_URL);
+    guests = await fetchCsv(CONFIG.GUESTS_CSV_URL);
   } catch (err) {
     errorEl.textContent = "We're having trouble loading things right now — please try again shortly.";
     errorEl.style.display = "block";
     return;
   }
+  ALL_EVENTS = allEvents;
 
+  const existingCodes = new Set(guests.map((g) => normalize(g.Code)));
   const group = GROUPS_DATA.find((g) => normalize(g.GroupName) === normalize(groupName));
   const invitedIds = splitEventIds(group ? group.Events : "").map(normalize);
   CURRENT_EVENTS = ALL_EVENTS
@@ -297,7 +312,7 @@ async function registerGroupMember() {
     .sort((a, b) => new Date(a.Date) - new Date(b.Date));
 
   CURRENT_GUEST = {
-    code: generateCode(firstName, lastName),
+    code: generateCode(firstName, lastName, existingCodes),
     name: `${firstName} ${lastName}`,
     isNew: true,
     groupName,
@@ -441,10 +456,46 @@ function init() {
     applyRsvpQuestionText();
   });
 
+  // Arriving already identified from the home page (existing guest)?
   const codeFromUrl = getParam("g");
   if (codeFromUrl) {
     showGuest(codeFromUrl);
+    return;
   }
+
+  // Arriving already identified from the home page (new group member)?
+  if (getParam("mode") === "group") {
+    resumeGroupMemberFromParams();
+  }
+}
+
+async function resumeGroupMemberFromParams() {
+  const groupName = getParam("group") || "";
+  const firstName = getParam("first") || "";
+  const lastName = getParam("last") || "";
+  const code = getParam("code") || "";
+
+  try {
+    ALL_EVENTS = await fetchCsv(CONFIG.EVENTS_CSV_URL);
+    if (!GROUPS_DATA.length) {
+      GROUPS_DATA = CONFIG.GROUPS_CSV_URL && !CONFIG.GROUPS_CSV_URL.startsWith("PASTE_")
+        ? await fetchCsv(CONFIG.GROUPS_CSV_URL)
+        : [];
+    }
+  } catch (err) {
+    console.error(err);
+    return;
+  }
+
+  const group = GROUPS_DATA.find((g) => normalize(g.GroupName) === normalize(groupName));
+  const invitedIds = splitEventIds(group ? group.Events : "").map(normalize);
+  CURRENT_EVENTS = ALL_EVENTS
+    .filter((ev) => invitedIds.includes(normalize(ev.ID)))
+    .sort((a, b) => new Date(a.Date) - new Date(b.Date));
+
+  CURRENT_GUEST = { code, name: `${firstName} ${lastName}`.trim(), isNew: true, groupName, firstName, lastName };
+
+  identifyComplete();
 }
 
 document.addEventListener("DOMContentLoaded", init);
