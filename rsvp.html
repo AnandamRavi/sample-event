@@ -28,27 +28,115 @@
     <hr class="hero-rule">
   </div>
 
-  <div class="lookup" id="lookup">
+  <!-- STEP 1: Group or individual? -->
+  <div class="lookup" id="identify-box">
     <h2 id="rsvp-lookup-heading">Find your invitation</h2>
-    <p id="rsvp-lookup-subtext">Enter your access code to RSVP for the events you're invited to.</p>
-    <form id="lookup-form">
-      <input type="text" id="code-input" placeholder="Access code" autocomplete="off" />
+
+    <div class="rsvp-field">
+      <label id="group-prompt-label">Did you receive this link as part of a group?</label>
+      <div class="rsvp-radios">
+        <label><input type="radio" name="is-group" value="Yes"> Yes</label>
+        <label><input type="radio" name="is-group" value="No"> No</label>
+      </div>
+    </div>
+
+    <!-- Shown if "No" -->
+    <form id="lookup-form" class="rsvp-subform" style="display:none;">
+      <div class="rsvp-field">
+        <label for="code-input" id="code-label">Access code</label>
+        <input type="text" id="code-input" placeholder="Access code" autocomplete="off" />
+      </div>
       <button type="submit" class="btn">Continue</button>
     </form>
-    <p class="lookup-error" id="lookup-error">We couldn't find that code — please double check it and try again.</p>
+
+    <!-- Shown if "Yes" -->
+    <form id="group-form" class="rsvp-subform" style="display:none;">
+      <div class="rsvp-field">
+        <label for="group-select" id="group-name-label">Which group are you part of?</label>
+        <select id="group-select"></select>
+      </div>
+      <div class="rsvp-field">
+        <label for="first-name-input" id="first-name-label">First name</label>
+        <input type="text" id="first-name-input" autocomplete="given-name">
+      </div>
+      <div class="rsvp-field">
+        <label for="last-name-input" id="last-name-label">Last name</label>
+        <input type="text" id="last-name-input" autocomplete="family-name">
+      </div>
+      <button type="submit" class="btn">Continue</button>
+    </form>
+
+    <p class="lookup-error" id="lookup-error"></p>
+  </div>
+
+  <!-- Shown to new group members after registering, before host approval -->
+  <div class="lookup pending-notice" id="pending-notice" style="display:none;">
+    <h2>You're almost set</h2>
+    <p>Your response has been sent to your host for a quick confirmation. Your personal access code is:</p>
+    <p class="pending-code" id="pending-code"></p>
+    <p>Save it — you can come back and check or update your response using this code, once your host confirms it.</p>
   </div>
 
   <div class="greeting" id="greeting">
     <p id="greeting-text"></p>
   </div>
 
+  <div class="invitation-embed" id="invitation-embed"></div>
+
   <form id="rsvp-form" class="rsvp-form">
-    <div id="rsvp-events"></div>
-    <div class="rsvp-field rsvp-shared-notes">
-      <label for="rsvp-notes">Dietary restrictions or notes (optional)</label>
-      <textarea id="rsvp-notes" name="rsvp-notes" rows="3"></textarea>
+
+    <!-- STEP 2: Attending gate -->
+    <div class="rsvp-field">
+      <label id="attending-gate-label">Do you plan to attend any of these events?</label>
+      <div class="rsvp-radios">
+        <label><input type="radio" name="attending-any" value="Yes" required> Yes</label>
+        <label><input type="radio" name="attending-any" value="No" required> No</label>
+      </div>
     </div>
-    <button type="submit" class="btn rsvp-submit" id="rsvp-submit">Submit RSVP</button>
+
+    <p class="decline-message" id="decline-message" style="display:none;"></p>
+
+    <div id="attending-yes-section" style="display:none;">
+      <div id="rsvp-events"></div>
+
+      <div class="rsvp-field">
+        <label id="contact-pref-label">What's the best way to reach you?</label>
+        <div class="rsvp-radios">
+          <label><input type="radio" name="contact-method" value="WhatsApp"> WhatsApp</label>
+          <label><input type="radio" name="contact-method" value="Email"> Email</label>
+        </div>
+      </div>
+      <div class="rsvp-field" id="whatsapp-wrap" style="display:none;">
+        <label for="whatsapp-input" id="whatsapp-label">WhatsApp number</label>
+        <input type="tel" id="whatsapp-input" autocomplete="tel">
+      </div>
+      <div class="rsvp-field" id="email-wrap" style="display:none;">
+        <label for="email-input" id="email-label">Email address</label>
+        <input type="email" id="email-input" autocomplete="email">
+      </div>
+
+      <div class="rsvp-field">
+        <label id="out-of-town-label">Are you coming from out of town?</label>
+        <div class="rsvp-radios">
+          <label><input type="radio" name="out-of-town" value="Yes"> Yes</label>
+          <label><input type="radio" name="out-of-town" value="No"> No</label>
+        </div>
+      </div>
+      <div class="rsvp-field" id="accommodation-wrap" style="display:none;">
+        <label id="accommodation-label">Do you need accommodation?</label>
+        <div class="rsvp-radios">
+          <label><input type="radio" name="needs-accommodation" value="Yes"> Yes</label>
+          <label><input type="radio" name="needs-accommodation" value="No"> No</label>
+        </div>
+      </div>
+
+      <div class="rsvp-field rsvp-shared-notes">
+        <label for="rsvp-notes">Dietary restrictions or notes (optional)</label>
+        <textarea id="rsvp-notes" name="rsvp-notes" rows="3"></textarea>
+      </div>
+    </div>
+
+    <button type="submit" class="btn rsvp-submit" id="rsvp-submit" style="display:none;">Submit RSVP</button>
     <p class="rsvp-status" id="rsvp-status"></p>
   </form>
 
