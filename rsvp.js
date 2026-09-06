@@ -333,8 +333,6 @@ async function submitRsvp(e) {
 
   const submitBtn = document.getElementById("rsvp-submit");
   const statusEl = document.getElementById("rsvp-status");
-  submitBtn.disabled = true;
-  submitBtn.textContent = "Submitting…";
   statusEl.textContent = "";
 
   const attendingAny = (document.querySelector('input[name="attending-any"]:checked') || {}).value || "No";
@@ -367,11 +365,29 @@ async function submitRsvp(e) {
       : "";
 
     notes = document.getElementById("rsvp-notes").value.trim();
+
+    // Manual validation for fields that live inside conditionally
+    // hidden sections — native `required` doesn't reliably skip these
+    // across browsers once they've been shown and hidden again.
+    const missing = [];
+    if (responses.some((r) => !r.attending)) missing.push("whether you're attending each event");
+    if (!contactMethod) missing.push("your preferred contact method");
+    if (contactMethod && !contactValue) missing.push(contactMethod === "WhatsApp" ? "your WhatsApp number" : "your email address");
+    if (!outOfTown) missing.push("whether you're coming from out of town");
+    if (outOfTown === "Yes" && !needsAccommodation) missing.push("whether you need accommodation");
+
+    if (missing.length) {
+      statusEl.textContent = "Please answer: " + missing.join(", ") + ".";
+      return;
+    }
   } else {
     responses = CURRENT_EVENTS.map((ev) => ({
       eventId: ev.ID, eventName: ev.Name || "", attending: "No", guestCount: "0",
     }));
   }
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Submitting…";
 
   const payload = {
     mode: CURRENT_GUEST.isNew ? "group" : "existing",

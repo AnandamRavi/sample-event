@@ -36,7 +36,7 @@
     <form id="lookup-form">
       <div class="rsvp-field">
         <label for="code-input" id="code-label">Access code</label>
-        <input type="text" id="code-input" placeholder="Access code" autocomplete="off" required />
+        <input type="text" id="code-input" name="code-input" placeholder="Access code" autocomplete="off" required />
       </div>
       <button type="submit" class="btn">Continue</button>
     </form>
@@ -52,11 +52,11 @@
       </div>
       <div class="rsvp-field">
         <label for="first-name-input" id="first-name-label">First name</label>
-        <input type="text" id="first-name-input" autocomplete="given-name" required>
+        <input type="text" id="first-name-input" name="first-name-input" autocomplete="given-name" required>
       </div>
       <div class="rsvp-field">
         <label for="last-name-input" id="last-name-label">Last name</label>
-        <input type="text" id="last-name-input" autocomplete="family-name" required>
+        <input type="text" id="last-name-input" name="last-name-input" autocomplete="family-name" required>
       </div>
       <button type="submit" class="btn">Continue</button>
       <button type="button" class="link-button" id="show-code-form">← I actually have a code</button>
@@ -104,11 +104,11 @@
       </div>
       <div class="rsvp-field" id="whatsapp-wrap" style="display:none;">
         <label for="whatsapp-input" id="whatsapp-label">WhatsApp number</label>
-        <input type="tel" id="whatsapp-input" autocomplete="tel" required>
+        <input type="tel" id="whatsapp-input" name="whatsapp-input" autocomplete="tel">
       </div>
       <div class="rsvp-field" id="email-wrap" style="display:none;">
         <label for="email-input" id="email-label">Email address</label>
-        <input type="email" id="email-input" autocomplete="email" required>
+        <input type="email" id="email-input" name="email-input" autocomplete="email">
       </div>
 
       <div class="rsvp-field">
@@ -121,8 +121,8 @@
       <div class="rsvp-field" id="accommodation-wrap" style="display:none;">
         <label id="accommodation-label">Do you need accommodation?</label>
         <div class="rsvp-radios">
-          <label><input type="radio" name="needs-accommodation" value="Yes" required> Yes</label>
-          <label><input type="radio" name="needs-accommodation" value="No" required> No</label>
+          <label><input type="radio" name="needs-accommodation" value="Yes"> Yes</label>
+          <label><input type="radio" name="needs-accommodation" value="No"> No</label>
         </div>
       </div>
 
