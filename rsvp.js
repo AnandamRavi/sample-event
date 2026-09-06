@@ -155,7 +155,7 @@ function renderEventFields(events) {
           </div>
           <div class="rsvp-field rsvp-count-wrap" id="count-wrap-${ev.ID}" style="display:none;">
             <label for="count-${ev.ID}">Number attending (including you)</label>
-            <input type="number" id="count-${ev.ID}" name="count-${ev.ID}" min="1" value="1" required>
+            <input type="number" id="count-${ev.ID}" name="count-${ev.ID}" min="1" value="1">
           </div>
         </div>
       `;
