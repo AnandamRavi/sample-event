@@ -614,6 +614,23 @@ input:focus-visible {
   border-top: 1px solid var(--line);
 }
 
+.link-button {
+  display: block;
+  margin: 16px auto 0;
+  background: none;
+  border: none;
+  color: var(--wine);
+  font-family: var(--sans);
+  font-size: 14px;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.link-button:hover {
+  color: #5A1F2F;
+}
+
 .rsvp-subform select {
   width: 100%;
   max-width: 320px;

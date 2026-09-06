@@ -108,7 +108,6 @@ function applyRsvpQuestionText() {
     const el = document.getElementById(id);
     if (el) el.textContent = RSVP_Q[key] || fallback;
   };
-  setText("group-prompt-label", "GroupPromptQuestion", "Did you receive this link as part of a group?");
   setText("group-name-label", "GroupNameLabel", "Which group are you part of?");
   setText("first-name-label", "FirstNameLabel", "First name");
   setText("last-name-label", "LastNameLabel", "Last name");
@@ -127,10 +126,11 @@ async function populateGroupDropdown() {
   if (!CONFIG.GROUPS_CSV_URL || CONFIG.GROUPS_CSV_URL.startsWith("PASTE_")) return;
   try {
     GROUPS_DATA = await fetchCsv(CONFIG.GROUPS_CSV_URL);
-    select.innerHTML = GROUPS_DATA
+    const options = GROUPS_DATA
       .filter((g) => g.GroupName)
       .map((g) => `<option value="${g.GroupName}">${g.GroupName}</option>`)
       .join("");
+    select.innerHTML = `<option value="" disabled selected>Choose a group</option>${options}`;
   } catch (err) {
     console.error("Could not load Groups sheet:", err);
   }
@@ -155,7 +155,7 @@ function renderEventFields(events) {
           </div>
           <div class="rsvp-field rsvp-count-wrap" id="count-wrap-${ev.ID}" style="display:none;">
             <label for="count-${ev.ID}">Number attending (including you)</label>
-            <input type="number" id="count-${ev.ID}" name="count-${ev.ID}" min="1" value="1">
+            <input type="number" id="count-${ev.ID}" name="count-${ev.ID}" min="1" value="1" required>
           </div>
         </div>
       `;
@@ -428,11 +428,16 @@ async function submitRsvp(e) {
 }
 
 function init() {
-  document.querySelectorAll('input[name="is-group"]').forEach((radio) => {
-    radio.addEventListener("change", () => {
-      document.getElementById("lookup-form").style.display = radio.value === "No" && radio.checked ? "block" : "none";
-      document.getElementById("group-form").style.display = radio.value === "Yes" && radio.checked ? "block" : "none";
-    });
+  document.getElementById("show-group-form").addEventListener("click", () => {
+    document.getElementById("lookup-form").style.display = "none";
+    document.getElementById("show-group-form").style.display = "none";
+    document.getElementById("group-form").style.display = "block";
+  });
+
+  document.getElementById("show-code-form").addEventListener("click", () => {
+    document.getElementById("group-form").style.display = "none";
+    document.getElementById("lookup-form").style.display = "block";
+    document.getElementById("show-group-form").style.display = "block";
   });
 
   document.getElementById("lookup-form").addEventListener("submit", (e) => {
