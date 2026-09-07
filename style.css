@@ -387,6 +387,31 @@ input:focus-visible {
   color: rgba(255,255,255,0.75);
 }
 
+.venue-details {
+  margin-top: 24px;
+  text-align: center;
+}
+
+.venue-details p {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 17px;
+  color: rgba(255,255,255,0.9);
+  margin: 0 0 8px;
+}
+
+.venue-map-link {
+  display: inline-block;
+  font-size: 13px;
+  color: #fff;
+  border-bottom: 1px solid rgba(255,255,255,0.6);
+  text-decoration: none;
+}
+
+.venue-map-link:hover {
+  border-bottom-color: #fff;
+}
+
 @media (max-width: 480px) {
   .countdown { gap: 16px; }
   .countdown-unit { min-width: 52px; }

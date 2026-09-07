@@ -79,6 +79,20 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   if (settings.SiteTitle) document.title = settings.SiteTitle;
 
+  const venueDetails = document.getElementById("venue-details");
+  const venueText = document.getElementById("venue-text");
+  const venueMapLink = document.getElementById("venue-map-link");
+  if (venueDetails && venueText && settings.VenueDetails) {
+    venueText.textContent = settings.VenueDetails;
+    venueDetails.style.display = "block";
+
+    const mapUrl = settings.VenueMapLink
+      ? settings.VenueMapLink
+      : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(settings.VenueDetails)}`;
+    venueMapLink.href = mapUrl;
+    venueMapLink.style.display = "inline-block";
+  }
+
   // Reveal the hero text now that it shows the real content, rather
   // than flashing the placeholder text before this fetch resolves.
   const heroContent = document.querySelector(".hero-cover-content");
