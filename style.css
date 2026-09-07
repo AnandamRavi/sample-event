@@ -46,6 +46,8 @@ input:focus-visible {
   max-width: var(--max-width);
   margin: 0 auto;
   padding: 0 24px;
+  position: relative;
+  z-index: 1;
 }
 
 /* ============================================================
@@ -451,6 +453,36 @@ input:focus-visible {
 }
 
 /* ============================================================
+   Decorative page border (inside pages only, wide screens only)
+   ============================================================ */
+.page-border {
+  display: none;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 140px;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.page-border-left {
+  left: 0;
+}
+
+.page-border-right {
+  right: 0;
+  transform: scaleX(-1);
+}
+
+@media (min-width: 1400px) {
+  .page-border.has-image {
+    display: block;
+  }
+}
+
+/* ============================================================
    Simple content pages (Our story / FAQs)
    ============================================================ */
 .page-header {
@@ -807,6 +839,8 @@ footer {
   padding: 40px 24px 60px;
   color: var(--muted);
   font-size: 13px;
+  position: relative;
+  z-index: 1;
 }
 
 /* ============================================================

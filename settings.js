@@ -79,6 +79,16 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   if (settings.SiteTitle) document.title = settings.SiteTitle;
 
+  const borderImage = (settings.PageBorderImage || "").trim();
+  const borderLeft = document.getElementById("page-border-left");
+  const borderRight = document.getElementById("page-border-right");
+  if (borderLeft && borderRight && borderImage) {
+    borderLeft.style.backgroundImage = `url("${borderImage}")`;
+    borderRight.style.backgroundImage = `url("${borderImage}")`;
+    borderLeft.classList.add("has-image");
+    borderRight.classList.add("has-image");
+  }
+
   const venueDetails = document.getElementById("venue-details");
   const venueText = document.getElementById("venue-text");
   const venueMapLink = document.getElementById("venue-map-link");
