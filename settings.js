@@ -105,6 +105,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   // Reveal the hero text now that it shows the real content, rather
   // than flashing the placeholder text before this fetch resolves.
-  const heroContent = document.querySelector(".hero-cover-content");
+  const heroContent = document.querySelector(".hero-split-inner");
   if (heroContent) heroContent.classList.add("ready");
 });

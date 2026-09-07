@@ -293,7 +293,7 @@ input:focus-visible {
   z-index: 2;
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 12px 32px;
   padding: 24px 24px 0;
 }
@@ -324,99 +324,134 @@ input:focus-visible {
 .page-nav .wrap { padding-top: 0; }
 
 /* ============================================================
-   Cover hero (home page)
+   Split hero (home page) — image left, content right
    ============================================================ */
-.hero-cover {
-  position: relative;
-  min-height: 92vh;
+.hero-split {
   display: flex;
-  flex-direction: column;
-  color: #fff;
-  background: linear-gradient(160deg, #4A1B27, #2B2320);
+  min-height: 100vh;
+  align-items: stretch;
+}
+
+.hero-split-image {
+  flex: 1 1 50%;
+  background-color: var(--surface);
   background-size: cover;
   background-position: center;
-  overflow: hidden;
 }
 
-.hero-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(20,12,12,0.35) 0%, rgba(20,12,12,0.15) 40%, rgba(20,12,12,0.55) 100%);
+.hero-split-content {
+  flex: 1 1 50%;
+  display: flex;
+  flex-direction: column;
+  padding: 0 48px 48px;
+  overflow-y: auto;
 }
 
-.hero-cover-content {
-  position: relative;
-  z-index: 2;
-  margin: auto 0;
-  text-align: center;
-  padding: 40px 24px;
+.hero-split-content .site-nav {
+  max-width: 440px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 24px 0 0;
+}
+
+.hero-split-inner {
+  max-width: 440px;
+  margin: 0 auto;
+  padding-top: 24px;
   opacity: 0;
   transition: opacity 0.4s ease;
 }
 
-.hero-cover-content.ready {
+.hero-split-inner.ready {
   opacity: 1;
 }
 
-.hero-cover .hero-eyebrow { color: rgba(255,255,255,0.85); }
-.hero-cover h1 { color: #fff; }
-.hero-cover .hero-rule { background: rgba(255,255,255,0.6); }
+.hero-split-inner .hero-eyebrow { color: var(--muted); }
+.hero-split-inner h1 { color: var(--ink); }
 
 .countdown {
   display: flex;
-  justify-content: center;
-  gap: 28px;
-  margin-top: 32px;
+  gap: 24px;
+  margin-top: 28px;
 }
 
 .countdown-unit {
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-width: 64px;
+  min-width: 56px;
 }
 
 .countdown-num {
   font-family: var(--serif);
   font-weight: 600;
-  font-size: clamp(28px, 5vw, 40px);
+  font-size: clamp(24px, 4vw, 34px);
   line-height: 1;
+  color: var(--wine);
 }
 
 .countdown-label {
   font-size: 12px;
   margin-top: 6px;
-  color: rgba(255,255,255,0.75);
+  color: var(--muted);
 }
 
 .venue-details {
-  margin-top: 24px;
-  text-align: center;
+  margin-top: 20px;
 }
 
 .venue-details p {
   font-family: var(--serif);
   font-style: italic;
-  font-size: 17px;
-  color: rgba(255,255,255,0.9);
-  margin: 0 0 8px;
+  font-size: 16px;
+  color: var(--ink);
+  margin: 0 0 6px;
 }
 
 .venue-map-link {
   display: inline-block;
   font-size: 13px;
-  color: #fff;
-  border-bottom: 1px solid rgba(255,255,255,0.6);
+  color: var(--wine);
+  border-bottom: 1px solid var(--line);
   text-decoration: none;
 }
 
 .venue-map-link:hover {
-  border-bottom-color: #fff;
+  border-bottom-color: var(--wine);
 }
 
-@media (max-width: 480px) {
+.hero-split .lookup {
+  margin: 28px 0 0;
+  padding: 0;
+  background: none;
+  border-radius: 0;
+  max-width: none;
+}
+
+@media (max-width: 900px) {
+  .hero-split {
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .hero-split-image {
+    flex: none;
+    height: 42vh;
+    min-height: 260px;
+  }
+
+  .hero-split-content {
+    flex: none;
+    padding: 0 24px 40px;
+    overflow-y: visible;
+  }
+
+  .hero-split-inner {
+    max-width: none;
+  }
+
   .countdown { gap: 16px; }
-  .countdown-unit { min-width: 52px; }
+  .countdown-unit { min-width: 48px; }
 }
 
 /* ============================================================
@@ -460,7 +495,7 @@ input:focus-visible {
   position: fixed;
   top: 0;
   bottom: 0;
-  width: 140px;
+  width: 110px;
   background-repeat: no-repeat;
   background-size: 100% 100%;
   z-index: 0;
@@ -476,7 +511,7 @@ input:focus-visible {
   transform: scaleX(-1);
 }
 
-@media (min-width: 1400px) {
+@media (min-width: 1200px) {
   .page-border.has-image {
     display: block;
   }

@@ -10,69 +10,75 @@
 </head>
 <body>
 
-<div class="hero-cover" id="hero-cover">
-  <div class="hero-overlay"></div>
-  <nav class="site-nav">
-    <a href="index.html" class="active">Home</a>
-    <a href="our-story.html" id="nav-story">Our story</a>
-    <a href="wedding-party.html" id="nav-party">Wedding party</a>
-    <a href="faq.html" id="nav-faq">FAQs</a>
-    <a href="rsvp.html" id="nav-rsvp">RSVP</a>
-  </nav>
-  <div class="hero-cover-content">
-    <p class="hero-eyebrow" id="hero-eyebrow">You're invited</p>
-    <h1 id="hero-title">Our Celebration</h1>
-    <hr class="hero-rule">
-    <div class="countdown" id="countdown">
-      <div class="countdown-unit"><span class="countdown-num" id="cd-days">–</span><span class="countdown-label">Days</span></div>
-      <div class="countdown-unit"><span class="countdown-num" id="cd-hours">–</span><span class="countdown-label">Hours</span></div>
-      <div class="countdown-unit"><span class="countdown-num" id="cd-mins">–</span><span class="countdown-label">Minutes</span></div>
-      <div class="countdown-unit"><span class="countdown-num" id="cd-secs">–</span><span class="countdown-label">Seconds</span></div>
-    </div>
-    <div class="venue-details" id="venue-details" style="display:none;">
-      <p id="venue-text"></p>
-      <a href="#" id="venue-map-link" class="venue-map-link" target="_blank" rel="noopener" style="display:none;">Get directions</a>
+<div class="hero-split" id="hero-cover">
+  <div class="hero-split-image" id="hero-split-image"></div>
+
+  <div class="hero-split-content">
+    <nav class="site-nav">
+      <a href="index.html" class="active">Home</a>
+      <a href="our-story.html" id="nav-story">Our story</a>
+      <a href="wedding-party.html" id="nav-party">Wedding party</a>
+      <a href="faq.html" id="nav-faq">FAQs</a>
+      <a href="rsvp.html" id="nav-rsvp">RSVP</a>
+    </nav>
+
+    <div class="hero-split-inner">
+      <p class="hero-eyebrow" id="hero-eyebrow">You're invited</p>
+      <h1 id="hero-title">Our Celebration</h1>
+      <hr class="hero-rule">
+
+      <div class="countdown" id="countdown">
+        <div class="countdown-unit"><span class="countdown-num" id="cd-days">–</span><span class="countdown-label">Days</span></div>
+        <div class="countdown-unit"><span class="countdown-num" id="cd-hours">–</span><span class="countdown-label">Hours</span></div>
+        <div class="countdown-unit"><span class="countdown-num" id="cd-mins">–</span><span class="countdown-label">Minutes</span></div>
+        <div class="countdown-unit"><span class="countdown-num" id="cd-secs">–</span><span class="countdown-label">Seconds</span></div>
+      </div>
+
+      <div class="venue-details" id="venue-details" style="display:none;">
+        <p id="venue-text"></p>
+        <a href="#" id="venue-map-link" class="venue-map-link" target="_blank" rel="noopener" style="display:none;">Get directions</a>
+      </div>
+
+      <div class="lookup" id="lookup">
+        <h2 id="lookup-heading">Find your invitation</h2>
+        <p id="lookup-subtext">This was included in the message we sent you — it's on your card or link.</p>
+
+        <form id="lookup-form">
+          <div class="rsvp-field">
+            <label for="code-input" id="code-label">Access code</label>
+            <input type="text" id="code-input" name="code-input" placeholder="Access code" autocomplete="off" required />
+          </div>
+          <button type="submit" class="btn">View</button>
+        </form>
+
+        <button type="button" class="link-button" id="show-group-form">I don't have a code — I clicked a link from a group chat</button>
+
+        <form id="group-form" class="rsvp-subform" style="display:none;">
+          <div class="rsvp-field">
+            <label for="group-select" id="group-name-label">Which group are you part of?</label>
+            <select id="group-select" required>
+              <option value="" disabled selected>Choose a group</option>
+            </select>
+          </div>
+          <div class="rsvp-field">
+            <label for="first-name-input" id="first-name-label">First name</label>
+            <input type="text" id="first-name-input" name="first-name-input" autocomplete="given-name" required>
+          </div>
+          <div class="rsvp-field">
+            <label for="last-name-input" id="last-name-label">Last name</label>
+            <input type="text" id="last-name-input" name="last-name-input" autocomplete="family-name" required>
+          </div>
+          <button type="submit" class="btn">Continue</button>
+          <button type="button" class="link-button" id="show-code-form">← I actually have a code</button>
+        </form>
+
+        <p class="lookup-error" id="lookup-error"></p>
+      </div>
     </div>
   </div>
 </div>
 
 <div class="wrap">
-
-  <div class="lookup" id="lookup">
-    <h2 id="lookup-heading">Find your invitation</h2>
-    <p id="lookup-subtext">This was included in the message we sent you — it's on your card or link.</p>
-
-    <form id="lookup-form">
-      <div class="rsvp-field">
-        <label for="code-input" id="code-label">Access code</label>
-        <input type="text" id="code-input" name="code-input" placeholder="Access code" autocomplete="off" required />
-      </div>
-      <button type="submit" class="btn">View</button>
-    </form>
-
-    <button type="button" class="link-button" id="show-group-form">I don't have a code — I clicked a link from a group chat</button>
-
-    <form id="group-form" class="rsvp-subform" style="display:none;">
-      <div class="rsvp-field">
-        <label for="group-select" id="group-name-label">Which group are you part of?</label>
-        <select id="group-select" required>
-          <option value="" disabled selected>Choose a group</option>
-        </select>
-      </div>
-      <div class="rsvp-field">
-        <label for="first-name-input" id="first-name-label">First name</label>
-        <input type="text" id="first-name-input" name="first-name-input" autocomplete="given-name" required>
-      </div>
-      <div class="rsvp-field">
-        <label for="last-name-input" id="last-name-label">Last name</label>
-        <input type="text" id="last-name-input" name="last-name-input" autocomplete="family-name" required>
-      </div>
-      <button type="submit" class="btn">Continue</button>
-      <button type="button" class="link-button" id="show-code-form">← I actually have a code</button>
-    </form>
-
-    <p class="lookup-error" id="lookup-error"></p>
-  </div>
 
   <div class="greeting" id="greeting">
     <p id="greeting-text"></p>

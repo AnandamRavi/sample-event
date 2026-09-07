@@ -289,7 +289,7 @@ async function registerGroupMember() {
 }
 
 async function applyCoverImage(settings) {
-  const cover = document.getElementById("hero-cover");
+  const cover = document.getElementById("hero-split-image");
   const url = (settings.CoverImage || "").trim();
   if (cover && url) cover.style.backgroundImage = `url("${url}")`;
 }
