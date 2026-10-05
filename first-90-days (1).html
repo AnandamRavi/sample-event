@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+<!--
+=====================================================================
+  HOW TO EDIT THIS PAGE
+  All the words on the page live in the box just below
+  ("EDIT YOUR TEXT HERE"). Change the text, save, done.
+  You never need to touch the code underneath it.
+=====================================================================
+-->
+<script type="text/plain" id="content">
+// ===================== EDIT YOUR TEXT HERE =====================
+// Rules (the whole format):
+//   * Lines starting with // are notes to yourself and are ignored.
+//   * PHASE | days | name | subtitle | people %, business %, value %
+//   * BOX   | title                 (add  | columns  for two columns,
+//                                    | outcome  for the dashed "Outcome" style)
+//   * A line starting with "- " is a bullet. Numbers are added for you.
+//   * Indent a bullet by two spaces to make it a sub-point.
+//   * A line with no dash, indented, continues the bullet above it.
+//   * Type & and quotes normally. Blank lines are fine anywhere.
+//   * To add a box: copy a BOX block. To move one: cut and paste it.
+//   * To add a phase: copy a whole PHASE block (with its boxes).
+// ===============================================================
+
+EYEBROW  | Second interview · Global Product Education
+HEADLINE | My first 90 days, | in three moves.
+INTRO    | Scroll to begin. Each phase opens as we reach it and folds away behind us.
+
+// ---------------------------- PHASE 1 ----------------------------
+PHASE | Days 1–30 | Discover | Listen and Learn | 15, 60, 25
+
+BOX | Read
+- Domain-related concepts relevant to Caseware’s products
+- Caseware’s Learning Value Chain (process flows, from needs analysis to deployment and measurement)
+- Key players at every stage (internal and external)
+- Success factors (client satisfaction scores and metrics)
+- Tools, technology, LMS, etc.
+- Standards, style guides, templates, formats and learning modalities
+
+BOX | Listen
+- Schedule get-to-know-you sessions (GTKYs) with instructional designers, media designers and technology teams
+- Schedule GTKYs with the Head of Global Product Education and the VP of Professional Services
+- Schedule meetings with the product team and other stakeholders
+
+BOX | Reflect
+- My place in the ecosystem
+- KPIs
+- My understanding of the stakeholders, processes, etc.
+
+BOX | Outcome | outcome
+- My understanding of:
+  - Stakeholder map
+  - Success factors for learning interventions
+
+// ---------------------------- PHASE 2 ----------------------------
+PHASE | Days 31–60 | Dive Deeper | Collaborate and Contribute | 25, 25, 50
+
+BOX | Engage | columns
+- Develop a greater understanding of the learning value chain and processes on the job
+- Set up regular cadences with the Head of Global Product Education and product stakeholders to get direction on urgent, important and immediate business priorities, and validation on next steps
+- Discuss what success looks like in my role with internal leadership, and my immediate focus areas
+- Set up one-on-one meetings with team members to learn more about them: what works well, and any pain points
+- Understand expectations, and what my success looks like from the team’s perspective, for their development and growth
+- Go through and update individual development plans (IDPs) with each team member
+
+BOX | Establish
+- My credibility with the team, internal stakeholders and the product team, as a leader, manager and performance consultant
+- My “seat at the table” at relevant discussions
+
+BOX | Draft
+- My IDP based on KPIs with success metrics, and team IDPs
+- Bull’s-eye map of priorities, short-term and long-term
+- Start drafting my understanding of the strategic curriculum map, combining the business priorities, the existing pipeline, and where I am expected to follow processes or propose updates
+
+BOX | Outcome | outcome
+- Draft strategy capability map
+- IDPs (my own and the team’s)
+
+// ---------------------------- PHASE 3 ----------------------------
+// NOTE: slide 4 of your deck shows 25 / 25 / 25 (adds up to 75%).
+// 33, 33, 34 below is a placeholder until you choose your own numbers.
+PHASE | Days 61–90 | Draft & Develop | Identify Areas of Influence and Impact | 33, 33, 34
+
+BOX | Reflect deeply
+- My areas of impact within the strategic business priorities: what needs to stay as is, versus what can be improved, changed or updated
+- My circles of influence: capabilities that exist, versus those that can be developed
+- Leadership reports: what, how and when
+- RACI matrices
+
+BOX | Start developing
+- My role as consultant and coach:
+  - Within the ID team
+  - Performance and learning coaching for stakeholders, to ensure optimum learning interventions and curriculum planning
+
+BOX | Outcome | outcome
+- Completed first draft of my version of the strategic curriculum framework/map
+</script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My First 90 Days — Anandam Ravi</title>
+<meta name="description" content="Anandam Ravi's plan for the first 90 days as Instructional Design Manager.">
+<!-- Delete the next line if you want this page to show up in search engines -->
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Literata:opsz,wght@6..72,400;6..72,500;6..72,600;6..72,700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ==================== design code: no need to edit below ==================== */
+  :root{
+    --board:#1e2b23; --board-dark:#16211a;
+    --chalk:#f2efe2; --chalk-dim:#c9c6b6;
+    --chalk-yellow:#e8c468; --chalk-coral:#e2725b; --chalk-blue:#8fb9d6;
+    --rule:rgba(242,239,226,0.16);
+    --paper:#efe9d8; --ink:#2a2622;
+    --display:'Caveat', cursive;
+    --body:'Literata', Georgia, serif;
+    --mono:'IBM Plex Mono', monospace;
+    --people:#8fd3b6; --business:#c0b0e6; --value:#f2a7c1;
+    --dur:650ms;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:auto;}
+  body{margin:0;background:var(--board);color:var(--chalk);font-family:var(--body);line-height:1.65;-webkit-font-smoothing:antialiased;}
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:1;mix-blend-mode:screen;
+    background-image:
+      radial-gradient(1px 1px at 10% 20%, rgba(242,239,226,0.06), transparent),
+      radial-gradient(1px 1px at 80% 60%, rgba(242,239,226,0.05), transparent),
+      radial-gradient(1.5px 1.5px at 40% 80%, rgba(242,239,226,0.05), transparent),
+      radial-gradient(1px 1px at 65% 30%, rgba(242,239,226,0.06), transparent),
+      radial-gradient(1px 1px at 25% 55%, rgba(242,239,226,0.04), transparent);
+    background-size:600px 600px;
+  }
+  a{color:inherit;} button{font:inherit;color:inherit;}
+  .wrap{max-width:1040px;margin:0 auto;padding:0 28px;}
+
+  /* ---------- NAV (doubles as a mini timeline) ---------- */
+  header.site-nav{
+    position:sticky;top:0;z-index:50;
+    background:linear-gradient(180deg, var(--board) 80%, transparent);
+    border-bottom:1px solid var(--rule);
+  }
+  .nav-inner{max-width:1040px;margin:0 auto;padding:11px 28px;display:flex;align-items:center;justify-content:space-between;gap:14px;}
+  .brand{font-family:var(--display);font-size:1.6rem;text-decoration:none;color:var(--chalk);white-space:nowrap;}
+  .brand em{font-style:normal;color:var(--chalk-yellow);}
+  .pills{display:flex;gap:8px;}
+  .pill{
+    position:relative;overflow:hidden;--c:var(--chalk-blue);--crgb:143,185,214;
+    font-family:var(--mono);font-size:0.72rem;letter-spacing:0.05em;text-transform:uppercase;white-space:nowrap;
+    background:transparent;border:1px solid var(--rule);color:var(--chalk-dim);
+    padding:7px 13px 9px;border-radius:20px;cursor:pointer;
+    transition:color .25s,border-color .25s,background .25s;
+  }
+  .pill.c2{--c:var(--chalk-yellow);--crgb:232,196,104;}
+  .pill.c3{--c:var(--chalk-coral);--crgb:226,114,91;}
+  .pill:hover{color:var(--chalk);}
+  .pill.on{color:var(--chalk);border-color:var(--c);background:rgba(var(--crgb),0.16);font-weight:600;}
+  .pill::after{content:"";position:absolute;left:0;bottom:0;height:3px;width:calc(var(--pf,0) * 100%);background:var(--c);}
+  .nav-right{display:flex;align-items:center;gap:16px;}
+  .dayread{font-family:var(--mono);font-size:0.74rem;letter-spacing:0.05em;color:var(--chalk-yellow);white-space:nowrap;}
+  .back-link{
+    font-family:var(--mono);font-size:0.76rem;letter-spacing:0.06em;text-transform:uppercase;white-space:nowrap;
+    text-decoration:none;color:var(--chalk-dim);border-bottom:1px dashed transparent;padding-bottom:3px;transition:color .2s,border-color .2s;
+  }
+  .back-link:hover{color:var(--chalk-yellow);border-color:var(--chalk-yellow);}
+  @media (max-width:860px){ .pills{display:none;} .nav-inner{padding:11px 18px;} }
+
+  /* ---------- HERO (kept short so the whole timeline shows on first screen) ---------- */
+  .hero{padding-top:34px;padding-bottom:26px;position:relative;z-index:2;}
+  .eyebrow{
+    font-family:var(--mono);font-size:0.76rem;letter-spacing:0.14em;text-transform:uppercase;
+    color:var(--chalk-blue);display:flex;align-items:center;gap:10px;margin-bottom:12px;
+  }
+  .eyebrow::before{content:"";width:26px;height:1px;background:var(--chalk-blue);display:inline-block;}
+  .hero h1{font-family:var(--display);font-weight:700;font-size:clamp(2.3rem,5vw,3.6rem);line-height:1.05;margin:0 0 12px;}
+  .hl{color:var(--chalk-yellow);}
+  .underline-draw{position:relative;display:inline-block;}
+  .underline-draw svg{position:absolute;left:0;bottom:-6px;width:100%;height:14px;overflow:visible;}
+  .underline-draw path{stroke:var(--chalk-coral);stroke-width:4;fill:none;stroke-linecap:round;stroke-dasharray:340;stroke-dashoffset:340;animation:draw 1.4s ease-out .5s forwards;}
+  @keyframes draw{to{stroke-dashoffset:0;}}
+  .lede{font-size:1.05rem;color:var(--chalk-dim);max-width:60ch;margin:0;}
+
+  /* ---------- TIMELINE ---------- */
+  .timeline{
+    --pl:64px; --sx:23px; --nd:36px;
+    position:relative;z-index:2;padding-left:var(--pl);padding-bottom:45vh;overflow-anchor:none;
+  }
+  .phase{
+    --accent:var(--chalk-blue);--accent-rgb:143,185,214;--accent-ink:#2f6a8f;
+    position:relative;padding-bottom:22px;
+  }
+  .phase.p2{--accent:var(--chalk-yellow);--accent-rgb:232,196,104;--accent-ink:#7d5f0b;}
+  .phase.p3{--accent:var(--chalk-coral);--accent-rgb:226,114,91;--accent-ink:#a8402b;}
+
+  /* spine: dashed track, filled with colour up to where you are */
+  .phase::before{
+    content:"";position:absolute;top:0;bottom:0;width:0;left:calc(var(--sx) - var(--pl) - 1px);
+    border-left:2px dashed rgba(var(--accent-rgb),0.45);
+  }
+  .fill{
+    position:absolute;top:0;width:2px;left:calc(var(--sx) - var(--pl) - 1px);
+    height:calc(var(--fill,0) * 100%);background:var(--accent);z-index:1;
+  }
+  /* the glowing head that travels down the spine as you scroll */
+  .marker{
+    position:absolute;top:0;left:var(--sx);width:14px;height:14px;border-radius:50%;z-index:2;pointer-events:none;
+    background:var(--ma,#8fb9d6);
+    box-shadow:0 0 0 6px rgba(var(--mrgb,143,185,214),0.22), 0 0 18px var(--ma,#8fb9d6);
+    transform:translate3d(-50%, calc(var(--my,0px) - 50%), 0);
+    opacity:0;transition:opacity .4s;
+  }
+  .marker.ready{opacity:1;}
+
+  .node{
+    position:absolute;top:24px;width:var(--nd);height:var(--nd);left:calc(var(--sx) - var(--pl) - var(--nd) / 2);
+    border-radius:50%;border:2px solid var(--accent);background:var(--board);color:var(--accent);
+    display:grid;place-items:center;font-family:var(--display);font-size:1.45rem;line-height:1;
+    transition:background .4s,color .4s,box-shadow .4s;z-index:3;
+  }
+  .phase.is-active .node{background:var(--accent);color:var(--board-dark);box-shadow:0 0 0 6px rgba(var(--accent-rgb),0.2);}
+  .phase.is-done .node{background:var(--accent);color:var(--board-dark);}
+  .phase.is-done .node span{display:none;}
+  .phase.is-done .node::after{content:"✓";font-family:var(--mono);font-size:0.95rem;font-weight:600;}
+
+  /* phase header = what is on slide 1 */
+  .phase-head{
+    position:relative;border:1px solid rgba(var(--accent-rgb),0.4);background:rgba(var(--accent-rgb),0.06);
+    border-radius:3px;padding:14px 22px 14px;
+    transition:border-color .4s,background .4s,box-shadow .4s,opacity .4s;
+  }
+  .phase.is-done .phase-head{opacity:.7;}
+  .phase.is-active .phase-head{opacity:1;border-color:var(--accent);background:rgba(var(--accent-rgb),0.12);box-shadow:0 14px 34px rgba(0,0,0,0.3);}
+  .phase-title{margin:0;}
+  .phase-toggle{display:block;width:100%;text-align:left;background:none;border:0;padding:0 76px 0 0;cursor:pointer;}
+  .phase-toggle:focus-visible{outline:2px dashed var(--accent);outline-offset:6px;}
+  .days{display:block;font-family:var(--mono);font-size:0.74rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);line-height:1.5;}
+  .name{display:block;font-family:var(--display);font-weight:700;font-size:clamp(2rem,4.4vw,2.8rem);line-height:1.05;}
+  .sub{display:block;font-style:italic;color:var(--chalk-dim);font-size:1rem;line-height:1.4;margin-top:2px;}
+  .chev{
+    position:absolute;right:26px;top:50%;width:16px;height:16px;margin-top:-12px;
+    border-right:2px solid var(--accent);border-bottom:2px solid var(--accent);
+    transform:rotate(45deg);transition:transform .45s, margin-top .45s;
+  }
+  .phase.is-active .chev{transform:rotate(-135deg);margin-top:-4px;}
+  .doodle{position:absolute;right:60px;top:50%;margin-top:-22px;width:44px;height:44px;fill:none;stroke:var(--accent);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;opacity:.9;}
+
+  /* collapsible body */
+  .phase-body{display:grid;grid-template-rows:1fr;transition:grid-template-rows var(--dur) cubic-bezier(.4,0,.2,1);}
+  .phase:not(.is-open) .phase-body{grid-template-rows:0fr;}
+  .phase-body-inner{min-height:0;overflow:hidden;padding:26px 10px 8px;}
+  .phase:not(.is-open) .phase-body-inner{visibility:hidden;transition:visibility 0s linear var(--dur);}
+  .no-anim,.no-anim *{transition:none !important;}
+
+  /* focus-mix bar (appears inside the open phase) */
+  .mixbox{max-width:800px;margin:0 0 34px;padding:0 2px;}
+  .mix-label{font-family:var(--mono);font-size:0.68rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--chalk-dim);margin:0 0 6px;display:block;}
+  .mix{display:flex;height:30px;border-radius:2px;overflow:hidden;border:1px solid rgba(0,0,0,0.25);}
+  .seg{display:flex;align-items:center;justify-content:center;white-space:nowrap;overflow:hidden;font-family:var(--mono);font-size:0.72rem;font-weight:600;color:var(--board-dark);background:var(--k);}
+  .people{--k:var(--people);} .business{--k:var(--business);} .value{--k:var(--value);}
+  @media (max-width:640px){ .seg .full{display:none;} }
+  .mix-legend{display:flex;flex-wrap:wrap;gap:4px 16px;margin-top:8px;}
+  .mix-legend span{font-family:var(--mono);font-size:0.68rem;color:var(--chalk-dim);display:inline-flex;align-items:center;gap:6px;}
+  .mix-legend i{width:8px;height:8px;border-radius:50%;background:var(--k);display:inline-block;}
+
+  /* index-card blocks */
+  .block{position:relative;background:var(--paper);color:var(--ink);border-radius:2px;padding:26px 30px 22px;margin:0 0 34px;max-width:800px;box-shadow:0 14px 30px rgba(0,0,0,0.35);}
+  .block:nth-child(odd){rotate:-0.35deg;} .block:nth-child(even){rotate:0.3deg;}
+  .block::before{content:"";position:absolute;top:-12px;left:30px;width:80px;height:24px;background:rgba(var(--accent-rgb),0.9);transform:rotate(-3deg);box-shadow:0 3px 6px rgba(0,0,0,0.25);}
+  .block h3{font-family:var(--display);font-size:2.2rem;line-height:1;margin:0 0 12px;color:var(--ink);font-weight:700;}
+  ol.steps{list-style:none;counter-reset:s;margin:0;padding:0;}
+  ol.steps li{counter-increment:s;position:relative;padding-left:2.2rem;margin:0 0 .6rem;font-size:1.02rem;}
+  ol.steps li::before{content:counter(s) ".";position:absolute;left:0;top:.28em;font-family:var(--mono);font-size:0.8rem;font-weight:600;color:var(--accent-ink);}
+  ol.steps.alpha li::before{content:counter(s,lower-alpha) ".";}
+  ol.steps ol.steps{margin-top:.5rem;}
+  ol.steps.cols{column-count:2;column-gap:40px;} ol.steps.cols li{break-inside:avoid;}
+  @media (max-width:720px){ ol.steps.cols{column-count:1;} }
+  .block.outcome{background:rgba(var(--accent-rgb),0.07);color:var(--chalk);border:2px dashed var(--accent);box-shadow:none;rotate:0deg;}
+  .block.outcome::before{display:none;}
+  .block.outcome h3{color:var(--accent);}
+  .block.outcome ol.steps li::before{color:var(--accent);}
+
+  /* reveal as you scroll */
+  .reveal{opacity:0;transform:translateY(34px);transition:opacity .7s ease,transform .7s ease;}
+  .reveal.in{opacity:1;transform:none;}
+  .reveal li{opacity:0;transform:translateX(-10px);transition:opacity .5s ease,transform .5s ease;}
+  .reveal.in li{opacity:1;transform:none;transition-delay:calc(260ms + var(--i,0) * 90ms);}
+
+  footer{position:relative;z-index:2;border-top:1px dashed var(--rule);padding:30px 0 50px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-family:var(--mono);font-size:0.78rem;color:var(--chalk-dim);}
+  footer a{text-decoration:none;} footer a:hover{color:var(--chalk-yellow);}
+  noscript p{padding:24px;color:var(--chalk-yellow);font-family:var(--mono);}
+
+  @media (max-width:640px){
+    .wrap{padding:0 18px;}
+    .timeline{--pl:46px;--sx:16px;--nd:32px;}
+    .node{top:20px;font-size:1.3rem;}
+    .phase-head{padding:12px 16px;}
+    .doodle{display:none;}
+    .phase-toggle{padding-right:36px;}
+    .chev{right:18px;}
+    .block{padding:22px 20px 18px;}
+    .dayread{font-size:0.7rem;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{transition:none !important;animation:none !important;}
+    .underline-draw path{stroke-dashoffset:0;}
+    .reveal,.reveal li{opacity:1;transform:none;}
+  }
+</style>
+</head>
+<body id="top">
+
+<header class="site-nav">
+  <div class="nav-inner">
+    <a class="brand" href="https://anandamravi.github.io/resume/">Anandam Ravi<em>.</em></a>
+    <nav class="pills" id="pills" aria-label="Jump to a phase"></nav>
+    <div class="nav-right">
+      <span class="dayread" id="dayread" aria-live="off">Day 1 of 90</span>
+      <a class="back-link" href="https://anandamravi.github.io/resume/">← Portfolio</a>
+    </div>
+  </div>
+</header>
+
+<noscript><p>This page needs JavaScript to display. Please enable it, or view the portfolio at https://anandamravi.github.io/resume/</p></noscript>
+
+<main>
+  <section class="hero wrap">
+    <div class="eyebrow" id="eyebrow"></div>
+    <h1 id="headline"></h1>
+    <p class="lede" id="intro"></p>
+  </section>
+
+  <div class="wrap">
+    <div class="timeline" id="timeline">
+      <div class="marker" id="marker" aria-hidden="true"></div>
+    </div>
+  </div>
+</main>
+
+<div class="wrap">
+  <footer>
+    <span>© Anandam Ravi</span>
+    <a href="https://anandamravi.github.io/resume/">Back to portfolio ↑</a>
+  </footer>
+</div>
+
+<script>
+/* ==================== page code: no need to edit below ==================== */
+(function(){
+  var root = document.documentElement;
+  root.classList.add('js');
+
+  /* ---------- 1. read the plain-text CONTENT box ---------- */
+  function parse(src){
+    var d = { eyebrow:'', headA:'', headB:'', intro:'', phases:[] };
+    var ph = null, box = null, last = null;
+    src.split(/\r?\n/).forEach(function(raw){
+      var line = raw.replace(/\s+$/, ''), t = line.trim();
+      if (!t || t.indexOf('//') === 0) return;
+      var m = /^(EYEBROW|HEADLINE|INTRO|PHASE|BOX)\s*\|\s*(.*)$/.exec(t);
+      if (m){
+        var parts = m[2].split('|').map(function(s){ return s.trim(); });
+        last = null;
+        if (m[1] === 'EYEBROW')  d.eyebrow = parts[0];
+        if (m[1] === 'HEADLINE'){ d.headA = parts[0] || ''; d.headB = parts[1] || ''; }
+        if (m[1] === 'INTRO')    d.intro = parts[0];
+        if (m[1] === 'PHASE'){
+          var mix = (parts[3] || '').split(',').map(function(x){ return parseFloat(x); });
+          if (mix.length !== 3 || mix.some(function(x){ return isNaN(x); })) mix = null;
+          ph = { days:parts[0]||'', name:parts[1]||'', sub:parts[2]||'', mix:mix, boxes:[] };
+          d.phases.push(ph); box = null;
+        }
+        if (m[1] === 'BOX' && ph){
+          var opts = (parts[1] || '').toLowerCase();
+          box = { title:parts[0]||'', cols:/column/.test(opts), outcome:/outcome/.test(opts), items:[] };
+          ph.boxes.push(box);
+        }
+        return;
+      }
+      if (!box) return;
+      var indent = line.length - line.replace(/^\s+/, '').length;
+      if (/^-\s+/.test(t)){
+        var item = { text:t.replace(/^-\s+/, ''), kids:[] };
+        if (indent >= 2 && box.items.length){
+          box.items[box.items.length-1].kids.push(item);
+        } else {
+          box.items.push(item);
+        }
+        last = item;
+      } else if (last){
+        last.text += ' ' + t;          // continuation of the previous bullet
+      }
+    });
+    return d;
+  }
+
+  /* ---------- 2. build the page from it ---------- */
+  function el(tag, cls, text){
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text != null) e.textContent = text;
+    return e;
+  }
+  var DOODLES = [
+    '<circle cx="20" cy="20" r="12"/><path d="M29 29 L42 42"/><path d="M13 18 a8 8 0 0 1 6-6"/>',
+    '<circle cx="17" cy="24" r="12"/><circle cx="31" cy="24" r="12"/>',
+    '<path d="M8 41 L10 31 L32 9 L39 16 L17 38 Z"/><path d="M28 13 L35 20"/><path d="M8 41 L17 38"/>'
+  ];
+  var MIXNAMES = [['People','People Developer','people'],['Business','Business Developer','business'],['Value','Value Creator','value']];
+
+  function list(items, cls){
+    var ol = el('ol', 'steps' + (cls ? ' ' + cls : ''));
+    items.forEach(function(it){
+      var li = el('li'); li.appendChild(document.createTextNode(it.text));
+      if (it.kids.length) li.appendChild(list(it.kids, 'alpha'));
+      ol.appendChild(li);
+    });
+    return ol;
+  }
+
+  var data = parse(document.getElementById('content').textContent);
+  document.getElementById('eyebrow').textContent = data.eyebrow;
+  var h1 = document.getElementById('headline');
+  h1.appendChild(document.createTextNode(data.headA + ' '));
+  if (data.headB){
+    var hl = el('span', 'hl underline-draw'); hl.appendChild(document.createTextNode(data.headB));
+    hl.insertAdjacentHTML('beforeend', '<svg viewBox="0 0 300 14" preserveAspectRatio="none" aria-hidden="true"><path d="M2 9 C 60 2, 120 14, 180 6 S 280 4, 298 8"/></svg>');
+    h1.appendChild(hl);
+  }
+  document.getElementById('intro').textContent = data.intro;
+
+  var tl = document.getElementById('timeline');
+  var pillBox = document.getElementById('pills');
+
+  data.phases.forEach(function(p, i){
+    var art = el('article', 'phase p' + ((i % 3) + 1));
+    art.id = 'phase-' + (i + 1);
+    var node = el('div', 'node'); node.appendChild(el('span', null, String(i + 1)));
+    art.appendChild(node);
+    art.appendChild(el('span', 'fill'));
+
+    var head = el('div', 'phase-head');
+    var h2 = el('h2', 'phase-title');
+    var btn = el('button', 'phase-toggle');
+    btn.type = 'button'; btn.setAttribute('aria-expanded', 'false'); btn.setAttribute('aria-controls', 'body-' + (i + 1));
+    btn.appendChild(el('span', 'days', p.days));
+    btn.appendChild(el('span', 'name', p.name));
+    btn.appendChild(el('span', 'sub', p.sub));
+    var chev = el('span', 'chev'); chev.setAttribute('aria-hidden', 'true'); btn.appendChild(chev);
+    h2.appendChild(btn); head.appendChild(h2);
+    var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('class', 'doodle'); svg.setAttribute('viewBox', '0 0 48 48'); svg.setAttribute('aria-hidden', 'true');
+    svg.innerHTML = DOODLES[i % DOODLES.length];
+    head.appendChild(svg);
+    art.appendChild(head);
+
+    var body = el('div', 'phase-body'); body.id = 'body-' + (i + 1);
+    var inner = el('div', 'phase-body-inner');
+
+    if (p.mix){
+      var mb = el('div', 'mixbox reveal');
+      mb.appendChild(el('span', 'mix-label', 'Where my time goes in this phase'));
+      var bar = el('div', 'mix'); bar.setAttribute('role', 'img');
+      var aria = [];
+      p.mix.forEach(function(v, k){
+        aria.push(MIXNAMES[k][1] + ' ' + v + ' percent');
+        if (v <= 0) return;
+        var seg = el('span', 'seg ' + MIXNAMES[k][2]); seg.style.flex = String(v);
+        seg.appendChild(el('span', 'full', MIXNAMES[k][0] + '\u00a0'));
+        seg.appendChild(document.createTextNode(v + '%'));
+        bar.appendChild(seg);
+      });
+      bar.setAttribute('aria-label', aria.join(', '));
+      mb.appendChild(bar);
+      var lg = el('div', 'mix-legend'); lg.setAttribute('aria-hidden', 'true');
+      MIXNAMES.forEach(function(n){ var s = el('span', n[2]); s.appendChild(el('i')); s.appendChild(document.createTextNode(n[1])); lg.appendChild(s); });
+      mb.appendChild(lg);
+      inner.appendChild(mb);
+    }
+    p.boxes.forEach(function(b){
+      var bx = el('div', 'block reveal' + (b.outcome ? ' outcome' : ''));
+      bx.appendChild(el('h3', null, b.title));
+      bx.appendChild(list(b.items, b.cols ? 'cols' : ''));
+      inner.appendChild(bx);
+    });
+    body.appendChild(inner); art.appendChild(body);
+    tl.appendChild(art);
+
+    var pill = el('button', 'pill c' + ((i % 3) + 1), (i + 1) + ' · ' + p.name);
+    pill.type = 'button'; pillBox.appendChild(pill);
+  });
+
+  /* ---------- 3. scroll behaviour ---------- */
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var phases  = [].slice.call(tl.querySelectorAll('.phase'));
+  var heads   = phases.map(function(p){ return p.querySelector('.phase-head'); });
+  var toggles = phases.map(function(p){ return p.querySelector('.phase-toggle'); });
+  var nodes   = phases.map(function(p){ return p.querySelector('.node'); });
+  var pills   = [].slice.call(pillBox.querySelectorAll('.pill'));
+  var marker  = document.getElementById('marker');
+  var dayread = document.getElementById('dayread');
+  var N = phases.length, DUR = 650;
+  var ACC = [['#8fb9d6','143,185,214'],['#e8c468','232,196,104'],['#e2725b','226,114,91']];
+
+  var active = -1;      // -1 = everything folded (the opening view)
+  var busy = false, lock = false, lockTimer;
+
+  [].forEach.call(tl.querySelectorAll('.reveal'), function(r){
+    [].forEach.call(r.querySelectorAll('li'), function(li, i){ li.style.setProperty('--i', i); });
+  });
+
+  var io = ('IntersectionObserver' in window) ? new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (e.isIntersecting && e.intersectionRatio >= 0.1){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold:[0, 0.1, 0.25], rootMargin:'0px 0px -8% 0px' }) : null;
+
+  function arm(i, on){            // boxes re-play their entrance each time a phase opens
+    [].forEach.call(phases[i].querySelectorAll('.reveal'), function(el){
+      if (on){ el.classList.remove('in'); if (io) io.observe(el); else el.classList.add('in'); }
+      else   { if (io) io.unobserve(el); el.classList.remove('in'); }
+    });
+  }
+
+  function paint(){
+    phases.forEach(function(p, i){
+      var open = i === active;
+      var wasOpen = p.classList.contains('is-open');
+      p.classList.toggle('is-open', open);
+      p.classList.toggle('is-active', open);
+      p.classList.toggle('is-done', i < active);
+      p.classList.toggle('is-upcoming', i > active);
+      toggles[i].setAttribute('aria-expanded', open ? 'true' : 'false');
+      if (open && !wasOpen) arm(i, true);
+      if (!open && wasOpen) arm(i, false);
+    });
+    pills.forEach(function(b, i){ b.classList.toggle('on', i === active); });
+  }
+
+  // The "reading line": where the presenter is looking. It starts at the first
+  // node (so the page opens at Day 1) and settles at 45% of the screen height.
+  function readLine(){
+    var n0 = nodes[0].getBoundingClientRect();
+    return Math.min(window.innerHeight * 0.45, n0.top + window.scrollY + n0.height / 2);
+  }
+
+  function clamp(v, a, b){ return Math.min(Math.max(v, a), b); }
+
+  // The marker, the coloured spine, the nav progress bars and the day counter
+  function progress(){
+    var tr = tl.getBoundingClientRect();
+    var trig = readLine();
+    var n0 = nodes[0].getBoundingClientRect();
+    var first = n0.top + n0.height / 2 - tr.top;
+    var end = phases[N-1].getBoundingClientRect().bottom - tr.top - 22;
+    var y = clamp(trig - tr.top, first, Math.max(first, end));
+    marker.style.setProperty('--my', y + 'px');
+    var cur = 0, curF = 0;
+    phases.forEach(function(p, i){
+      var r = p.getBoundingClientRect(), top = r.top - tr.top;
+      p.style.setProperty('--fill', clamp((y - top) / r.height, 0, 1).toFixed(4));
+      var nr = nodes[i].getBoundingClientRect(), s = nr.top + nr.height / 2 - tr.top;
+      var pf = clamp((y - s) / Math.max(1, (top + r.height - 22) - s), 0, 1);
+      pills[i].style.setProperty('--pf', pf.toFixed(3));
+      if (y >= s - 1){ cur = i; curF = pf; }
+    });
+    var a = ACC[cur % 3];
+    marker.style.setProperty('--ma', a[0]); marker.style.setProperty('--mrgb', a[1]);
+    var per = 90 / N;
+    dayread.textContent = 'Day ' + Math.round(per * cur + 1 + curF * (per - 1)) + ' of 90';
+    marker.classList.add('ready');
+  }
+
+  // Open one phase, fold the others. While heights animate we nudge scroll every
+  // frame so the header you are looking at stays exactly where it is.
+  function activate(idx, instant){
+    if (idx === active) return;
+    var prev = active;
+    var anchor = heads[Math.max(prev, idx)];
+    function docY(){ return anchor.getBoundingClientRect().top + window.scrollY; }
+    var last = docY();
+    var still = instant || reduce;
+    if (still) tl.classList.add('no-anim');
+    active = idx; paint();
+    if (still){
+      var d0 = docY() - last;
+      if (d0) window.scrollBy({ top:d0, behavior:'instant' });
+      requestAnimationFrame(function(){ tl.classList.remove('no-anim'); progress(); });
+      progress();
+      return;
+    }
+    busy = true;
+    var t0 = performance.now();
+    (function tick(now){
+      var d = docY() - last;
+      if (d) window.scrollBy({ top:d, behavior:'instant' });
+      last = docY();
+      progress();
+      if (now - t0 < DUR + 120) requestAnimationFrame(tick);
+      else { busy = false; detect(); }
+    })(t0);
+  }
+
+  function detect(){
+    if (busy || lock) return;
+    var trig = readLine(), idx = -1;
+    if (window.scrollY >= 60){
+      nodes.forEach(function(n, i){ var r = n.getBoundingClientRect(); if (r.top + r.height / 2 <= trig + 1) idx = i; });
+    }
+    idx = Math.min(idx, active + 1);        // never skip a phase: open them in order
+    if (idx !== active) activate(idx, false);
+  }
+
+  var ticking = false;
+  function onScroll(){
+    if (ticking) return; ticking = true;
+    requestAnimationFrame(function(){ ticking = false; detect(); progress(); });
+  }
+  window.addEventListener('scroll', onScroll, { passive:true });
+  window.addEventListener('resize', onScroll);
+
+  function goTo(i){
+    clearTimeout(lockTimer); lock = true;
+    activate(i, true);
+    requestAnimationFrame(function(){
+      var y = heads[i].getBoundingClientRect().top + window.scrollY - 84;
+      window.scrollTo({ top:Math.max(0, y), behavior: reduce ? 'auto' : 'smooth' });
+      lockTimer = setTimeout(function(){ lock = false; detect(); progress(); }, 1000);
+    });
+  }
+  toggles.forEach(function(b, i){ b.addEventListener('click', function(){ goTo(i); }); });
+  pills.forEach(function(b, i){ b.addEventListener('click', function(){ goTo(i); }); });
+
+  paint(); progress();
+  window.addEventListener('load', progress);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(progress);
+})();
+</script>
+</body>
+</html>
