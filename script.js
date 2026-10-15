@@ -50,6 +50,17 @@ function resolveInvitationUrls(raw) {
   return { embedUrl: url, openUrl: url };
 }
 
+// For the Events tab's EmbedURL: turns a normal Google Drive file share
+// link into Drive's embeddable /preview form (needed for PDFs, images,
+// videos in Drive). Any other link (Storyline/Vercel, etc.) is untouched.
+function resolveEmbedUrl(raw) {
+  const url = (raw || "").trim();
+  if (!url) return "";
+  const match = url.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/);
+  if (match) return `https://drive.google.com/file/d/${match[1]}/preview`;
+  return url;
+}
+
 function renderInvitation(invitationUrl) {
   const container = document.getElementById("invitation-embed");
   if (!container) return;
@@ -104,7 +115,7 @@ function renderEvents(events) {
     .map((ev) => {
       const dateLine = [formatDate(ev.Date), ev.Time].filter(Boolean).join(" · ");
       const imageUrl = (ev.ImageURL || "").trim();
-      const embedUrl = (ev.EmbedURL || "").trim();
+      const embedUrl = resolveEmbedUrl(ev.EmbedURL);
 
       const media = imageUrl
         ? `<img class="event-media" src="${imageUrl}" alt="${ev.Name || ""}" loading="lazy" onerror="this.style.display='none'">`
