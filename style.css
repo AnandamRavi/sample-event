@@ -854,6 +854,26 @@ input:focus-visible {
   color: var(--wine);
 }
 
+.invitation-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.invitation-download {
+  background: var(--wine);
+  border-color: var(--wine);
+  color: #fff;
+  font-weight: 600;
+}
+
+.invitation-download:hover {
+  background: #5A1F2F;
+  border-color: #5A1F2F;
+  color: #fff;
+}
+
 @media (max-width: 640px) {
   .invitation-frame {
     width: calc(100% + 48px);

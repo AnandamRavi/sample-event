@@ -37,9 +37,10 @@ function resolveInvitationUrls(raw) {
     return {
       embedUrl: `https://drive.google.com/file/d/${id}/preview`,
       openUrl: `https://drive.google.com/file/d/${id}/view`,
+      downloadUrl: `https://drive.google.com/uc?export=download&id=${id}`,
     };
   }
-  return { embedUrl: url, openUrl: url };
+  return { embedUrl: url, openUrl: url, downloadUrl: url };
 }
 
 function renderInvitation(invitationUrl) {
@@ -52,7 +53,10 @@ function renderInvitation(invitationUrl) {
   }
   container.innerHTML = `
     <iframe class="invitation-frame" src="${urls.embedUrl}" loading="lazy"></iframe>
-    <a class="invitation-link" href="${urls.openUrl}" target="_blank" rel="noopener">Open full invitation</a>
+    <div class="invitation-actions">
+      <a class="invitation-link invitation-download" href="${urls.downloadUrl}" download>Download invitation</a>
+      <a class="invitation-link" href="${urls.openUrl}" target="_blank" rel="noopener">Open full invitation</a>
+    </div>
   `;
   container.style.display = "block";
 }
