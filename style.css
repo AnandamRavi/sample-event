@@ -517,6 +517,35 @@ input:focus-visible {
   }
 }
 
+/* Same border image on the text half of the home page */
+.hero-split-content {
+  position: relative;
+}
+
+.hero-border {
+  display: none;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 110px;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.hero-border-left  { left: 0; }
+.hero-border-right { right: 0; transform: scaleX(-1); }
+
+.hero-split-content .site-nav,
+.hero-split-inner { position: relative; z-index: 1; }
+
+@media (min-width: 1200px) {
+  .hero-border.has-image { display: block; }
+  /* leave room so text doesn't sit on top of the borders */
+  .hero-split-content.has-borders { padding-left: 124px; padding-right: 124px; }
+}
+
 /* ============================================================
    Simple content pages (Our story / FAQs)
    ============================================================ */

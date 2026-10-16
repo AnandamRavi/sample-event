@@ -80,13 +80,14 @@ document.addEventListener("DOMContentLoaded", async function () {
   if (settings.SiteTitle) document.title = settings.SiteTitle;
 
   const borderImage = (settings.PageBorderImage || "").trim();
-  const borderLeft = document.getElementById("page-border-left");
-  const borderRight = document.getElementById("page-border-right");
-  if (borderLeft && borderRight && borderImage) {
-    borderLeft.style.backgroundImage = `url("${borderImage}")`;
-    borderRight.style.backgroundImage = `url("${borderImage}")`;
-    borderLeft.classList.add("has-image");
-    borderRight.classList.add("has-image");
+  if (borderImage) {
+    document.querySelectorAll(".page-border, .hero-border").forEach((el) => {
+      el.style.backgroundImage = `url("${borderImage}")`;
+      el.classList.add("has-image");
+    });
+    // On the home page, leave room inside the text column for the pillars.
+    const heroColumn = document.querySelector(".hero-split-content");
+    if (heroColumn) heroColumn.classList.add("has-borders");
   }
 
   const venueDetails = document.getElementById("venue-details");
