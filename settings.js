@@ -81,13 +81,10 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   const borderImage = (settings.PageBorderImage || "").trim();
   if (borderImage) {
-    document.querySelectorAll(".page-border, .hero-border").forEach((el) => {
+    document.querySelectorAll(".page-border, .lower-border").forEach((el) => {
       el.style.backgroundImage = `url("${borderImage}")`;
       el.classList.add("has-image");
     });
-    // On the home page, leave room inside the text column for the pillars.
-    const heroColumn = document.querySelector(".hero-split-content");
-    if (heroColumn) heroColumn.classList.add("has-borders");
   }
 
   const venueDetails = document.getElementById("venue-details");
