@@ -520,22 +520,25 @@ input:focus-visible {
 /* Same border image on the lower half of the home page (invite + events) */
 .lower-section {
   position: relative;
+  overflow: clip;   /* clips without breaking sticky */
 }
 
+/* Sticky + viewport height = the border is drawn at the same proportions
+   as the fixed borders on the inside pages, and follows you as you scroll. */
 .lower-border {
   display: none;
-  position: absolute;
+  position: sticky;
   top: 0;
-  bottom: 0;
   width: 110px;
+  height: 100vh;
+  margin-bottom: -100vh;   /* takes no space, so both strips line up at the top */
   background-repeat: no-repeat;
   background-size: 100% 100%;
   z-index: 0;
   pointer-events: none;
 }
 
-.lower-border-left  { left: 0; }
-.lower-border-right { right: 0; transform: scaleX(-1); }
+.lower-border-right { margin-left: auto; transform: scaleX(-1); }
 
 @media (min-width: 1200px) {
   .lower-border.has-image { display: block; }
