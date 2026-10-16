@@ -190,6 +190,10 @@ async function showIdentified(guestEvents) {
   document.getElementById("greeting-text").textContent = greetingText;
   greetingEl.style.display = "block";
 
+  // Show the decorative borders only once the invitation content is visible.
+  const lowerSection = document.querySelector(".lower-section");
+  if (lowerSection) lowerSection.classList.add("revealed");
+
   const rsvpCta = document.getElementById("rsvp-cta");
   if (rsvpCta) {
     if (CURRENT_GUEST.isNew) {

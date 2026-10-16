@@ -541,7 +541,7 @@ input:focus-visible {
 .lower-border-right { margin-left: auto; transform: scaleX(-1); }
 
 @media (min-width: 1200px) {
-  .lower-border.has-image { display: block; }
+  .lower-section.revealed .lower-border.has-image { display: block; }
 }
 
 /* ============================================================
