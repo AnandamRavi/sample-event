@@ -118,7 +118,7 @@ function renderEvents(events) {
   container.innerHTML = events
     .map((ev) => {
       const dateLine = [formatDate(ev.Date), ev.Time].filter(Boolean).join(" · ");
-      const imageUrl = (ev.ImageURL || "").trim();
+      const imageUrl = resolveImageUrl(ev.ImageURL);
       const embedUrl = resolveEmbedUrl(ev.EmbedURL);
 
       const media = imageUrl
@@ -189,10 +189,6 @@ async function showIdentified(guestEvents) {
   );
   document.getElementById("greeting-text").textContent = greetingText;
   greetingEl.style.display = "block";
-
-  // Show the decorative borders only once the invitation content is visible.
-  const lowerSection = document.querySelector(".lower-section");
-  if (lowerSection) lowerSection.classList.add("revealed");
 
   const rsvpCta = document.getElementById("rsvp-cta");
   if (rsvpCta) {
@@ -309,7 +305,7 @@ async function registerGroupMember() {
 
 async function applyCoverImage(settings) {
   const cover = document.getElementById("hero-split-image");
-  const url = (settings.CoverImage || "").trim();
+  const url = resolveImageUrl(settings.CoverImage);
   if (cover && url) cover.style.backgroundImage = `url("${url}")`;
 }
 

@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   const key = banner.getAttribute("data-settings-key");
   const settings = await loadSettings();
-  const url = (settings[key] || "").trim();
+  const url = resolveImageUrl(settings[key]);
 
   if (url) {
     banner.querySelector("img").src = url;

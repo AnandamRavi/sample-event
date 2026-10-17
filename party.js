@@ -13,7 +13,7 @@ async function loadParty() {
     grid.innerHTML = data
       .filter((p) => p.Name)
       .map((p) => {
-        const photo = (p.PhotoURL || "").trim();
+        const photo = resolveImageUrl(p.PhotoURL);
         return `
           <div class="party-card">
             ${photo ? `<img src="${photo}" alt="${p.Name}" loading="lazy" onerror="this.style.display='none'">` : ""}

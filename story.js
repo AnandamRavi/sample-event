@@ -21,7 +21,7 @@ async function loadStory() {
           .filter(Boolean)
           .map((p) => `<p>${p.trim()}</p>`)
           .join("");
-        const img = (r.ImageURL || "").trim();
+        const img = resolveImageUrl(r.ImageURL);
         return `
           ${r.Heading ? `<h2>${r.Heading}</h2>` : ""}
           ${img ? `<img src="${img}" alt="${r.Heading || ""}" loading="lazy" onerror="this.style.display='none'">` : ""}

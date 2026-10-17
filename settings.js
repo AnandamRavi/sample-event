@@ -2,6 +2,20 @@
    image, countdown, and banner images all come from one shared
    lookup instead of being hand-typed into config.js. */
 
+// Accepts any normal Google Drive share link for an image and returns the
+// direct-image form that actually displays on a web page. Other links
+// (including ones already in the right format) pass through unchanged.
+//   https://drive.google.com/file/d/ID/view?usp=sharing
+//   https://drive.google.com/open?id=ID
+//   https://drive.google.com/uc?export=view&id=ID
+function resolveImageUrl(raw) {
+  const url = (raw || "").trim();
+  if (!url) return "";
+  if (!/drive\.google\.com/.test(url)) return url;
+  const m = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/) || url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+  return m ? `https://lh3.googleusercontent.com/d/${m[1]}` : url;
+}
+
 let __settingsCache = null;
 
 async function loadSettings() {
@@ -79,12 +93,15 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   if (settings.SiteTitle) document.title = settings.SiteTitle;
 
-  const borderImage = (settings.PageBorderImage || "").trim();
+  const borderImage = resolveImageUrl(settings.PageBorderImage);
   if (borderImage) {
-    document.querySelectorAll(".page-border, .lower-border").forEach((el) => {
+    document.querySelectorAll(".page-border, .hero-border").forEach((el) => {
       el.style.backgroundImage = `url("${borderImage}")`;
       el.classList.add("has-image");
     });
+    // On the home page, leave room inside the text column for the pillars.
+    const heroColumn = document.querySelector(".hero-split-content");
+    if (heroColumn) heroColumn.classList.add("has-borders");
   }
 
   const venueDetails = document.getElementById("venue-details");
