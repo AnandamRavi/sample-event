@@ -32,6 +32,9 @@ const CONFIG = {
   GROUPS_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTLl3giq70GX4aEnUpr16FE1_Ua4AdBgxET_8clQaJe9QbbbbAHxZFcIcB3tq-Q_zNWMTFwY7PB1jgo/pub?gid=1642067591&single=true&output=csv",
   RSVP_QUESTIONS_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTLl3giq70GX4aEnUpr16FE1_Ua4AdBgxET_8clQaJe9QbbbbAHxZFcIcB3tq-Q_zNWMTFwY7PB1jgo/pub?gid=984748066&single=true&output=csv",
 
+  // New: your Travel tab's published CSV link goes here.
+  TRAVEL_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTLl3giq70GX4aEnUpr16FE1_Ua4AdBgxET_8clQaJe9QbbbbAHxZFcIcB3tq-Q_zNWMTFwY7PB1jgo/pub?gid=188996936&single=true&output=csv",
+
   // Where RSVP submissions are sent — your Apps Script Web App URL.
   // See README.md, "Setting up RSVP" for how to get this.
   RSVP_ENDPOINT_URL: "https://script.google.com/macros/s/AKfycbx8hwR3DenmItE8WD-2tnrjbjlHISSEQmzDV9Hu6Ppnr4fYEtbbSOzNsYvhOt0WzWSm/exec",

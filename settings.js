@@ -91,6 +91,12 @@ document.addEventListener("DOMContentLoaded", async function () {
   const navRsvp = document.getElementById("nav-rsvp");
   if (navRsvp && settings.RsvpPageTitle) navRsvp.textContent = settings.RsvpPageTitle;
 
+  const travelTitle = document.getElementById("travel-page-title");
+  if (travelTitle && settings.TravelPageTitle) travelTitle.textContent = settings.TravelPageTitle;
+
+  const navTravel = document.getElementById("nav-travel");
+  if (navTravel && settings.TravelPageTitle) navTravel.textContent = settings.TravelPageTitle;
+
   // Page on/off switches. Set a Show...Page row in Settings to No (or
   // Hide / False / Off) to take that page out of the site: its menu
   // link disappears everywhere, and anyone opening its address
@@ -98,6 +104,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   const PAGE_SWITCHES = [
     { key: "ShowStoryPage", file: "our-story", nav: "nav-story" },
     { key: "ShowPartyPage", file: "wedding-party", nav: "nav-party" },
+    { key: "ShowTravelPage", file: "travel", nav: "nav-travel" },
     { key: "ShowFaqPage", file: "faq", nav: "nav-faq" },
     { key: "ShowRsvpPage", file: "rsvp", nav: "nav-rsvp" },
   ];
