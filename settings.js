@@ -91,6 +91,30 @@ document.addEventListener("DOMContentLoaded", async function () {
   const navRsvp = document.getElementById("nav-rsvp");
   if (navRsvp && settings.RsvpPageTitle) navRsvp.textContent = settings.RsvpPageTitle;
 
+  // Page on/off switches. Set a Show...Page row in Settings to No (or
+  // Hide / False / Off) to take that page out of the site: its menu
+  // link disappears everywhere, and anyone opening its address
+  // directly is sent to the home page. Blank or Yes leaves it as-is.
+  const PAGE_SWITCHES = [
+    { key: "ShowStoryPage", file: "our-story", nav: "nav-story" },
+    { key: "ShowPartyPage", file: "wedding-party", nav: "nav-party" },
+    { key: "ShowFaqPage", file: "faq", nav: "nav-faq" },
+    { key: "ShowRsvpPage", file: "rsvp", nav: "nav-rsvp" },
+  ];
+  const isOff = (v) => ["no", "false", "hide", "hidden", "off", "0"].includes((v || "").trim().toLowerCase());
+  const currentPage = (window.location.pathname.split("/").pop() || "index.html").replace(/\.html$/, "");
+
+  PAGE_SWITCHES.forEach((p) => {
+    if (!isOff(settings[p.key])) return;
+    const link = document.getElementById(p.nav);
+    if (link) link.style.display = "none";
+    if (p.file === "rsvp") {
+      const cta = document.getElementById("rsvp-cta");
+      if (cta) cta.style.display = "none";
+    }
+    if (currentPage === p.file) window.location.replace("index.html");
+  });
+
   if (settings.SiteTitle) document.title = settings.SiteTitle;
 
   const borderImage = resolveImageUrl(settings.PageBorderImage);
