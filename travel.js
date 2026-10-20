@@ -46,52 +46,79 @@ function renderTravelItem(item) {
   `;
 }
 
+/* Intro and outro text live in the Travel tab itself: add a row whose
+   Category is "Intro" (or "Outro") and put the wording in the Description
+   column. If the tab has no such row, the old TravelIntro / TravelOutro
+   rows in the Settings tab are used instead, so nothing breaks. */
+function showNote(id, text, list) {
+  const el = document.getElementById(id);
+  if (!el || !text) return;
+  el.textContent = text;
+  el.style.display = "block";
+  if (id === "travel-outro") list.classList.add("has-outro");
+}
+
 async function loadTravel() {
   const list = document.getElementById("travel-list");
   const settings = await loadSettings();
 
-  const intro = document.getElementById("travel-intro");
-  if (intro && settings.TravelIntro) {
-    intro.textContent = settings.TravelIntro;
-    intro.style.display = "block";
+  let introText = "";
+  let outroText = "";
+  let items = [];
+
+  const hasTravelUrl = CONFIG.TRAVEL_CSV_URL && !CONFIG.TRAVEL_CSV_URL.startsWith("PASTE_");
+
+  if (hasTravelUrl) {
+    try {
+      const res = await fetch(CONFIG.TRAVEL_CSV_URL, { cache: "no-store" });
+      const text = await res.text();
+      const { data } = Papa.parse(text, { header: true, skipEmptyLines: true });
+
+      data.forEach((r) => {
+        const cat = (r.Category || "").trim().toLowerCase();
+        const note = (r.Description || r.Name || "").trim();
+        if (cat === "intro") { if (note && !introText) introText = note; return; }
+        if (cat === "outro") { if (note && !outroText) outroText = note; return; }
+        items.push(r);
+      });
+    } catch (err) {
+      list.innerHTML = "<p>Couldn't load the travel suggestions right now.</p>";
+      console.error(err);
+    }
   }
 
-  if (!CONFIG.TRAVEL_CSV_URL || CONFIG.TRAVEL_CSV_URL.startsWith("PASTE_")) {
+  // Fall back to the Settings tab if the Travel tab has no Intro/Outro row.
+  showNote("travel-intro", introText || settings.TravelIntro, list);
+  showNote("travel-outro", outroText || settings.TravelOutro, list);
+
+  if (!hasTravelUrl) {
     list.innerHTML = "<p>Add your Travel tab link to config.js to show suggestions here.</p>";
     return;
   }
+  if (list.innerHTML) return; // the load error message is already showing
 
-  try {
-    const res = await fetch(CONFIG.TRAVEL_CSV_URL, { cache: "no-store" });
-    const text = await res.text();
-    const { data } = Papa.parse(text, { header: true, skipEmptyLines: true });
+  // Group by category, keeping the order categories first appear in.
+  const order = [];
+  const groups = {};
+  items.filter((r) => (r.Name || "").trim()).forEach((r) => {
+    const cat = (r.Category || "").trim() || "More suggestions";
+    if (!groups[cat]) { groups[cat] = []; order.push(cat); }
+    groups[cat].push(r);
+  });
 
-    // Group by category, keeping the order categories first appear in.
-    const order = [];
-    const groups = {};
-    data.filter((r) => (r.Name || "").trim()).forEach((r) => {
-      const cat = (r.Category || "").trim() || "More suggestions";
-      if (!groups[cat]) { groups[cat] = []; order.push(cat); }
-      groups[cat].push(r);
-    });
-
-    if (!order.length) {
-      list.innerHTML = "<p>Suggestions will be added here soon.</p>";
-      return;
-    }
-
-    list.innerHTML = order
-      .map((cat) => `
-        <section class="travel-section">
-          <h2>${esc(cat)}</h2>
-          ${groups[cat].map(renderTravelItem).join("")}
-        </section>
-      `)
-      .join("");
-  } catch (err) {
-    list.innerHTML = "<p>Couldn't load the travel suggestions right now.</p>";
-    console.error(err);
+  if (!order.length) {
+    list.innerHTML = "<p>Suggestions will be added here soon.</p>";
+    return;
   }
+
+  list.innerHTML = order
+    .map((cat) => `
+      <section class="travel-section">
+        <h2>${esc(cat)}</h2>
+        ${groups[cat].map(renderTravelItem).join("")}
+      </section>
+    `)
+    .join("");
 }
 
 document.addEventListener("DOMContentLoaded", loadTravel);
