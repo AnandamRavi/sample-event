@@ -352,7 +352,7 @@ async function submitRsvp(e) {
   submitBtn.textContent = "Submitting…";
 
   const payload = {
-    mode: "existing",
+    mode: CURRENT_GUEST.isNew ? "group" : "existing",
     code: CURRENT_GUEST.code,
     name: CURRENT_GUEST.name,
     groupName: CURRENT_GUEST.groupName || "",
@@ -373,11 +373,14 @@ async function submitRsvp(e) {
     });
 
     submitBtn.textContent = "Submitted";
+    const revisit = CURRENT_GUEST.isNew
+      ? "Once the hosts confirm you, we'll send you a personal link so you can update it any time."
+      : "You can revisit this link any time to update it.";
     if (attendingAny === "No") {
-      statusEl.innerHTML = `<p>Your response has been recorded. You can revisit this link any time to update it.</p>`;
+      statusEl.innerHTML = `<p>Your response has been recorded. ${revisit}</p>`;
     } else {
       statusEl.innerHTML = `
-        <p>Thank you — your RSVP has been recorded. You can revisit this link any time to update it.</p>
+        <p>Thank you — your RSVP has been recorded. ${revisit}</p>
         <ul class="rsvp-summary">
           ${responses.map((r) => {
             const line = r.attending === "Yes"
@@ -432,6 +435,56 @@ function init() {
     showGuest(codeFromUrl);
     return;
   }
+
+  // Arriving from the home page after entering a valid group code?
+  if (getParam("mode") === "group") {
+    resumeGroupMemberFromParams();
+  }
 }
+
+// Shows the RSVP form for a guest who joined with a group code but hasn't
+// been approved yet (so they aren't in the Guests tab).
+async function loadGroupGuestEvents(groupName) {
+  ALL_EVENTS = await fetchCsv(CONFIG.EVENTS_CSV_URL);
+  if (!GROUPS_DATA.length) {
+    GROUPS_DATA = CONFIG.GROUPS_CSV_URL && !CONFIG.GROUPS_CSV_URL.startsWith("PASTE_")
+      ? await fetchCsv(CONFIG.GROUPS_CSV_URL)
+      : [];
+  }
+  const group = GROUPS_DATA.find((g) => normalize(g.GroupName) === normalize(groupName));
+  const invitedIds = splitEventIds(group ? group.Events : "").map(normalize);
+  CURRENT_EVENTS = ALL_EVENTS
+    .filter((ev) => invitedIds.includes(normalize(ev.ID)))
+    .sort((a, b) => new Date(a.Date) - new Date(b.Date));
+}
+
+async function resumeGroupMemberFromParams() {
+  const groupName = getParam("group") || "";
+  const firstName = getParam("first") || "";
+  const lastName = getParam("last") || "";
+  const code = getParam("code") || "";
+  try {
+    await loadGroupGuestEvents(groupName);
+  } catch (err) {
+    console.error(err);
+    return;
+  }
+  CURRENT_GUEST = { code, name: `${firstName} ${lastName}`.trim(), isNew: true, groupName, firstName, lastName };
+  identifyComplete();
+}
+
+// Called by register.js once a guest has entered a valid group code.
+window.onGroupAccessGranted = async function (info) {
+  await loadGroupGuestEvents(info.groupName);
+  CURRENT_GUEST = {
+    code: info.code,
+    name: `${info.firstName} ${info.lastName}`,
+    isNew: true,
+    groupName: info.groupName,
+    firstName: info.firstName,
+    lastName: info.lastName,
+  };
+  identifyComplete();
+};
 
 document.addEventListener("DOMContentLoaded", init);

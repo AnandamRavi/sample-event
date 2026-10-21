@@ -63,7 +63,12 @@
         <input type="text" id="last-name-input" name="last-name-input" autocomplete="family-name" required>
       </div>
       <div class="rsvp-field">
-        <label id="reg-contact-label">How should we reach you once you're approved?</label>
+        <label for="reg-group-code">Group code <span class="field-optional">(optional)</span></label>
+        <input type="text" id="reg-group-code" name="reg-group-code" autocomplete="off">
+        <p class="field-hint">If your group was given a code, enter it to see your invitation straight away. No code? Leave this blank and the hosts will approve you.</p>
+      </div>
+      <div class="rsvp-field">
+        <label id="reg-contact-label">How can we reach you?</label>
         <div class="rsvp-radios">
           <label><input type="radio" name="reg-contact-method" value="WhatsApp"> WhatsApp</label>
           <label><input type="radio" name="reg-contact-method" value="Email"> Email</label>
@@ -76,7 +81,7 @@
           <input type="text" id="reg-contact-value" name="reg-contact-value" autocomplete="off">
         </div>
       </div>
-      <button type="submit" class="btn">Request access</button>
+      <button type="submit" class="btn">Continue</button>
       <button type="button" class="link-button" id="show-code-form">← I actually have a code</button>
     </form>
 

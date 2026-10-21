@@ -86,6 +86,7 @@
     const groupName = $("group-select").value;
     const firstName = $("first-name-input").value.trim();
     const lastName = $("last-name-input").value.trim();
+    const groupCode = ($("reg-group-code") || { value: "" }).value.trim();
     const method = (document.querySelector('input[name="reg-contact-method"]:checked') || {}).value || "";
     let contactValue = $("reg-contact-value").value.trim();
 
@@ -119,15 +120,34 @@
         headers: { "Content-Type": "text/plain;charset=utf-8" },
         body: JSON.stringify({
           mode: "register",
-          groupName, firstName, lastName,
+          groupName, firstName, lastName, groupCode,
           name: `${firstName} ${lastName}`,
           contactMethod: method,
           contactValue,
         }),
       });
       const result = await res.json();
+
+      if (result && result.status === "badcode") {
+        btn.disabled = false;
+        btn.textContent = label;
+        return showError("That group code doesn't look right. Please check it, or clear the box to ask the hosts for approval instead.");
+      }
+      if (result && result.status === "toomany") {
+        btn.disabled = false;
+        btn.textContent = label;
+        return showError("Too many attempts — please wait a few minutes and try again.");
+      }
       if (!result || result.status !== "ok") {
         throw new Error((result && result.message) || "Registration was not saved.");
+      }
+
+      // Correct group code: the guest can see the invitation and RSVP right away.
+      if (result.access && typeof window.onGroupAccessGranted === "function") {
+        await window.onGroupAccessGranted({ code: result.code, groupName, firstName, lastName });
+        const box0 = $("lookup") || $("identify-box");
+        if (box0) box0.style.display = "none";
+        return;
       }
     } catch (ex) {
       console.error(ex);

@@ -178,6 +178,26 @@ async function populateGroupDropdown() {
   }
 }
 
+// Called by register.js once a guest has entered a valid group code.
+window.onGroupAccessGranted = async function (info) {
+  const allEvents = await fetchCsv(CONFIG.EVENTS_CSV_URL);
+  const group = GROUPS_DATA.find((g) => normalize(g.GroupName) === normalize(info.groupName));
+  const invitedIds = splitEventIds(group ? group.Events : "").map(normalize);
+  const guestEvents = allEvents
+    .filter((ev) => invitedIds.includes(normalize(ev.ID)))
+    .sort((a, b) => new Date(a.Date) - new Date(b.Date));
+
+  CURRENT_GUEST = {
+    code: info.code,
+    name: `${info.firstName} ${info.lastName}`,
+    isNew: true,
+    groupName: info.groupName,
+    firstName: info.firstName,
+    lastName: info.lastName,
+  };
+  await showIdentified(guestEvents);
+};
+
 async function showIdentified(guestEvents) {
   document.getElementById("lookup").style.display = "none";
   document.getElementById("empty-state").style.display = guestEvents.length ? "none" : "block";
@@ -192,7 +212,19 @@ async function showIdentified(guestEvents) {
 
   const rsvpCta = document.getElementById("rsvp-cta");
   if (rsvpCta) {
-    rsvpCta.href = `rsvp.html?g=${encodeURIComponent(CURRENT_GUEST.code)}`;
+    if (CURRENT_GUEST.isNew) {
+      // Joined with a group code but not approved yet: carry their details across.
+      const params = new URLSearchParams({
+        mode: "group",
+        group: CURRENT_GUEST.groupName,
+        first: CURRENT_GUEST.firstName,
+        last: CURRENT_GUEST.lastName,
+        code: CURRENT_GUEST.code,
+      });
+      rsvpCta.href = `rsvp.html?${params.toString()}`;
+    } else {
+      rsvpCta.href = `rsvp.html?g=${encodeURIComponent(CURRENT_GUEST.code)}`;
+    }
   }
 
   let invitations = [];
