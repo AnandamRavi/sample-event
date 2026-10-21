@@ -33,7 +33,7 @@ const CONFIG = {
   RSVP_QUESTIONS_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTLl3giq70GX4aEnUpr16FE1_Ua4AdBgxET_8clQaJe9QbbbbAHxZFcIcB3tq-Q_zNWMTFwY7PB1jgo/pub?gid=984748066&single=true&output=csv",
 
   // New: your Travel tab's published CSV link goes here.
-  TRAVEL_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTLl3giq70GX4aEnUpr16FE1_Ua4AdBgxET_8clQaJe9QbbbbAHxZFcIcB3tq-Q_zNWMTFwY7PB1jgo/pub?gid=188996936&single=true&output=csv",
+  TRAVEL_CSV_URL: "PASTE_YOUR_TRAVEL_TAB_PUBLISHED_CSV_LINK_HERE",
 
   // Where RSVP submissions are sent — your Apps Script Web App URL.
   // See README.md, "Setting up RSVP" for how to get this.

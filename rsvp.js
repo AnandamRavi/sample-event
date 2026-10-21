@@ -282,51 +282,6 @@ async function showGuest(code) {
   identifyComplete();
 }
 
-async function registerGroupMember() {
-  const errorEl = document.getElementById("lookup-error");
-  errorEl.style.display = "none";
-  errorEl.textContent = "";
-
-  const groupName = document.getElementById("group-select").value;
-  const firstName = document.getElementById("first-name-input").value.trim();
-  const lastName = document.getElementById("last-name-input").value.trim();
-
-  if (!groupName || !firstName || !lastName) {
-    errorEl.textContent = "Please fill in your group, first name, and last name.";
-    errorEl.style.display = "block";
-    return;
-  }
-
-  let allEvents, guests;
-  try {
-    allEvents = await fetchCsv(CONFIG.EVENTS_CSV_URL);
-    guests = await fetchCsv(CONFIG.GUESTS_CSV_URL);
-  } catch (err) {
-    errorEl.textContent = "We're having trouble loading things right now — please try again shortly.";
-    errorEl.style.display = "block";
-    return;
-  }
-  ALL_EVENTS = allEvents;
-
-  const existingCodes = new Set(guests.map((g) => normalize(g.Code)));
-  const group = GROUPS_DATA.find((g) => normalize(g.GroupName) === normalize(groupName));
-  const invitedIds = splitEventIds(group ? group.Events : "").map(normalize);
-  CURRENT_EVENTS = ALL_EVENTS
-    .filter((ev) => invitedIds.includes(normalize(ev.ID)))
-    .sort((a, b) => new Date(a.Date) - new Date(b.Date));
-
-  CURRENT_GUEST = {
-    code: generateCode(firstName, lastName, existingCodes),
-    name: `${firstName} ${lastName}`,
-    isNew: true,
-    groupName,
-    firstName,
-    lastName,
-  };
-
-  identifyComplete();
-}
-
 async function submitRsvp(e) {
   e.preventDefault();
 
@@ -358,7 +313,10 @@ async function submitRsvp(e) {
 
     contactMethod = (document.querySelector('input[name="contact-method"]:checked') || {}).value || "";
     contactValue = contactMethod === "WhatsApp"
-      ? document.getElementById("whatsapp-input").value.trim()
+      ? window.SiteCountries.build(
+          document.getElementById("whatsapp-input").value,
+          document.getElementById("whatsapp-country").value
+        )
       : contactMethod === "Email"
         ? document.getElementById("email-input").value.trim()
         : "";
@@ -376,7 +334,7 @@ async function submitRsvp(e) {
     const missing = [];
     if (responses.some((r) => !r.attending)) missing.push("whether you're attending each event");
     if (!contactMethod) missing.push("your preferred contact method");
-    if (contactMethod && !contactValue) missing.push(contactMethod === "WhatsApp" ? "your WhatsApp number" : "your email address");
+    if (contactMethod && !contactValue) missing.push(contactMethod === "WhatsApp" ? "a valid WhatsApp number (check the country and the number)" : "your email address");
     if (!outOfTown) missing.push("whether you're coming from out of town");
     if (outOfTown === "Yes" && !needsAccommodation) missing.push("whether you need accommodation");
 
@@ -394,7 +352,7 @@ async function submitRsvp(e) {
   submitBtn.textContent = "Submitting…";
 
   const payload = {
-    mode: CURRENT_GUEST.isNew ? "group" : "existing",
+    mode: "existing",
     code: CURRENT_GUEST.code,
     name: CURRENT_GUEST.name,
     groupName: CURRENT_GUEST.groupName || "",
@@ -413,15 +371,6 @@ async function submitRsvp(e) {
       headers: { "Content-Type": "text/plain;charset=utf-8" },
       body: JSON.stringify(payload),
     });
-
-    if (CURRENT_GUEST.isNew) {
-      document.getElementById("greeting").style.display = "none";
-      document.getElementById("invitation-embed").style.display = "none";
-      document.getElementById("rsvp-form").style.display = "none";
-      document.getElementById("pending-code").textContent = CURRENT_GUEST.code;
-      document.getElementById("pending-notice").style.display = "block";
-      return;
-    }
 
     submitBtn.textContent = "Submitted";
     if (attendingAny === "No") {
@@ -466,14 +415,10 @@ function init() {
     if (code) showGuest(code);
   });
 
-  document.getElementById("group-form").addEventListener("submit", (e) => {
-    e.preventDefault();
-    registerGroupMember();
-  });
-
   document.getElementById("rsvp-form").addEventListener("submit", submitRsvp);
 
   wireAttendingGate();
+  window.SiteCountries.populate(document.getElementById("whatsapp-country"));
   populateGroupDropdown();
 
   loadRsvpQuestions().then((q) => {
@@ -487,40 +432,6 @@ function init() {
     showGuest(codeFromUrl);
     return;
   }
-
-  // Arriving already identified from the home page (new group member)?
-  if (getParam("mode") === "group") {
-    resumeGroupMemberFromParams();
-  }
-}
-
-async function resumeGroupMemberFromParams() {
-  const groupName = getParam("group") || "";
-  const firstName = getParam("first") || "";
-  const lastName = getParam("last") || "";
-  const code = getParam("code") || "";
-
-  try {
-    ALL_EVENTS = await fetchCsv(CONFIG.EVENTS_CSV_URL);
-    if (!GROUPS_DATA.length) {
-      GROUPS_DATA = CONFIG.GROUPS_CSV_URL && !CONFIG.GROUPS_CSV_URL.startsWith("PASTE_")
-        ? await fetchCsv(CONFIG.GROUPS_CSV_URL)
-        : [];
-    }
-  } catch (err) {
-    console.error(err);
-    return;
-  }
-
-  const group = GROUPS_DATA.find((g) => normalize(g.GroupName) === normalize(groupName));
-  const invitedIds = splitEventIds(group ? group.Events : "").map(normalize);
-  CURRENT_EVENTS = ALL_EVENTS
-    .filter((ev) => invitedIds.includes(normalize(ev.ID)))
-    .sort((a, b) => new Date(a.Date) - new Date(b.Date));
-
-  CURRENT_GUEST = { code, name: `${firstName} ${lastName}`.trim(), isNew: true, groupName, firstName, lastName };
-
-  identifyComplete();
 }
 
 document.addEventListener("DOMContentLoaded", init);

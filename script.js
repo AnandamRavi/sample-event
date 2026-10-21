@@ -192,18 +192,7 @@ async function showIdentified(guestEvents) {
 
   const rsvpCta = document.getElementById("rsvp-cta");
   if (rsvpCta) {
-    if (CURRENT_GUEST.isNew) {
-      const params = new URLSearchParams({
-        mode: "group",
-        group: CURRENT_GUEST.groupName,
-        first: CURRENT_GUEST.firstName,
-        last: CURRENT_GUEST.lastName,
-        code: CURRENT_GUEST.code,
-      });
-      rsvpCta.href = `rsvp.html?${params.toString()}`;
-    } else {
-      rsvpCta.href = `rsvp.html?g=${encodeURIComponent(CURRENT_GUEST.code)}`;
-    }
+    rsvpCta.href = `rsvp.html?g=${encodeURIComponent(CURRENT_GUEST.code)}`;
   }
 
   let invitations = [];
@@ -257,48 +246,6 @@ async function showGuest(code) {
   const url = new URL(window.location);
   url.searchParams.set("g", code);
   window.history.replaceState({}, "", url);
-
-  showIdentified(guestEvents);
-}
-
-async function registerGroupMember() {
-  const errorEl = document.getElementById("lookup-error");
-  errorEl.style.display = "none";
-  errorEl.textContent = "";
-
-  const groupName = document.getElementById("group-select").value;
-  const firstName = document.getElementById("first-name-input").value.trim();
-  const lastName = document.getElementById("last-name-input").value.trim();
-
-  if (!groupName || !firstName || !lastName) {
-    errorEl.textContent = "Please fill in your group, first name, and last name.";
-    errorEl.style.display = "block";
-    return;
-  }
-
-  let allEvents, guests;
-  try {
-    allEvents = await fetchCsv(CONFIG.EVENTS_CSV_URL);
-    guests = await fetchCsv(CONFIG.GUESTS_CSV_URL);
-  } catch (err) {
-    errorEl.textContent = "We're having trouble loading things right now — please try again shortly.";
-    errorEl.style.display = "block";
-    return;
-  }
-
-  const existingCodes = new Set(guests.map((g) => normalize(g.Code)));
-  const group = GROUPS_DATA.find((g) => normalize(g.GroupName) === normalize(groupName));
-  const invitedIds = splitEventIds(group ? group.Events : "").map(normalize);
-  const guestEvents = allEvents
-    .filter((ev) => invitedIds.includes(normalize(ev.ID)))
-    .sort((a, b) => new Date(a.Date) - new Date(b.Date));
-
-  CURRENT_GUEST = {
-    code: generateCode(firstName, lastName, existingCodes),
-    name: `${firstName} ${lastName}`,
-    isNew: true,
-    groupName, firstName, lastName,
-  };
 
   showIdentified(guestEvents);
 }
@@ -385,11 +332,6 @@ async function init() {
     e.preventDefault();
     const code = document.getElementById("code-input").value.trim();
     if (code) showGuest(code);
-  });
-
-  document.getElementById("group-form").addEventListener("submit", (e) => {
-    e.preventDefault();
-    registerGroupMember();
   });
 
   populateGroupDropdown();

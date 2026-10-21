@@ -743,6 +743,41 @@ input:focus-visible {
   border-top: 1px solid var(--line);
 }
 
+.reg-phone-row {
+  display: flex;
+  gap: 8px;
+  max-width: 420px;
+}
+
+.rsvp-subform .reg-phone-row select {
+  width: auto;
+  max-width: 190px;
+  flex: 0 0 auto;
+}
+
+.reg-phone-row input {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* Same look for the phone row inside the RSVP form. */
+.rsvp-field .reg-phone-row select,
+.rsvp-field .reg-phone-row input {
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  font-family: var(--sans);
+  font-size: 15px;
+  background: #fff;
+  color: var(--ink);
+}
+
+.rsvp-field .reg-phone-row select {
+  width: auto;
+  max-width: 190px;
+  flex: 0 0 auto;
+}
+
 .link-button {
   display: block;
   margin: 16px auto 0;
@@ -934,6 +969,19 @@ input:focus-visible {
 
 .travel-list {
   padding: 0 0 80px;
+}
+
+/* Closing note at the bottom of the page (TravelOutro in Settings). */
+.travel-list.has-outro {
+  padding-bottom: 24px;
+}
+
+.travel-outro {
+  max-width: 62ch;
+  margin: 0;
+  padding-bottom: 80px;
+  white-space: pre-line;
+  color: var(--muted);
 }
 
 .travel-section h2 {

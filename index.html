@@ -72,11 +72,31 @@
             <label for="last-name-input" id="last-name-label">Last name</label>
             <input type="text" id="last-name-input" name="last-name-input" autocomplete="family-name" required>
           </div>
-          <button type="submit" class="btn">Continue</button>
+          <div class="rsvp-field">
+            <label id="reg-contact-label">How should we reach you once you're approved?</label>
+            <div class="rsvp-radios">
+              <label><input type="radio" name="reg-contact-method" value="WhatsApp"> WhatsApp</label>
+              <label><input type="radio" name="reg-contact-method" value="Email"> Email</label>
+            </div>
+          </div>
+          <div class="rsvp-field" id="reg-contact-wrap" style="display:none;">
+            <label for="reg-contact-value" id="reg-contact-value-label">WhatsApp number</label>
+            <div class="reg-phone-row">
+              <select id="reg-country" aria-label="Country code"></select>
+              <input type="text" id="reg-contact-value" name="reg-contact-value" autocomplete="off">
+            </div>
+          </div>
+          <button type="submit" class="btn">Request access</button>
           <button type="button" class="link-button" id="show-code-form">← I actually have a code</button>
         </form>
 
         <p class="lookup-error" id="lookup-error"></p>
+      </div>
+
+      <!-- Shown to new group members after they sign up, until the host approves them -->
+      <div class="lookup pending-notice" id="pending-notice" style="display:none;">
+        <h2>Request sent</h2>
+        <p id="pending-message"></p>
       </div>
     </div>
   </div>
@@ -104,6 +124,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 <script src="config.js"></script>
 <script src="settings.js"></script>
+<script src="register.js"></script>
 <script src="script.js"></script>
 </body>
 </html>
