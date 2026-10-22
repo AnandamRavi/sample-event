@@ -52,6 +52,28 @@
     return digits.length >= 8 && digits.length <= 15 ? "+" + digits : "";
   }
 
+  // Does this group offer a code? Read from the Groups data the page already
+  // loaded: either the Code column itself (if Groups is published directly) or a
+  // HasCode column (the Groups Public setup, which keeps the codes themselves
+  // private). With neither column, return "unknown" and show the box as before.
+  window.groupHasCode = function (g) {
+    const col = "Code" in g ? g.Code : "HasCode" in g ? g.HasCode : null;
+    if (col === null) return "unknown";
+    return String(col || "").trim() ? "yes" : "no";
+  };
+
+  // Only show the group code box for groups that actually have a code.
+  function updateGroupCodeBox() {
+    const sel = $("group-select");
+    const wrap = $("reg-group-code-wrap");
+    if (!sel || !wrap) return;
+    const opt = sel.selectedOptions && sel.selectedOptions[0];
+    const flag = opt ? opt.getAttribute("data-has-code") : "";
+    const show = opt && opt.value && flag !== "no";
+    wrap.style.display = show ? "" : "none";
+    if (!show && $("reg-group-code")) $("reg-group-code").value = "";
+  }
+
   // Shared with rsvp.js, which has its own WhatsApp field with the same dropdown.
   window.SiteCountries = { populate: populateCountries, build: buildWhatsAppNumber };
 
@@ -152,6 +174,7 @@
     const form = $("group-form");
     if (!form) return;
     populateCountries();
+    $("group-select").addEventListener("change", updateGroupCodeBox);
     form.addEventListener("submit", submitRegistration);
   });
 })();

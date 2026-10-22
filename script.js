@@ -170,7 +170,7 @@ async function populateGroupDropdown() {
     GROUPS_DATA = await fetchCsv(CONFIG.GROUPS_CSV_URL);
     const options = GROUPS_DATA
       .filter((g) => g.GroupName)
-      .map((g) => `<option value="${g.GroupName}">${g.GroupName}</option>`)
+      .map((g) => `<option value="${g.GroupName}" data-has-code="${window.groupHasCode(g)}">${g.GroupName}</option>`)
       .join("");
     select.innerHTML = `<option value="" disabled selected>Choose a group</option>${options}`;
   } catch (err) {
