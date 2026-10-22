@@ -78,17 +78,15 @@
             <p class="field-hint">If your group was given a code, enter it to see your invitation straight away. No code? Leave this blank and the hosts will approve you.</p>
           </div>
           <div class="rsvp-field">
-            <label id="reg-contact-label">How can we reach you?</label>
-            <div class="rsvp-radios">
-              <label><input type="radio" name="reg-contact-method" value="WhatsApp"> WhatsApp</label>
-              <label><input type="radio" name="reg-contact-method" value="Email"> Email</label>
-            </div>
+            <label for="reg-email">Email address</label>
+            <input type="text" id="reg-email" name="reg-email" inputmode="email" autocomplete="email" placeholder="name@example.com">
+            <p class="field-hint">We'll email you your personal link once you're approved.</p>
           </div>
-          <div class="rsvp-field" id="reg-contact-wrap" style="display:none;">
-            <label for="reg-contact-value" id="reg-contact-value-label">WhatsApp number</label>
+          <div class="rsvp-field">
+            <label for="reg-contact-value">WhatsApp number <span class="field-optional">(optional)</span></label>
             <div class="reg-phone-row">
               <select id="reg-country" aria-label="Country code"></select>
-              <input type="text" id="reg-contact-value" name="reg-contact-value" autocomplete="off">
+              <input type="text" id="reg-contact-value" name="reg-contact-value" inputmode="tel" autocomplete="tel-national" placeholder="Phone number">
             </div>
           </div>
           <button type="submit" class="btn">Continue</button>

@@ -61,22 +61,6 @@
     el.style.display = "block";
   }
 
-  function updateContactField() {
-    const checked = document.querySelector('input[name="reg-contact-method"]:checked');
-    const wrap = $("reg-contact-wrap");
-    const input = $("reg-contact-value");
-    if (!checked) { wrap.style.display = "none"; return; }
-    const isEmail = checked.value === "Email";
-    $("reg-contact-value-label").textContent = isEmail ? "Email address" : "WhatsApp number";
-    $("reg-country").style.display = isEmail ? "none" : "";
-    // Keep type="text" so the site's input styling applies; inputMode gives
-    // phones the right keyboard.
-    input.inputMode = isEmail ? "email" : "tel";
-    input.autocomplete = isEmail ? "email" : "tel-national";
-    input.placeholder = isEmail ? "name@example.com" : "Phone number";
-    wrap.style.display = "block";
-  }
-
   async function submitRegistration(e) {
     e.preventDefault();
     const err = $("lookup-error");
@@ -87,22 +71,21 @@
     const firstName = $("first-name-input").value.trim();
     const lastName = $("last-name-input").value.trim();
     const groupCode = ($("reg-group-code") || { value: "" }).value.trim();
-    const method = (document.querySelector('input[name="reg-contact-method"]:checked') || {}).value || "";
-    let contactValue = $("reg-contact-value").value.trim();
+    const email = $("reg-email").value.trim();
+    const whatsappTyped = $("reg-contact-value").value.trim();
 
     if (!groupName || !firstName || !lastName) {
       return showError("Please fill in your group, first name, and last name.");
     }
-    if (!method) {
-      return showError("Please choose how we should reach you (WhatsApp or email).");
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return showError("Please enter a valid email address — that's how we'll send you your personal link.");
     }
-    if (method === "Email" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contactValue)) {
-      return showError("Please enter a valid email address.");
-    }
-    if (method === "WhatsApp") {
-      contactValue = buildWhatsAppNumber(contactValue, $("reg-country").value);
-      if (!contactValue) {
-        return showError("That WhatsApp number doesn't look right — please check the country and the number.");
+    // WhatsApp is optional, but if they typed a number it has to look right.
+    let whatsapp = "";
+    if (whatsappTyped) {
+      whatsapp = buildWhatsAppNumber(whatsappTyped, $("reg-country").value);
+      if (!whatsapp) {
+        return showError("That WhatsApp number doesn't look right — please check the country and the number, or leave it blank.");
       }
     }
     if (!CONFIG.RSVP_ENDPOINT_URL || CONFIG.RSVP_ENDPOINT_URL.startsWith("PASTE_")) {
@@ -122,8 +105,8 @@
           mode: "register",
           groupName, firstName, lastName, groupCode,
           name: `${firstName} ${lastName}`,
-          contactMethod: method,
-          contactValue,
+          email,
+          whatsapp,
         }),
       });
       const result = await res.json();
@@ -161,8 +144,7 @@
     if (box) box.style.display = "none";
     $("pending-message").textContent =
       `Thank you, ${firstName}! Your request has been sent to the hosts. ` +
-      `Once they approve it, we'll let you know by ${method === "Email" ? "email" : "WhatsApp"} ` +
-      `and send you your access code.`;
+      `Once they approve it, we'll email you at ${email} with your personal link.`;
     $("pending-notice").style.display = "block";
   }
 
@@ -170,9 +152,6 @@
     const form = $("group-form");
     if (!form) return;
     populateCountries();
-    document.querySelectorAll('input[name="reg-contact-method"]').forEach((r) =>
-      r.addEventListener("change", updateContactField)
-    );
     form.addEventListener("submit", submitRegistration);
   });
 })();
