@@ -944,6 +944,12 @@ input:focus-visible {
   margin: 0 0 12px;
 }
 
+.invitation-credit {
+  font-size: 12px;
+  color: var(--muted);
+  margin: -6px 0 14px;
+}
+
 .invitation-link {
   display: inline-flex;
   align-items: center;

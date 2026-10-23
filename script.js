@@ -62,7 +62,7 @@ function resolveEmbedUrl(raw) {
   return url;
 }
 
-function renderInvitation(invitationUrl) {
+function renderInvitation(invitationUrl, credit) {
   const container = document.getElementById("invitation-embed");
   if (!container) return;
   const urls = resolveInvitationUrls(invitationUrl);
@@ -72,6 +72,7 @@ function renderInvitation(invitationUrl) {
   }
   container.innerHTML = `
     <iframe class="invitation-frame" src="${urls.embedUrl}" loading="lazy"></iframe>
+    ${(credit || "").trim() ? `<p class="invitation-credit">${escCredit(credit.trim())}</p>` : ""}
     <div class="invitation-actions">
       <a class="invitation-link invitation-download" href="${urls.downloadUrl}" download>Download invitation</a>
       <a class="invitation-link" href="${urls.openUrl}" target="_blank" rel="noopener">Open full invitation</a>
@@ -244,7 +245,7 @@ async function showIdentified(guestEvents) {
   } catch (err) { console.error(err); }
   const comboKey = normalizeEventCombo(guestEvents.map((e) => e.ID).join(";"));
   const match = invitations.find((inv) => normalizeEventCombo(inv.Events) === comboKey);
-  renderInvitation(match ? match.InvitationURL : "");
+  renderInvitation(match ? match.InvitationURL : "", match ? match.InvitationCredit : "");
 
   renderEvents(guestEvents);
 }
