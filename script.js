@@ -124,11 +124,15 @@ function renderEvents(events) {
       const media = imageUrl
         ? `<img class="event-media" src="${imageUrl}" alt="${ev.Name || ""}" loading="lazy" onerror="this.style.display='none'">`
         : "";
+      const mediaCredit = imageUrl && ev.ImageCredit
+        ? `<p class="event-credit">${escCredit(ev.ImageCredit)}</p>`
+        : "";
 
       const embed = embedUrl
         ? `<div class="embed-wrap">
              <iframe class="event-embed" src="${embedUrl}" allow="fullscreen" loading="lazy"></iframe>
            </div>
+           ${ev.EmbedCredit ? `<p class="event-credit">${escCredit(ev.EmbedCredit)}</p>` : ""}
            <button type="button" class="embed-fullscreen-btn" data-embed-fullscreen>View fullscreen</button>`
         : "";
 
@@ -139,6 +143,7 @@ function renderEvents(events) {
           ${ev.Location ? `<p class="location">${ev.Location}</p>` : ""}
           ${ev.Description ? `<p class="description">${ev.Description}</p>` : ""}
           ${media}
+          ${mediaCredit}
           ${embed}
         </div>
       `;
@@ -149,10 +154,14 @@ function renderEvents(events) {
   attachFullscreenButtons();
 }
 
+function escCredit(s) {
+  return String(s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
 function attachFullscreenButtons() {
   document.querySelectorAll("[data-embed-fullscreen]").forEach((btn) => {
     btn.addEventListener("click", () => {
-      const iframe = btn.previousElementSibling.querySelector("iframe.event-embed");
+      const iframe = btn.closest(".event").querySelector("iframe.event-embed");
       if (!iframe) return;
       if (iframe.requestFullscreen) iframe.requestFullscreen();
       else if (iframe.webkitRequestFullscreen) iframe.webkitRequestFullscreen();
@@ -286,6 +295,13 @@ async function applyCoverImage(settings) {
   const cover = document.getElementById("hero-split-image");
   const url = resolveImageUrl(settings.CoverImage);
   if (cover && url) cover.style.backgroundImage = `url("${url}")`;
+
+  const credit = document.getElementById("cover-credit");
+  const creditText = (settings.CoverImageCredit || "").trim();
+  if (credit && url && creditText) {
+    credit.textContent = creditText;
+    credit.hidden = false;
+  }
 }
 
 function startCountdown(settings) {

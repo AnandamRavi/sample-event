@@ -22,9 +22,13 @@ async function loadStory() {
           .map((p) => `<p>${p.trim()}</p>`)
           .join("");
         const img = resolveImageUrl(r.ImageURL);
+        const credit = img && (r.ImageCredit || "").trim()
+          ? `<p class="image-credit">${String(r.ImageCredit).trim().replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")}</p>`
+          : "";
         return `
           ${r.Heading ? `<h2>${r.Heading}</h2>` : ""}
           ${img ? `<img src="${img}" alt="${r.Heading || ""}" loading="lazy" onerror="this.style.display='none'">` : ""}
+          ${credit}
           ${paragraphs}
         `;
       })

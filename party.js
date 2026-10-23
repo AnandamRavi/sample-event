@@ -14,9 +14,13 @@ async function loadParty() {
       .filter((p) => p.Name)
       .map((p) => {
         const photo = resolveImageUrl(p.PhotoURL);
+        const credit = photo && (p.PhotoCredit || "").trim()
+          ? `<p class="photo-credit">${String(p.PhotoCredit).trim().replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")}</p>`
+          : "";
         return `
           <div class="party-card">
             ${photo ? `<img src="${photo}" alt="${p.Name}" loading="lazy" onerror="this.style.display='none'">` : ""}
+            ${credit}
             <h3>${p.Name}</h3>
             ${p.Role ? `<p class="role">${p.Role}</p>` : ""}
             ${p.Bio ? `<p class="bio">${p.Bio}</p>` : ""}

@@ -19,6 +19,7 @@ function safeUrl(u) {
 function renderTravelItem(item) {
   const name = (item.Name || "").trim();
   const photo = resolveImageUrl(item.PhotoURL);
+  const photoCredit = photo ? (item.PhotoCredit || "").trim() : "";
   const details = (item.Details || "").trim();
   const description = (item.Description || "").trim();
   const address = (item.Address || "").trim();
@@ -41,6 +42,7 @@ function renderTravelItem(item) {
           ${link ? `<a href="${esc(link)}" target="_blank" rel="noopener">${esc(linkLabel)}</a>` : ""}
           ${mapUrl ? `<a href="${esc(mapUrl)}" target="_blank" rel="noopener">View on map</a>` : ""}
         </div>
+        ${photoCredit ? `<p class="travel-photo-credit">${esc(photoCredit)}</p>` : ""}
       </div>
     </div>
   `;

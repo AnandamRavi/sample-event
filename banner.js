@@ -8,36 +8,53 @@
    banner stays hidden. */
 
 async function findTabBanner(banner) {
+  const found = { url: "", credit: "" };
   const tabKey = banner.getAttribute("data-tab");
   const tabUrl = tabKey && CONFIG[tabKey];
-  if (!tabUrl || tabUrl.startsWith("PASTE_")) return "";
+  if (!tabUrl || tabUrl.startsWith("PASTE_")) return found;
 
   try {
     const res = await fetch(tabUrl, { cache: "no-store" });
     const { data } = Papa.parse(await res.text(), { header: true, skipEmptyLines: true });
     for (const r of data) {
-      const fromColumn = (r.BannerImage || "").trim();
-      if (fromColumn) return fromColumn;
-      if ((r.Key || "").trim() === "BannerImage" && (r.Value || "").trim()) return r.Value.trim();
+      const key = (r.Key || "").trim();
+      if (!found.url) {
+        found.url = (r.BannerImage || "").trim() ||
+          (key === "BannerImage" ? (r.Value || "").trim() : "");
+      }
+      if (!found.credit) {
+        found.credit = (r.BannerCredit || "").trim() ||
+          (key === "BannerCredit" ? (r.Value || "").trim() : "");
+      }
     }
   } catch (err) {
     console.error("Could not read banner from tab:", err);
   }
-  return "";
+  return found;
 }
 
 document.addEventListener("DOMContentLoaded", async function () {
   const banner = document.getElementById("page-banner");
   if (!banner) return;
 
-  let url = resolveImageUrl(await findTabBanner(banner));
+  const found = await findTabBanner(banner);
+  let url = resolveImageUrl(found.url);
+  let credit = found.credit;
   if (!url) {
     const settings = await loadSettings();
-    url = resolveImageUrl(settings[banner.getAttribute("data-settings-key")]);
+    const settingsKey = banner.getAttribute("data-settings-key") || "";
+    url = resolveImageUrl(settings[settingsKey]);
+    if (!credit) credit = (settings[settingsKey.replace(/Image$/, "Credit")] || "").trim();
   }
 
   if (url) {
     banner.querySelector("img").src = url;
+    if (credit) {
+      const p = document.createElement("p");
+      p.className = "cover-credit";
+      p.textContent = credit;
+      banner.appendChild(p);
+    }
   } else {
     banner.style.display = "none";
   }
