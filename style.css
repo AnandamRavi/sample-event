@@ -207,6 +207,16 @@ input:focus-visible {
   margin: 0 0 18px;
 }
 
+.event .location.has-attire { margin-bottom: 6px; }
+
+.event .attire {
+  color: var(--muted);
+  font-size: 15px;
+  margin: 0 0 18px;
+}
+
+.event .attire strong { font-weight: 600; }
+
 .event .description {
   margin: 0 0 20px;
   max-width: 62ch;

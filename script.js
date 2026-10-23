@@ -141,7 +141,8 @@ function renderEvents(events) {
         <div class="event">
           ${dateLine ? `<p class="event-date">${dateLine}</p>` : ""}
           <h3>${ev.Name || "Untitled event"}</h3>
-          ${ev.Location ? `<p class="location">${ev.Location}</p>` : ""}
+          ${ev.Location ? `<p class="location${ev.Attire ? " has-attire" : ""}">${ev.Location}</p>` : ""}
+          ${ev.Attire ? `<p class="attire"><strong>Attire:</strong> ${escCredit(ev.Attire)}</p>` : ""}
           ${ev.Description ? `<p class="description">${ev.Description}</p>` : ""}
           ${media}
           ${mediaCredit}
