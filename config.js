@@ -19,7 +19,7 @@
    ========================================================== */
 
 const CONFIG = {
-  GUESTS_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTLl3giq70GX4aEnUpr16FE1_Ua4AdBgxET_8clQaJe9QbbbbAHxZFcIcB3tq-Q_zNWMTFwY7PB1jgo/pub?gid=1798527694&single=true&output=csv",
+  GUESTS_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTLl3giq70GX4aEnUpr16FE1_Ua4AdBgxET_8clQaJe9QbbbbAHxZFcIcB3tq-Q_zNWMTFwY7PB1jgo/pub?gid=1978574832&single=true&output=csv",
   EVENTS_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTLl3giq70GX4aEnUpr16FE1_Ua4AdBgxET_8clQaJe9QbbbbAHxZFcIcB3tq-Q_zNWMTFwY7PB1jgo/pub?gid=1913252533&single=true&output=csv",
   PARTY_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTLl3giq70GX4aEnUpr16FE1_Ua4AdBgxET_8clQaJe9QbbbbAHxZFcIcB3tq-Q_zNWMTFwY7PB1jgo/pub?gid=1044096524&single=true&output=csv",
   FAQ_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTLl3giq70GX4aEnUpr16FE1_Ua4AdBgxET_8clQaJe9QbbbbAHxZFcIcB3tq-Q_zNWMTFwY7PB1jgo/pub?gid=1088904958&single=true&output=csv",
