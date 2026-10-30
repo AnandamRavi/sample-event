@@ -2,6 +2,25 @@
    image, countdown, and banner images all come from one shared
    lookup instead of being hand-typed into config.js. */
 
+// Instruction text in the sheet (e.g. "<Enter the name of the event>") is
+// treated as an empty cell, so leftover instructions never show on the site.
+(function () {
+  if (typeof Papa === "undefined" || Papa.__placeholderPatched) return;
+  const original = Papa.parse;
+  const isPlaceholder = (v) =>
+    typeof v === "string" && /^<\s*(enter|add|optional)\b[\s\S]*>$/i.test(v.trim());
+  Papa.parse = function (input, config) {
+    const cfg = Object.assign({}, config);
+    const previous = cfg.transform;
+    cfg.transform = function (value, field) {
+      const v = previous ? previous(value, field) : value;
+      return isPlaceholder(v) ? "" : v;
+    };
+    return original.call(Papa, input, cfg);
+  };
+  Papa.__placeholderPatched = true;
+})();
+
 // Accepts any normal Google Drive share link for an image and returns the
 // direct-image form that actually displays on a web page. Other links
 // (including ones already in the right format) pass through unchanged.

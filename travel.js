@@ -81,6 +81,7 @@ async function loadTravel() {
         const note = (r.Description || r.Name || "").trim();
         if (cat === "intro") { if (note && !introText) introText = note; return; }
         if (cat === "outro") { if (note && !outroText) outroText = note; return; }
+        if (!(r.Name || "").trim()) return; // skip empty or instruction-only rows
         items.push(r);
       });
     } catch (err) {
