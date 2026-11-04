@@ -354,7 +354,15 @@
 
     var solo = events.length === 1 && !isOff(S.InviteSoloCombine);
     var suffix = isOff(S.InviteTimeSuffix) ? "" : S.InviteTimeSuffix;
-    var iconFor = function (ev) { return img(ev.InviteIcon) || T._base + "icon-" + String(ev.ID || "").toLowerCase() + ".png"; };
+    // Icon: the InviteIcon column wins. Otherwise the template's icon-<name>.png, chosen by a keyword
+    // found in the event's ID or Name (tamil, bengali, haldi, mehndi, reception, wedding), else icon-<ID>.png.
+    var ICON_WORDS = ["tamil", "bengali", "haldi", "mehndi", "reception", "wedding"];
+    var iconFor = function (ev) {
+      if (img(ev.InviteIcon)) return img(ev.InviteIcon);
+      var hay = (String(ev.ID || "") + " " + String(ev.Name || "")).toLowerCase();
+      var hit = ICON_WORDS.filter(function (w) { return hay.indexOf(w) > -1; })[0];
+      return T._base + "icon-" + (hit || String(ev.ID || "").toLowerCase()) + ".png";
+    };
 
     // which event the hosts are "requesting your company at"
     var PHRASES = { mehndi: "the Mehndi function", wedding: "the wedding", reception: "the wedding reception" };

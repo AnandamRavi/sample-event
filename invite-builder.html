@@ -78,7 +78,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 <script src="config.js"></script>
 <script src="settings.js?v=3"></script>
-<script src="invite.js?v=6"></script>
+<script src="invite.js?v=7"></script>
 <script>
 (async function () {
   const D = renderGeneratedInvite.defaults, DEF = D.DEF, TEXT = D.TEXT;
@@ -96,14 +96,10 @@
   const FONTS = ["display", "body", "DM Serif Display", "Cormorant Garamond", "Playfair Display", "EB Garamond", "Cinzel", "Lora", "Libre Baskerville", "Bodoni Moda", "Marcellus", "Gilda Display", "Italiana", "Rufina", "Yeseva One", "Abril Fatface", "Great Vibes", "Allura", "Pinyon Script", "Alex Brush", "Sacramento", "Montserrat", "Lato", "Josefin Sans", "Raleway", "Poppins", "Karla"];
   document.getElementById("fonts").innerHTML = FONTS.map(f => "<option value=\"" + f + "\">").join("");
 
-  const NAMES = { CoverIntro: "Intro line", CoverNames: "The two names", CoverAmp: "The &", CoverDate: "Date line", CoverVenue: "Venue line",
-    FamilyBlessing: "Blessing line", FamilyParents: "Parents' names", FamilyAnd: "\"and\" between families", FamilyRequest: "Request line", FamilyCouple: "Couple's full names", FamilyAmp: "The & between names",
-    FamilyGrandLabel: "\"Grandson of\" label", FamilyGrandNames: "Grandparents' names", FamilyGrandAnd: "\"and\" between grandparent pairs",
-    FamilyJoy: "\"Joy shared by\" line", FamilyWhen: "\"On <dates>\" line", FamilyWhere: "\"At <venue>\" line",
-    EventLabel: "Small label (THE MEHNDI)", EventTitle: "Title", EventDesc: "Description", EventDate: "Date", EventTime: "Time", EventAttire: "Attire / venue line",
-    SoloDate: "Date", SoloTime: "Time", SoloWhere: "Venue line", SoloAttire: "Attire",
-    VenueLabel: "Label (THE VENUE)", VenueName: "Venue name", VenueTagline: "Closing line", BackCaption: "Caption" };
-  const GROUPS = [["Cover", /^Cover/], ["Family page", /^Family/], ["Event pages", /^Event/], ["Single-event page", /^Solo/], ["Venue block", /^Venue/], ["Back cover", /^Back/]];
+  // Only the text people actually style: names, event names, venue. Everything else keeps the template's look.
+  const NAMES = { CoverNames: "Names on the cover", FamilyCouple: "Couple's full names (family page)", FamilyParents: "Parents' names",
+    EventTitle: "Event names", CoverVenue: "Venue on the cover", FamilyWhere: "Venue line (family page)", SoloWhere: "Venue line (single-event page)", VenueName: "Venue (venue page)" };
+  const GROUPS = [["Names", ["CoverNames", "FamilyCouple", "FamilyParents"]], ["Event names", ["EventTitle"]], ["Venue", ["CoverVenue", "FamilyWhere", "SoloWhere", "VenueName"]]];
 
   // ---- every control: key, label, type, default, group ----
   const items = [];
@@ -123,22 +119,26 @@
   add("InviteVenueBlock", "Venue block", "select", "auto", "Pages", { options: ["auto", "yes", "no"] });
   add("InviteParentOrder", "Parents listed", "select", "father", "Pages", { options: ["father", "sheet"] });
   add("InviteMode", "Invitation source", "select", "generated", "Pages", { options: ["generated", "auto", "pdf"] });
-  [["InviteIntroText", "Cover intro"], ["InviteRequestText", "Request line (use {event})"], ["InviteJoyText", "Joy line"], ["InviteAndText", "\"and\""],
-   ["InviteWhenPrefix", "Date prefix"], ["InviteWherePrefix", "Venue prefix"], ["InviteVenueLabel", "Venue label"], ["InviteAttireLabel", "Attire label"],
-   ["InviteTimeSuffix", "After the time (none to hide)"], ["InviteGroomGrandLabel", "Groom's grandparents label"], ["InviteBrideGrandLabel", "Bride's grandparents label"],
-   ["InviteBlessing", "Blessing line at top"], ["InviteClosing", "Closing line"]]
-    .forEach(a => add(a[0], a[1], "text", TEXT[a[0]] || "", "Wording"));
-  Object.keys(DEF).forEach(k => {
-    const d = DEF[k], g = (GROUPS.filter(x => x[1].test(k))[0] || ["Other"])[0];
-    add("Invite" + k + "_Font", "Font", "font", d.f, g, { el: k });
-    add("Invite" + k + "_Size", "Size", "number", d.s, g, { el: k, step: .5 });
-    add("Invite" + k + "_Color", "Colour", "color", d.c, g, { el: k });
-    add("Invite" + k + "_Style", "Italic", "italic", d.i ? "italic" : "normal", g, { el: k });
-  });
+  GROUPS.forEach(g => g[1].forEach(k => {
+    const d = DEF[k];
+    add("Invite" + k + "_Font", "Font", "font", d.f, g[0], { el: k });
+    add("Invite" + k + "_Size", "Size", "number", d.s, g[0], { el: k, step: .5 });
+    add("Invite" + k + "_Color", "Colour", "color", d.c, g[0], { el: k });
+    add("Invite" + k + "_Style", "Italic", "italic", d.i ? "italic" : "normal", g[0], { el: k });
+  }));
 
   const baseline = it => String(sheet[it.key] !== undefined && sheet[it.key] !== "" ? sheet[it.key]
     : tplS[it.key] !== undefined ? tplS[it.key] : (base[it.key] !== undefined ? base[it.key] : it.def));
   const vals = {}; items.forEach(it => { vals[it.key] = baseline(it); });
+  // ---- remember changes in this browser (survives refresh) ----
+  const STORE = "inviteBuilder.v1";
+  const store = {
+    read() { try { return JSON.parse(localStorage.getItem(STORE)) || {}; } catch (e) { return {}; } },
+    write(o) { try { localStorage.setItem(STORE, JSON.stringify(o)); } catch (e) {} }
+  };
+  const saved = store.read();
+  if (saved.template && saved.template !== vals.InviteTemplate) { vals.InviteTemplate = saved.template; await loadTpl(saved.template); items.forEach(it => { if (it.key !== "InviteTemplate") vals[it.key] = baseline(it); }); }
+  items.forEach(it => { if (it.key !== "InviteTemplate" && saved.vals && saved.vals[it.key] !== undefined) vals[it.key] = String(saved.vals[it.key]); });
   const byKey = {}; items.forEach(it => { byKey[it.key] = it; });
   const hex = v => /^#[0-9a-f]{6}$/i.test(v) ? v : "#000000";
 
@@ -155,7 +155,7 @@
     return '<input type="text" class="b-txt"' + a + ' value="' + esc(v) + '">';
   }
   function buildPanel() {
-    const order = ["Template", "Fonts & size", "Images", "Card colours", "Pages"].concat(GROUPS.map(g => g[0]), ["Wording"]);
+    const order = ["Template", "Fonts & size", "Images", "Card colours", "Pages"].concat(GROUPS.map(g => g[0]));
     let h = '<div class="b-chips"><span class="b-hint" style="margin:6px 0 0">Starting points:</span>' +
       '<button type="button" data-preset="Classic">Classic serif</button><button type="button" data-preset="Elegant">Elegant caps</button>' +
       '<button type="button" data-preset="Modern">Modern</button></div>' +
@@ -189,6 +189,7 @@
   const picks = document.getElementById("picks");
   picks.innerHTML = events.map(e => '<label><input type="checkbox" value="' + esc(e.ID) + '" checked> ' + esc(e.Name || e.ID) + '</label>').join("");
 
+  if (saved.picks) picks.querySelectorAll("input").forEach(i => { i.checked = saved.picks.indexOf(i.value) > -1; });
   const changed = () => items.filter(it => String(vals[it.key]) !== baseline(it));
   const dateOf = e => { const d = new Date(e.Date); return isNaN(d) ? 0 : +d; };
   async function draw() {
@@ -207,6 +208,9 @@
     const ch = changed();
     document.getElementById("status").textContent = ch.length ? ch.length + " setting" + (ch.length > 1 ? "s" : "") + " changed from what your site uses today." : "No changes yet.";
     document.getElementById("out").value = ch.map(it => it.key + "\t" + vals[it.key]).join("\n");
+    const o = { vals: {}, template: vals.InviteTemplate, picks: [...picks.querySelectorAll("input:checked")].map(i => i.value) };
+    ch.forEach(it => { o.vals[it.key] = vals[it.key]; });
+    store.write(o);
   }
   function setVal(k, v) {
     vals[k] = String(v);

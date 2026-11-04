@@ -17,7 +17,7 @@ A guest with one event gets a shorter invitation; two events get no separate ven
 - `InviteLabel` - small caps line above the title, e.g. THE MEHNDI
 - `InviteDescription` - short blurb for the invite. If blank, the first line of `Description` is used.
 - `InviteRequestPhrase` - how the request line names this event, e.g. "the Mehndi function", "the wedding", "the wedding reception". If blank, built-in phrases are used for MEHNDI, WEDDING and RECEPTION, otherwise "the <event name>".
-- `InviteIcon` - image link for the round icon. If blank, the chosen template's `icon-<ID in lowercase>.png` is used.
+- `InviteIcon` - image link for the round icon. If blank, the template's icon is chosen by a word in the event's ID or Name: tamil, bengali, haldi, mehndi, reception, wedding (e.g. `icon-tamil.png`); otherwise `icon-<ID in lowercase>.png`.
 
 **Wedding Party tab** - names are found from the Role column:
 - Bridegroom / Bride: full names on the family page; first words on the cover
@@ -45,7 +45,7 @@ Font = `display`, `body` or any Google Font name. Size is in points on a 590 pt 
 The family page says "request the pleasure of your company at {event} of their children". One event: that event's phrase (Mehndi only: "the Mehndi function"; Reception only: "the wedding reception"). Several events including the one named in `InviteMainEvent` (default WEDDING): "the wedding". Several events without it: the phrases joined with "and". If you already pasted your own `InviteRequestText` into Settings, add `{event}` where the event should appear.
 
 ## Invitation builder (invite-builder.html)
-Open `<your site>/invite-builder.html` (not linked from the menu). It reads your sheet, shows the invite live for any combination of events, and lets you try fonts, sizes, colours, card colours, images and page options. "Copy for Settings tab" gives only the rows you changed (Key and Value, tab separated); paste them into the first empty Key cell of the Settings tab. Nothing is saved from the builder itself; guests' invites change only after the rows are in the sheet. If a Key already exists higher up, the lower row wins.
+Open `<your site>/invite-builder.html` (not linked from the menu). It reads your sheet, shows the invite live for any combination of events, and lets you try fonts, sizes, colours, card colours, images and page options. "Copy for Settings tab" gives only the rows you changed (Key and Value, tab separated); paste them into the first empty Key cell of the Settings tab. The builder remembers your changes in this browser (they are still there after a refresh; "Undo all changes" clears them). It does not change the site: guests' invites change only after the rows are in the sheet. It offers font, size, colour and italic for names, event names and venue only; the connecting words stay as in the template (they can still be set from the Settings tab). If a Key already exists higher up, the lower row wins.
 Presets (Classic serif, Elegant caps, Modern) change the fonts and overall size only. `InviteSizeScale` resizes all text at once after a font change.
 
 ## Template sets
