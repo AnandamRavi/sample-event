@@ -51,7 +51,7 @@
 <body>
 <header>
   <h1>Invitation builder</h1>
-  <p>Names, dates, venue and family details come from your Google Sheet tabs. Use this page to try fonts, sizes, colours and images, see the invite update live, then copy the changed settings into your Settings tab. Nothing here changes your site or sheet by itself.</p>
+  <p>Names, dates, venue and family details come from your Google Sheet tabs. Use this page to try fonts, sizes, colours and images and see the invite update live, then press Save to sheet. Nothing is written to your sheet until you do.</p>
 </header>
 
 <main class="b-grid">
@@ -64,11 +64,13 @@
       <p class="b-status" id="status">No changes yet.</p>
       <textarea id="out" readonly placeholder="Rows to paste into the Settings tab will appear here."></textarea>
       <div class="b-chips">
-        <button class="primary" id="copy" type="button">Copy for Settings tab</button>
+        <button class="primary" id="save" type="button">Save to sheet</button>
+        <button id="copy" type="button">Copy for Settings tab</button>
         <button id="dl" type="button">Download CSV</button>
         <button id="reset" type="button">Undo all changes</button>
       </div>
-      <p class="b-hint">In your Settings tab, paste into the first empty Key cell: the two columns (Key, Value) fill in. If a Key already exists higher up, the lower row wins.</p>
+      <p class="b-status" id="saveMsg"></p>
+      <p class="b-hint">"Save to sheet" writes your changes into the Settings tab for you (it asks for your passcode the first time). Prefer to do it by hand? Paste the copied rows: in your Settings tab, paste into the first empty Key cell: the two columns (Key, Value) fill in. If a Key already exists higher up, the lower row wins.</p>
     </div>
   </section>
 </main>
@@ -257,6 +259,33 @@
     const csv = "Key,Value\n" + changed().map(it => q(it.key) + "," + q(vals[it.key])).join("\n") + "\n";
     const a = document.createElement("a");
     a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv" })); a.download = "invite-settings.csv"; a.click();
+  });
+  const PASS_KEY = "inviteBuilder.pass";
+  document.getElementById("save").addEventListener("click", async e => {
+    const btn = e.currentTarget, msg = document.getElementById("saveMsg");
+    const ch = changed();
+    if (!ch.length) { msg.textContent = "Nothing to save: the sheet already matches what you see."; return; }
+    if (!CONFIG.RSVP_ENDPOINT_URL || /^PASTE_/.test(CONFIG.RSVP_ENDPOINT_URL)) { msg.textContent = "Saving needs the Apps Script web app address (RSVP_ENDPOINT_URL in config.js)."; return; }
+    let pass = ""; try { pass = localStorage.getItem(PASS_KEY) || ""; } catch (x) {}
+    if (!pass) { pass = (prompt("Enter your invite passcode (the INVITE_ADMIN_PASSCODE you set in Apps Script):") || "").trim(); if (!pass) return; }
+    btn.disabled = true; btn.textContent = "Saving…"; msg.textContent = "";
+    const payload = { mode: "inviteSettings", passcode: pass, settings: {} };
+    ch.forEach(it => { payload.settings[it.key] = vals[it.key]; });
+    try {
+      const res = await fetch(CONFIG.RSVP_ENDPOINT_URL, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(payload) });
+      const j = await res.json();
+      if (j.status === "ok") {
+        try { localStorage.setItem(PASS_KEY, pass); } catch (x) {}
+        Object.keys(payload.settings).forEach(k => { sheet[k] = payload.settings[k]; });
+        msg.textContent = "Saved to your Settings tab (" + (j.replaced || 0) + " replaced, " + (j.added || 0) + " added). The live site can take a minute or two to show it.";
+        refresh();
+      } else {
+        if (/passcode/i.test(j.message || "")) { try { localStorage.removeItem(PASS_KEY); } catch (x) {} }
+        msg.textContent = "Not saved: " + (j.message || "unknown error");
+      }
+    } catch (err) {
+      msg.textContent = "Couldn't confirm the save. Check your Settings tab; if the rows aren't there, use Copy for Settings tab.";
+    } finally { btn.disabled = false; btn.textContent = "Save to sheet"; }
   });
   refresh(); draw();
 })();
