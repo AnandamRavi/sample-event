@@ -206,11 +206,13 @@
     var want = names.filter(function (n) { return n && !fontsAsked[n]; });
     if (!want.length) return;
     want.forEach(function (n) { fontsAsked[n] = 1; });
-    var fam = want.map(function (n) { return n.replace(/ /g, "+") + ":400,400i,500,600,600i"; }).join("|");
-    var l = document.createElement("link");
-    l.rel = "stylesheet";
-    l.href = "https://fonts.googleapis.com/css?family=" + fam + "&display=swap";
-    document.head.appendChild(l);
+    // one request per font: if a name is misspelled, only that font fails to load
+    want.forEach(function (n) {
+      var l = document.createElement("link");
+      l.rel = "stylesheet";
+      l.href = "https://fonts.googleapis.com/css?family=" + n.replace(/ /g, "+") + ":400,400i,500,600,600i&display=swap";
+      document.head.appendChild(l);
+    });
   }
   function cleanFont(n) { return String(n || "").replace(/[^\w \-]/g, "").trim(); }
 
