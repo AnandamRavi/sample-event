@@ -45,6 +45,10 @@
   textarea { width: 100%; height: 130px; font: 12.5px/1.4 ui-monospace, Menlo, Consolas, monospace; border: 1px solid #d8cdc2; border-radius: 6px; padding: 8px; }
   .b-status { color: #6b5b52; font-size: 13px; margin: 0 0 8px; }
   .iv-actions { display: none; }
+  #iconRows table { border-collapse: collapse; font-size: 13px; width: 100%; }
+  #iconRows th, #iconRows td { text-align: left; padding: 4px 8px; border-bottom: 1px solid #eee4da; vertical-align: top; }
+  #iconRows code { font: 12px ui-monospace, Menlo, Consolas, monospace; word-break: break-all; }
+  .ic-ok { color: #2e7d32; font-weight: 600; } .ic-bad { color: #b3261e; font-weight: 600; }
   @media (max-width: 900px) { .b-grid { grid-template-columns: 1fr; } .b-side { position: static; } }
 </style>
 </head>
@@ -58,6 +62,10 @@
   <aside class="b-panel" id="panel"><p class="b-hint">Loading your sheet…</p></aside>
   <section class="b-side">
     <div class="b-card b-picks"><strong>Preview for a guest invited to:</strong> <span id="picks"></span></div>
+    <details class="b-card" id="iconcheck"><summary>Icon check (why isn't an event's round picture showing?)</summary>
+      <p class="b-hint">For each event: the ID exactly as the sheet gives it (in quotes, so stray spaces show), the file the invitation tries to load, and whether it was found.</p>
+      <div id="iconRows" style="overflow-x:auto"></div>
+    </details>
     <div id="invitation-embed" style="display:block"></div>
     <div class="b-card">
       <strong>Your changes</strong>
@@ -75,11 +83,13 @@
   </section>
 </main>
 
+<datalist id="fonts"></datalist>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 <script src="config.js"></script>
 <script src="settings.js?v=3"></script>
-<script src="invite.js?v=8"></script>
+<script src="invite.js?v=7"></script>
+<script src="invite-icons.js?v=1"></script>
 <script>
 (async function () {
   const D = renderGeneratedInvite.defaults, DEF = D.DEF, TEXT = D.TEXT;
@@ -89,42 +99,13 @@
   let tplIds = ["marigold"];
   try { const r = await fetch("templates/index.json", { cache: "no-cache" }); if (r.ok) tplIds = (await r.json()).templates || tplIds; } catch (e) {}
   const tplList = [];
-  const tplMissing = [];   // listed in templates/index.json but their folder or template.json can't be found
-  for (const id of tplIds) {
-    const T = await renderGeneratedInvite.loadTemplate(id);
-    // loadTemplate quietly falls back to Marigold when a folder is missing; don't show that as a second Marigold
-    if (String(T._id) !== String(id).trim().toLowerCase()) { tplMissing.push(id); continue; }
-    tplList.push({ id: T._id, name: T.name || id, desc: T.description || "", artist: T.artist || "" });
-  }
+  for (const id of tplIds) { const T = await renderGeneratedInvite.loadTemplate(id); tplList.push({ id: T._id, name: T.name || id, desc: T.description || "", artist: T.artist || "" }); }
   let tplS = {};
   const loadTpl = async id => { tplS = renderGeneratedInvite.templateSettings(await renderGeneratedInvite.loadTemplate(id)); };
   await loadTpl(sheet.InviteTemplate);
   const esc = s => String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
-  // Fonts offered in the dropdowns (all free from fonts.google.com). "Type another Google Font…" covers anything else.
-  const FONT_GROUPS = [
-    ["Elegant serif", ["Cormorant Garamond", "Cormorant", "EB Garamond", "Playfair Display", "DM Serif Display", "DM Serif Text", "Libre Baskerville", "Libre Caslon Text", "Lora", "Cardo", "Crimson Text", "Spectral", "Prata", "Bodoni Moda", "Gilda Display", "Rufina", "Marcellus", "Forum", "Bellefair", "Cinzel", "Italiana", "Yeseva One", "Abril Fatface", "Old Standard TT"]],
-    ["Script & calligraphy", ["Great Vibes", "Allura", "Pinyon Script", "Alex Brush", "Sacramento", "Parisienne", "Tangerine", "Dancing Script", "Playball", "Italianno", "Petit Formal Script", "Rouge Script", "Imperial Script", "Birthstone", "Ballet", "WindSong", "Style Script", "Corinthia", "Qwigley", "Euphoria Script", "Herr Von Muellerhoff", "Mrs Saint Delafield", "Monsieur La Doulaise", "Satisfy", "Cookie"]],
-    ["Clean sans-serif", ["Montserrat", "Lato", "Josefin Sans", "Raleway", "Poppins", "Karla", "Jost", "Work Sans", "Nunito Sans", "Tenor Sans", "Quicksand", "Mulish", "DM Sans", "Open Sans"]],
-    ["Display & decorative", ["Cinzel Decorative", "Poiret One", "Limelight", "Federo", "Cormorant SC", "Cormorant Upright", "Playfair Display SC", "Marcellus SC", "Gloock", "Tillana", "Yatra One"]]
-  ];
-  const KNOWN_FONTS = new Set(["display", "body"]); FONT_GROUPS.forEach(g => g[1].forEach(f => KNOWN_FONTS.add(f)));
-  // so each name can be shown in its own typeface: load just the letters of the names (tiny), in small batches
-  (function () {
-    const all = []; FONT_GROUPS.forEach(g => g[1].forEach(f => all.push(f)));
-    const text = encodeURIComponent("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz ");
-    for (let i = 0; i < all.length; i += 12) {
-      const l = document.createElement("link"); l.rel = "stylesheet";
-      l.href = "https://fonts.googleapis.com/css?family=" + all.slice(i, i + 12).map(n => n.replace(/ /g, "+")).join("|") + "&text=" + text + "&display=swap";
-      document.head.appendChild(l);
-    }
-  })();
-  const fontStyle = v => (v && v !== "display" && v !== "body") ? ' style="font-family:\'' + esc(v) + '\'"' : "";
-  function fontOptions(cur) {
-    let h = '<optgroup label="Site fonts"><option value="display"' + (cur === "display" ? " selected" : "") + '>Heading font</option><option value="body"' + (cur === "body" ? " selected" : "") + '>Body font</option></optgroup>';
-    if (!KNOWN_FONTS.has(cur)) h += '<optgroup label="Current"><option value="' + esc(cur) + '" selected' + fontStyle(cur) + '>' + esc(cur) + '</option></optgroup>';
-    FONT_GROUPS.forEach(g => { h += '<optgroup label="' + g[0] + '">' + g[1].map(f => '<option value="' + f + '"' + fontStyle(f) + (f === cur ? " selected" : "") + '>' + f + '</option>').join("") + '</optgroup>'; });
-    return h + '<optgroup label="Other"><option value="__other">Type another Google Font…</option></optgroup>';
-  }
+  const FONTS = ["display", "body", "DM Serif Display", "Cormorant Garamond", "Playfair Display", "EB Garamond", "Cinzel", "Lora", "Libre Baskerville", "Bodoni Moda", "Marcellus", "Gilda Display", "Italiana", "Rufina", "Yeseva One", "Abril Fatface", "Great Vibes", "Allura", "Pinyon Script", "Alex Brush", "Sacramento", "Montserrat", "Lato", "Josefin Sans", "Raleway", "Poppins", "Karla"];
+  document.getElementById("fonts").innerHTML = FONTS.map(f => "<option value=\"" + f + "\">").join("");
 
   // Only the text people actually style: names, event names, venue. Everything else keeps the template's look.
   const NAMES = { CoverNames: "Names on the cover", FamilyCouple: "Couple's full names (family page)", FamilyParents: "Parents' names",
@@ -161,7 +142,10 @@
     : tplS[it.key] !== undefined ? tplS[it.key] : (base[it.key] !== undefined ? base[it.key] : it.def));
   const vals = {}; items.forEach(it => { vals[it.key] = baseline(it); });
   // ---- remember changes in this browser (survives refresh) ----
-  const STORE = "inviteBuilder.v1";
+  // Keys include this site's folder name, because every site on the same github.io address
+  // shares one browser storage and drafts/passcodes must not leak from one site to another.
+  const NS = location.pathname.replace(/[^A-Za-z0-9]+/g, "_");
+  const STORE = "inviteBuilder.v1." + NS;
   const store = {
     read() { try { return JSON.parse(localStorage.getItem(STORE)) || {}; } catch (e) { return {}; } },
     write(o) { try { localStorage.setItem(STORE, JSON.stringify(o)); } catch (e) {} }
@@ -176,7 +160,7 @@
     const k = it.key, v = vals[k], a = ' data-key="' + k + '"';
     if (it.type === "color") return '<span class="b-col"><input type="color"' + a + ' value="' + hex(v) + '"><input type="text" class="b-hex"' + a + ' value="' + esc(v) + '"></span>';
     if (it.type === "number") return '<input type="number" class="b-num"' + a + ' step="' + (it.step || 1) + '" value="' + esc(v) + '">';
-    if (it.type === "font") return '<select class="b-font"' + a + fontStyle(v) + '>' + fontOptions(v) + '</select>';
+    if (it.type === "font") return '<input type="text" class="b-font" list="fonts"' + a + ' value="' + esc(v) + '">';
     if (it.type === "italic") return '<input type="checkbox"' + a + (v === "italic" ? " checked" : "") + '>';
     if (it.type === "select") {
       const cur = it.options.filter(o => o.toLowerCase() === v.toLowerCase())[0] || v;
@@ -196,9 +180,7 @@
       let inner = "";
       if (g === "Template") {
         const cur = (vals.InviteTemplate || "marigold").toLowerCase();
-        inner = '<p class="b-hint">A template set is a complete look: artwork, fonts and colours that were designed together. Pick one, then fine-tune below.</p>' +
-          (tplMissing.length ? '<p class="b-hint" style="color:#a3412a">Not found on your site yet: ' + tplMissing.map(esc).join(", ") + '. Check that its folder is uploaded at templates/' + esc(tplMissing[0]) + '/ (with template.json inside) in your GitHub repo.</p>' : "") +
-          '<div class="b-tpls">' +
+        inner = '<p class="b-hint">A template set is a complete look: artwork, fonts and colours that were designed together. Pick one, then fine-tune below.</p><div class="b-tpls">' +
           tplList.map(t => '<button type="button" class="b-tpl' + (t.id === cur ? " on" : "") + '" data-tpl="' + esc(t.id) + '" title="' + esc(t.desc) + '"><img src="templates/' + esc(t.id) + '/thumb.jpg" alt=""><span>' + esc(t.name) + (t.artist ? '<br><small>' + esc(t.artist) + '</small>' : "") + '</span></button>').join("") + "</div>";
       } else if (g === "Images") inner += '<p class="b-hint">These show the files of the chosen template set. Paste a share link ("Anyone with the link" for Google Drive) to replace one. Best size 1180 x 1152 px with no text on it.</p>';
       if (g === "Template") { /* gallery only */ }
@@ -217,9 +199,34 @@
 
   // ---- events to preview ----
   const evText = await (await fetch(CONFIG.EVENTS_CSV_URL, { cache: "no-store" })).text();
-  const events = Papa.parse(evText, { header: true, skipEmptyLines: true }).data.filter(e => e.ID);
+  const events = Papa.parse(evText, { header: true, skipEmptyLines: true }).data.filter(e => e.ID && String(e.ID).trim().charAt(0) !== "<");
   const picks = document.getElementById("picks");
   picks.innerHTML = events.map(e => '<label><input type="checkbox" value="' + esc(e.ID) + '" checked> ' + esc(e.Name || e.ID) + '</label>').join("");
+
+  // ---- icon check ----
+  async function iconCheck() {
+    const box = document.getElementById("iconRows");
+    const T = await renderGeneratedInvite.loadTemplate(vals.InviteTemplate);
+    const hasCol = events.length && Object.prototype.hasOwnProperty.call(events[0], "InviteIcon");
+    const rows = events.map(e => {
+      const cell = String(e.InviteIcon || "").trim();
+      const shim = renderGeneratedInvite.iconPath ? renderGeneratedInvite.iconPath(e, T) : "";
+      const auto = T._base + "icon-" + String(e.ID || "").trim().toLowerCase() + ".png";
+      const bare = cell && !/[\/:\\]/.test(cell);
+      const how = !cell ? "automatic: icon-<event ID in lower case>.png in this template" : bare ? "file name from the InviteIcon cell, looked up in this template" : "full path from the InviteIcon cell (the same for every template)";
+      return { name: e.Name || e.ID, id: e.ID, cell, path: shim || (cell ? resolveImageUrl(cell) : auto), how };
+    });
+    box.innerHTML = (hasCol ? "" : '<p class="b-hint"><b>The Events tab has no column headed InviteIcon</b> (or it is not published yet), so the automatic file name is used.</p>') +
+      "<table><tr><th>Event</th><th>ID in sheet</th><th>File tried</th><th>Found?</th></tr>" +
+      rows.map((r, i) => "<tr><td>" + esc(r.name) + "</td><td><code>" + esc(JSON.stringify(String(r.id == null ? "" : r.id))) + "</code></td><td><code>" + esc(r.path) + "</code><br><small>" + esc(r.how) + "</small></td><td id=\"icst" + i + "\">checking…</td></tr>").join("") + "</table>";
+    rows.forEach((r, i) => {
+      const im = new Image(), cell = () => document.getElementById("icst" + i);
+      im.onload = () => { if (cell()) cell().innerHTML = '<span class="ic-ok">Found</span>'; };
+      im.onerror = () => { if (cell()) cell().innerHTML = '<span class="ic-bad">Not found</span><br><small>Check the file name, folder and capital letters, or fill the InviteIcon cell.</small>'; };
+      im.src = r.path + (r.path.indexOf("?") > -1 ? "&" : "?") + "check=" + Date.now();
+    });
+  }
+  iconCheck();
 
   if (saved.picks) picks.querySelectorAll("input").forEach(i => { i.checked = saved.picks.indexOf(i.value) > -1; });
   const changed = () => items.filter(it => String(vals[it.key]) !== baseline(it));
@@ -249,28 +256,13 @@
     document.querySelectorAll('[data-key="' + k + '"]').forEach(o => {
       if (o.type === "checkbox") o.checked = v === "italic";
       else if (o.type === "color") { if (/^#[0-9a-f]{6}$/i.test(v)) o.value = v; }
-      else if (o.tagName === "SELECT" && o.classList.contains("b-font")) {
-        if (![...o.options].some(op => op.value === String(v))) o.innerHTML = fontOptions(String(v));
-        o.value = String(v);
-        o.style.fontFamily = (v && v !== "display" && v !== "body") ? "'" + v + "'" : "";
-      }
       else o.value = v;
     });
   }
   document.getElementById("panel").addEventListener("input", e => {
     const el = e.target, k = el.dataset.key;
     if (!k) return;
-    if (el.value === "__other") return;     // "Type another Google Font…": handled by the change listener below
     setVal(k, el.type === "checkbox" ? (el.checked ? "italic" : "normal") : el.value);
-    refresh();
-  });
-  document.getElementById("panel").addEventListener("change", e => {
-    const el = e.target;
-    if (!(el.tagName === "SELECT" && el.classList.contains("b-font") && el.value === "__other")) return;
-    const k = el.dataset.key;
-    const nm = (prompt("Type the exact name of a font from fonts.google.com (for example: Playfair Display):") || "").replace(/[^\w \-]/g, "").trim();
-    if (!nm) { setVal(k, vals[k]); return; }     // cancelled: put the previous font back
-    setVal(k, nm);
     refresh();
   });
   picks.addEventListener("change", refresh);
@@ -280,6 +272,7 @@
     vals.InviteTemplate = id; await loadTpl(id);
     items.forEach(it => { if (it.key !== "InviteTemplate" && vals[it.key] === old[it.key]) setVal(it.key, baseline(it)); });
     document.querySelectorAll(".b-tpl").forEach(b => b.classList.toggle("on", b.dataset.tpl === id));
+    iconCheck();
     refresh();
   }
   document.getElementById("panel").addEventListener("click", e => {
@@ -305,7 +298,7 @@
     const a = document.createElement("a");
     a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv" })); a.download = "invite-settings.csv"; a.click();
   });
-  const PASS_KEY = "inviteBuilder.pass";
+  const PASS_KEY = "inviteBuilder.pass." + NS;
   document.getElementById("save").addEventListener("click", async e => {
     const btn = e.currentTarget, msg = document.getElementById("saveMsg");
     const ch = changed();
@@ -321,10 +314,8 @@
       const j = await res.json();
       if (j.status === "ok") {
         try { localStorage.setItem(PASS_KEY, pass); } catch (x) {}
-        const failed = j.failed || [];
-        Object.keys(payload.settings).forEach(k => { if (failed.indexOf(k) < 0) sheet[k] = payload.settings[k]; });
-        msg.textContent = "Saved to your Settings tab (" + (j.replaced || 0) + " replaced, " + (j.added || 0) + " added). The live site can take a minute or two to show it." +
-          (failed.length ? " Couldn't save " + failed.length + " setting(s) because those cells are locked: " + failed.join(", ") + ". In your sheet, run RSVP Tools > Build Start Here tab, then press Save to sheet again." : "");
+        Object.keys(payload.settings).forEach(k => { sheet[k] = payload.settings[k]; });
+        msg.textContent = "Saved to your Settings tab (" + (j.replaced || 0) + " replaced, " + (j.added || 0) + " added). The live site can take a minute or two to show it.";
         refresh();
       } else {
         if (/passcode/i.test(j.message || "")) { try { localStorage.removeItem(PASS_KEY); } catch (x) {} }
